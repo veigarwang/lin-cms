@@ -1,0 +1,1188 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AuditBaseRepository&lt;TEntity, TKey&gt;
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AuditBaseRepository&lt;TEntity, TKey&gt;
+   ">
+    <meta name="generator" content="docfx 2.58.9.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Repositories.AuditBaseRepository`2">
+  
+  
+  <h1 id="LinCms_Repositories_AuditBaseRepository_2" data-uid="LinCms.Repositories.AuditBaseRepository`2" class="text-break">Class AuditBaseRepository&lt;TEntity, TKey&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>审计仓储：实现如果实体类
+继承了ICreateAduitEntity  则自动增加创建时间/人信息
+继承了IUpdateAuditEntity，更新时，修改更新时间/人
+继承了ISoftDeleteAduitEntity，删除时，自动改成软删除。仅注入此仓储或继承此仓储的实现才能实现如上功能。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">FreeSql.BaseRepository</span>&lt;TEntity&gt;</div>
+    <div class="level2"><span class="xref">FreeSql.BaseRepository</span>&lt;TEntity, TKey&gt;</div>
+    <div class="level3"><span class="xref">FreeSql.DefaultRepository</span>&lt;TEntity, TKey&gt;</div>
+    <div class="level4"><span class="xref">AuditBaseRepository&lt;TEntity, TKey&gt;</span></div>
+      <div class="level5"><a class="xref" href="LinCms.Repositories.AuditBaseRepository-1.html">AuditBaseRepository&lt;TEntity&gt;</a></div>
+      <div class="level5"><a class="xref" href="LinCms.Repositories.DocRepository.html">DocRepository</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="LinCms.IRepositories.IAuditBaseRepository-2.html">IAuditBaseRepository</a>&lt;TEntity, TKey&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;TEntity, TKey&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;TEntity&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.Delete(TKey)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.Find(TKey)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.Get(TKey)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.DeleteAsync(TKey, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.FindAsync(TKey, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.GetAsync(TKey, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.ApplyDataFilter(System.String, System.Linq.Expressions.Expression&lt;System.Func&lt;TEntity, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Dispose()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.AsType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.AsTable(System.Func&lt;System.String, System.String&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Where(System.Linq.Expressions.Expression&lt;System.Func&lt;TEntity, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.WhereIf(System.Boolean, System.Linq.Expressions.Expression&lt;System.Func&lt;TEntity, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Attach(TEntity)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Attach(System.Collections.Generic.IEnumerable&lt;TEntity&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.AttachOnlyPrimary(TEntity)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.FlushState()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.InsertOrUpdate(TEntity)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.SaveMany(TEntity, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.BeginEdit(System.Collections.Generic.List&lt;TEntity&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.EndEdit(System.Collections.Generic.List&lt;TEntity&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.SaveManyAsync(TEntity, System.String, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.DataFilter</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.EntityType</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.DbContextOptions</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Orm</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.UnitOfWork</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.UpdateDiy</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Select</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Repositories.html">LinCms.Repositories</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Infrastructure.dll</h6>
+  <h5 id="LinCms_Repositories_AuditBaseRepository_2_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AuditBaseRepository&lt;TEntity, TKey&gt; : DefaultRepository&lt;TEntity, TKey&gt;, IAuditBaseRepository&lt;TEntity, TKey&gt;, IBaseRepository&lt;TEntity, TKey&gt;, IBaseRepository&lt;TEntity&gt;, IBaseRepository, IDisposable where TEntity : class, new()</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TEntity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2__ctor_FreeSql_UnitOfWorkManager_LinCms_Security_ICurrentUser_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.%23ctor(FreeSql.UnitOfWorkManager%2CLinCms.Security.ICurrentUser)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L32">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2__ctor_" data-uid="LinCms.Repositories.AuditBaseRepository`2.#ctor*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2__ctor_FreeSql_UnitOfWorkManager_LinCms_Security_ICurrentUser_" data-uid="LinCms.Repositories.AuditBaseRepository`2.#ctor(FreeSql.UnitOfWorkManager,LinCms.Security.ICurrentUser)">AuditBaseRepository(UnitOfWorkManager, ICurrentUser)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.UnitOfWorkManager</span></td>
+        <td><span class="parametername">unitOfWorkManager</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Security.ICurrentUser.html">ICurrentUser</a></td>
+        <td><span class="parametername">currentUser</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_CurrentUser.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.CurrentUser%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L31">View Source</a>
+  </span>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_CurrentUser" data-uid="LinCms.Repositories.AuditBaseRepository`2.CurrentUser">CurrentUser</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly ICurrentUser CurrentUser</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Security.ICurrentUser.html">ICurrentUser</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Delete__0_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Delete(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L124">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Delete_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Delete__0_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete(`0)">Delete(TEntity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Delete(TEntity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Delete(TEntity)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Delete_System_Collections_Generic_IEnumerable__0__.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Delete(System.Collections.Generic.IEnumerable%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L138">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Delete_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Delete_System_Collections_Generic_IEnumerable__0__" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete(System.Collections.Generic.IEnumerable{`0})">Delete(IEnumerable&lt;TEntity&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Delete(IEnumerable&lt;TEntity&gt; entitys)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Delete(System.Collections.Generic.IEnumerable&lt;TEntity&gt;)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Delete_System_Linq_Expressions_Expression_System_Func__0_System_Boolean___.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Delete(System.Linq.Expressions.Expression%7BSystem.Func%7B%600%2CSystem.Boolean%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L207">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Delete_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Delete_System_Linq_Expressions_Expression_System_Func__0_System_Boolean___" data-uid="LinCms.Repositories.AuditBaseRepository`2.Delete(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">Delete(Expression&lt;Func&lt;TEntity, Boolean&gt;&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Delete(Expression&lt;Func&lt;TEntity, bool&gt;&gt; predicate)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TEntity, <span class="xref">System.Boolean</span>&gt;&gt;</td>
+        <td><span class="parametername">predicate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Delete(System.Linq.Expressions.Expression&lt;System.Func&lt;TEntity, System.Boolean&gt;&gt;)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_DeleteAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.DeleteAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L194">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync__0_System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync(`0,System.Threading.CancellationToken)">DeleteAsync(TEntity, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override async Task&lt;int&gt; DeleteAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.DeleteAsync(TEntity, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_DeleteAsync__1_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.DeleteAsync(%601%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L159">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync__1_System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync(`1,System.Threading.CancellationToken)">DeleteAsync(TKey, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override async Task&lt;int&gt; DeleteAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TKey</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity, TKey&gt;.DeleteAsync(TKey, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.DeleteAsync(System.Collections.Generic.IEnumerable%7B%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L175">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">DeleteAsync(IEnumerable&lt;TEntity&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;int&gt; DeleteAsync(IEnumerable&lt;TEntity&gt; entitys, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.DeleteAsync(System.Collections.Generic.IEnumerable&lt;TEntity&gt;, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_System_Linq_Expressions_Expression_System_Func__0_System_Boolean___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.DeleteAsync(System.Linq.Expressions.Expression%7BSystem.Func%7B%600%2CSystem.Boolean%7D%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L226">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_DeleteAsync_System_Linq_Expressions_Expression_System_Func__0_System_Boolean___System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.DeleteAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Threading.CancellationToken)">DeleteAsync(Expression&lt;Func&lt;TEntity, Boolean&gt;&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override async Task&lt;int&gt; DeleteAsync(Expression&lt;Func&lt;TEntity, bool&gt;&gt; predicate, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TEntity, <span class="xref">System.Boolean</span>&gt;&gt;</td>
+        <td><span class="parametername">predicate</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.DeleteAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;TEntity, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Insert__0_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Insert(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L55">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Insert_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Insert*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Insert__0_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Insert(`0)">Insert(TEntity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TEntity Insert(TEntity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Insert(TEntity)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Insert_System_Collections_Generic_IEnumerable__0__.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Insert(System.Collections.Generic.IEnumerable%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L67">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Insert_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Insert*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Insert_System_Collections_Generic_IEnumerable__0__" data-uid="LinCms.Repositories.AuditBaseRepository`2.Insert(System.Collections.Generic.IEnumerable{`0})">Insert(IEnumerable&lt;TEntity&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;TEntity&gt; Insert(IEnumerable&lt;TEntity&gt; entitys)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Insert(System.Collections.Generic.IEnumerable&lt;TEntity&gt;)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_InsertAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.InsertAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L61">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_InsertAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_InsertAsync__0_System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertAsync(`0,System.Threading.CancellationToken)">InsertAsync(TEntity, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;TEntity&gt; InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.InsertAsync(TEntity, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_InsertAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.InsertAsync(System.Collections.Generic.IEnumerable%7B%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L77">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_InsertAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_InsertAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">InsertAsync(IEnumerable&lt;TEntity&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;List&lt;TEntity&gt;&gt; InsertAsync(IEnumerable&lt;TEntity&gt; entitys, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;TEntity&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.InsertAsync(System.Collections.Generic.IEnumerable&lt;TEntity&gt;, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_InsertOrUpdateAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.InsertOrUpdateAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L244">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_InsertOrUpdateAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertOrUpdateAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_InsertOrUpdateAsync__0_System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.InsertOrUpdateAsync(`0,System.Threading.CancellationToken)">InsertOrUpdateAsync(TEntity, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override async Task&lt;TEntity&gt; InsertOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.InsertOrUpdateAsync(TEntity, System.Threading.CancellationToken)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Update__0_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Update(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L94">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Update_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Update*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Update__0_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Update(`0)">Update(TEntity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Update(TEntity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_Update_System_Collections_Generic_IEnumerable__0__.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.Update(System.Collections.Generic.IEnumerable%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L106">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_Update_" data-uid="LinCms.Repositories.AuditBaseRepository`2.Update*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_Update_System_Collections_Generic_IEnumerable__0__" data-uid="LinCms.Repositories.AuditBaseRepository`2.Update(System.Collections.Generic.IEnumerable{`0})">Update(IEnumerable&lt;TEntity&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Update(IEnumerable&lt;TEntity&gt; entitys)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.Update(System.Collections.Generic.IEnumerable&lt;TEntity&gt;)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_UpdateAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.UpdateAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L100">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_UpdateAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.UpdateAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_UpdateAsync__0_System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.UpdateAsync(`0,System.Threading.CancellationToken)">UpdateAsync(TEntity, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; UpdateAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2_UpdateAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602.UpdateAsync(System.Collections.Generic.IEnumerable%7B%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L115">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_AuditBaseRepository_2_UpdateAsync_" data-uid="LinCms.Repositories.AuditBaseRepository`2.UpdateAsync*"></a>
+  <h4 id="LinCms_Repositories_AuditBaseRepository_2_UpdateAsync_System_Collections_Generic_IEnumerable__0__System_Threading_CancellationToken_" data-uid="LinCms.Repositories.AuditBaseRepository`2.UpdateAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">UpdateAsync(IEnumerable&lt;TEntity&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;int&gt; UpdateAsync(IEnumerable&lt;TEntity&gt; entitys, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">entitys</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">FreeSql.BaseRepository&lt;TEntity&gt;.UpdateAsync(System.Collections.Generic.IEnumerable&lt;TEntity&gt;, System.Threading.CancellationToken)</span></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="LinCms.IRepositories.IAuditBaseRepository-2.html">IAuditBaseRepository&lt;TEntity, TKey&gt;</a>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository</span>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_AuditBaseRepository_2.md&amp;value=---%0Auid%3A%20LinCms.Repositories.AuditBaseRepository%602%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/AuditBaseRepository.cs/#L28" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
