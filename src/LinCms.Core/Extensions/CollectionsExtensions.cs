@@ -20,26 +20,26 @@ namespace LinCms.Extensions
             where T1 : class
             where T2 : class
         {
-            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count);
+            return source.Count(out count).Page(count >= pageDto.Page * pageDto.Count ? pageDto.Page + 1 : 1, pageDto.Count);
         }
 
         public static ISelect<TEntity> ToPager<TEntity>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
         {
-            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count);
+            return source.Count(out count).Page(count >= pageDto.Page * pageDto.Count ? pageDto.Page + 1 : 1, pageDto.Count);
         }
         public static List<TEntity> ToPagerList<TEntity>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
         {
-            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToList();
+            return source.Count(out count).Page(count >= pageDto.Page * pageDto.Count ? pageDto.Page + 1 : 1, pageDto.Count).ToList();
         }
 
         public static Task<List<TEntity>> ToPagerListAsync<TEntity>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
         {
-            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToListAsync();
+            return source.Count(out count).Page(count >= pageDto.Page * pageDto.Count ? pageDto.Page + 1 : 1, pageDto.Count).ToListAsync();
         }
 
         public static List<TResult> ToPagerList<TEntity, TResult>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
         {
-            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToList<TResult>();
+            return source.Count(out count).Page(count >= pageDto.Page * pageDto.Count ? pageDto.Page + 1 : 1, pageDto.Count).ToList<TResult>();
         }
 
         public static PagedResultDto<TEntity> ToPagedResultDto<TEntity>(this IReadOnlyList<TEntity> list, long count) where TEntity : class
