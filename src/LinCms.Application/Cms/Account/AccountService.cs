@@ -110,7 +110,7 @@ namespace LinCms.Cms.Account
 
         private async Task<LinUser> GetUserByChecking(string inputEmailAddress)
         {
-            var user = await _userRepository.Select.Where(r => r.Email == inputEmailAddress).FirstAsync();
+            var user = await _userRepository.Where(r => r.Email == inputEmailAddress).FirstAsync();
             if (user == null)
             {
                 throw new LinCmsException("InvalidEmailAddress");
@@ -131,7 +131,7 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException("验证码不正确");//InvalidEmailConfirmationCode
             }
 
-            var user = await _userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
+            var user = await _userRepository.Where(r => r.Email == resetPassword.Email).FirstAsync();
             if (user == null || resetPassword.PasswordResetCode != user.PasswordResetCode)
             {
                 throw new LinCmsException("该请求无效，请重新获取验证码");

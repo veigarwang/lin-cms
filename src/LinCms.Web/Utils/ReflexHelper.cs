@@ -37,7 +37,7 @@ namespace LinCms.Utils
         //LinCms.Zero.Data.PermissionDto Permission:查询所有日志、Module:日志、Router:cms.log.get_logs
         //LinCms.Zero.Data.PermissionDto Permission:搜索日志、Module:日志、Router:cms.log.get_user_logs
         //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test.info
-        //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book.delete_book
+        //LinCms.Zero.Data.PermissionDto Permission:删除书籍、Module:书籍、Router:v1.book.delete_book
         /// <summary>
         /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
         /// </summary>
@@ -121,8 +121,8 @@ namespace LinCms.Utils
                             "cms.test+info"
                         ]
                     },
-                    "图书":{
-                        "删除图书":[
+                    "书籍":{
+                        "删除书籍":[
                             "v1.book+delete_book"
                         ]
                     },

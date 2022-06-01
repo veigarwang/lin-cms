@@ -27,6 +27,8 @@ namespace LinCms.Data
         public int Page { get; set; } = 0;
 
         public string Sort { get; set; }
+
+        public string Keyword { get; set; }
     }
 
     public interface IPageDto : ILimitedResultRequest

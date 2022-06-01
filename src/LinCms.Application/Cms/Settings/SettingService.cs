@@ -86,7 +86,7 @@ namespace LinCms.Cms.Settings
 
         public async Task UpdateAsync(Guid id, CreateUpdateSettingDto updateSettingDto)
         {
-            LinSetting setting = await _settingRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            LinSetting setting = await _settingRepository.Where(r => r.Id == id).ToOneAsync();
             if (setting == null)
             {
                 throw new LinCmsException("该数据不存在");

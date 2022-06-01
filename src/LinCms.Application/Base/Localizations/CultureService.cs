@@ -49,7 +49,7 @@ namespace LinCms.Base.Localizations
 
         public async Task<CultureDto> UpdateAsync(CultureDto cultureDto)
         {
-            LocalCulture localCulture = await _cultureRepository.Select.Where(r => r.Id == cultureDto.Id).ToOneAsync();
+            LocalCulture localCulture = await _cultureRepository.Where(r => r.Id == cultureDto.Id).ToOneAsync();
             if (localCulture == null)
             {
                 throw new LinCmsException("该数据不存在");

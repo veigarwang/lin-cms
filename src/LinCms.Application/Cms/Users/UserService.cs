@@ -180,7 +180,7 @@ namespace LinCms.Cms.Users
 
         public async Task ChangeStatusAsync(long id, UserActive userActive)
         {
-            LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            LinUser user = await _userRepository.Where(r => r.Id == id).ToOneAsync();
 
             if (user == null)
             {
@@ -207,7 +207,7 @@ namespace LinCms.Cms.Users
             if (CurrentUser.Id != null)
             {
                 long userId = (long)CurrentUser.Id;
-                return _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
+                return _userRepository.Where(r => r.Id == userId).ToOneAsync();
             }
 
             return null;

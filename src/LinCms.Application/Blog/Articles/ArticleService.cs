@@ -97,7 +97,7 @@ namespace LinCms.Blog.Articles
 
         public async Task DeleteAsync(Guid id)
         {
-            Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
+            Article article = _articleRepository.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
             if (article.IsNotNull())
             {
                 await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
@@ -172,7 +172,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
-            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            Article article = _articleRepository.Where(r => r.Id == id).ToOne();
 
 
             if (article.CreateUserId != CurrentUser.Id)
@@ -210,7 +210,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
-            List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
+            List<Guid> tagIds = await _tagArticleRepository.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
             tagIds.ForEach(async (tagId) => { await _tagService.UpdateArticleCountAsync(tagId, -1); });
 
@@ -269,7 +269,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateCommentable(Guid id, bool commetable)
         {
-            Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            Article article = await _articleRepository.Where(a => a.Id == id).ToOneAsync();
             if (article == null)
             {
                 throw new LinCmsException("没有找到相关随笔", ErrorCode.NotFound);

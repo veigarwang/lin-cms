@@ -62,7 +62,7 @@ namespace LinCms.Blog.Classifies
 
         public override async Task<ClassifyDto> GetAsync(Guid id)
         {
-            Classify classify = await Repository.Select.Where(a => a.Id == id).ToOneAsync();
+            Classify classify = await Repository.Where(a => a.Id == id).ToOneAsync();
             ClassifyDto classifyDto = Mapper.Map<ClassifyDto>(classify);
             classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
             return classifyDto;
@@ -84,7 +84,7 @@ namespace LinCms.Blog.Classifies
 
         public override async Task<ClassifyDto> UpdateAsync(Guid id, CreateUpdateClassifyDto updateClassify)
         {
-            Classify classify = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
+            Classify classify = await Repository.Where(r => r.Id == id).ToOneAsync();
             if (classify == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -110,7 +110,7 @@ namespace LinCms.Blog.Classifies
 
         public override async Task DeleteAsync(Guid id)
         {
-            Classify classify = await Repository.Select.Where(a => a.Id == id).ToOneAsync();
+            Classify classify = await Repository.Where(a => a.Id == id).ToOneAsync();
             if (classify.CreateUserId != CurrentUser.Id)
             {
                 throw new LinCmsException("您无权删除他人的分类专栏");
@@ -125,7 +125,7 @@ namespace LinCms.Blog.Classifies
             {
                 return;
             }
-            Classify classify = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
+            Classify classify = await Repository.Where(r => r.Id == id).ToOneAsync();
             classify.UpdateArticleCount(inCreaseCount);
             await Repository.UpdateAsync(classify);
         }

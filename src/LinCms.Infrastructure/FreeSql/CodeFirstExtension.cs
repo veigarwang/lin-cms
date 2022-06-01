@@ -66,26 +66,77 @@ namespace LinCms.FreeSql
                 {
                     e.HasData(new List<BaseType>()
                     {
-                        new BaseType("Article.Type","文章类型",1)
+                        new BaseType("Book.Type","书籍类别",1)
                         {
-                            CreateTime=DateTime.Now,IsDeleted=false,CreateUserId = 1,
+                            CreateTime=DateTime.Now,CreateUserId = 1,
                             BaseItems=new List<BaseItem>()
                             {
-                                new BaseItem("0","原创",1,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
-                                new BaseItem("1","转载",2,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
-                                new BaseItem("2","翻译",3,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false}
+                                new BaseItem("0","经典原著",1,1,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("1","校注图解",2,1,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("2","精美画册",3,1,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("3","学术文章",4,1,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("4","衍生小说",5,1,true){CreateUserId = 1,CreateTime=DateTime.Now},
                             }
                         },
-                         new BaseType("Sex","性别",2)
+                        new BaseType("Author.Type","著者类型",2)
+                        {
+                            CreateTime=DateTime.Now,CreateUserId = 1,
+                            BaseItems=new List<BaseItem>()
+                            {
+                                new BaseItem("0","作者",1,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("1","编者",2,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("2","著者",3,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("3","笺疏",4,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("4","编著",5,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("5","译注",6,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("6","校注",7,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("7","点校",8,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("8","绘者",9,2,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                            }
+                        },
+                        new BaseType("Encyclopedia.Type","词条类型",3)
+                        {
+                            CreateTime=DateTime.Now,CreateUserId = 1,
+                            BaseItems=new List<BaseItem>()
+                            {
+                                new BaseItem("0","山",1,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("1","水",2,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("2","草",3,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("3","木",4,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("4","虫",5,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("5","鱼",6,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("6","鸟",7,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("7","兽",8,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("8","神",9,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("9","怪",10,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("10","国",11,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("11","人",12,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("12","器",13,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("13","物",14,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("14","金",15,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("15","病",16,3,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                            }
+                        },
+                         new BaseType("Sex","性别",4)
                          {
-                             CreateTime=DateTime.Now,IsDeleted=false,CreateUserId = 1,
+                             CreateTime=DateTime.Now,CreateUserId = 1,
                              BaseItems=new List<BaseItem>()
                              {
-                                 new BaseItem("0","男",1,2,true){CreateTime=DateTime.Now,IsDeleted=false},
-                                 new BaseItem("1","女",2,2,true){CreateTime=DateTime.Now,IsDeleted=false},
-                                 new BaseItem("2","保密",3,2,true){CreateTime=DateTime.Now,IsDeleted=false}
+                                 new BaseItem("0","男",1,4,true){CreateTime=DateTime.Now},
+                                 new BaseItem("1","女",2,4,true){CreateTime=DateTime.Now},
+                                 new BaseItem("2","保密",3,4,true){CreateTime=DateTime.Now}
                              }
                          },
+                         new BaseType("Article.Type","文章类型",5)
+                        {
+                            CreateTime=DateTime.Now,CreateUserId = 1,
+                            BaseItems=new List<BaseItem>()
+                            {
+                                new BaseItem("0","原创",1,5,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("1","转载",2,5,true){CreateUserId = 1,CreateTime=DateTime.Now},
+                                new BaseItem("2","翻译",3,5,true){CreateUserId = 1,CreateTime=DateTime.Now}
+                            }
+                        },
                     });
                 })
                 ;

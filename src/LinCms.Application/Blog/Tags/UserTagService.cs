@@ -24,7 +24,7 @@ namespace LinCms.Blog.Tags
         [Transactional]
         public async Task CreateUserTagAsync(Guid tagId)
         {
-            Tag tag = await _tagRepository.Select.Where(r => r.Id == tagId).ToOneAsync();
+            Tag tag = await _tagRepository.Where(r => r.Id == tagId).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("该标签不存在");

@@ -111,8 +111,8 @@ namespace LinCms.Controllers.v1
 
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
-                    Summary = "1",
+                    Author1 = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
+                    //Summary = "1",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -120,8 +120,8 @@ namespace LinCms.Controllers.v1
                 });
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
-                    Summary = "2",
+                    Author1 = "luoyunchong",
+                    //Summary = "2",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -133,8 +133,8 @@ namespace LinCms.Controllers.v1
                 }
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
-                    Summary = "summary",
+                    Author1 = "luoyunchong",
+                    //Summary = "summary",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -158,8 +158,8 @@ namespace LinCms.Controllers.v1
                 ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
-                    Summary = "2",
+                    Author1 = "luoyunchong",
+                    //Summary = "2",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -182,8 +182,8 @@ namespace LinCms.Controllers.v1
 
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
-                    Summary = "1",
+                    Author1 = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
+                    //Summary = "1",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -191,8 +191,8 @@ namespace LinCms.Controllers.v1
                 });
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
-                    Summary = "2",
+                    Author1 = "luoyunchong",
+                    //Summary = "2",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
@@ -204,8 +204,8 @@ namespace LinCms.Controllers.v1
                 }
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
-                    Summary = "summary",
+                    Author1 = "luoyunchong",
+                    //Summary = "summary",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,

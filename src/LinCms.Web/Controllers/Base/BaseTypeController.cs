@@ -45,7 +45,7 @@ namespace LinCms.Controllers.Base
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseTypeDto createBaseType)
         {
             await _baseTypeService.CreateAsync(createBaseType);
-            return UnifyResponseDto.Success("新建类别成功");
+            return UnifyResponseDto.Success("新增类别成功");
         }
 
         [HttpPut("{id}")]

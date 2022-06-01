@@ -171,7 +171,7 @@ namespace LinCms.Blog.Comments
 
         public async Task DeleteAsync(Guid id)
         {
-            Comment comment = _commentRepository.Select.Where(r => r.Id == id).First();
+            Comment comment = _commentRepository.Where(r => r.Id == id).First();
             await DeleteAsync(comment);
         }
 
@@ -208,7 +208,7 @@ namespace LinCms.Blog.Comments
         [Transactional]
         public async Task DeleteMyComment(Guid id)
         {
-            Comment comment = await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
+            Comment comment = await _commentRepository.Where(r => r.Id == id).FirstAsync();
             if (comment == null)
             {
                 throw new LinCmsException("该评论已删除");
@@ -236,7 +236,7 @@ namespace LinCms.Blog.Comments
 
         public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)
         {
-            Comment comment = await _commentRepository.Select.Where(r => r.Id == subjectId).ToOneAsync();
+            Comment comment = await _commentRepository.Where(r => r.Id == subjectId).ToOneAsync();
             comment.UpdateLikeQuantity(likesQuantity);
             await _commentRepository.UpdateAsync(comment);
         }

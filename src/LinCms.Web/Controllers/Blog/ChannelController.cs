@@ -55,7 +55,7 @@ namespace LinCms.Controllers.Blog
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
         {
             await _channelService.CreateAsync(createChannel);
-            return UnifyResponseDto.Success("新建技术频道成功");
+            return UnifyResponseDto.Success("新增技术频道成功");
         }
 
         [LinCmsAuthorize("修改技术频道", "技术频道")]

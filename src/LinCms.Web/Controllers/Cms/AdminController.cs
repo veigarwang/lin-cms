@@ -4,6 +4,8 @@ using LinCms.Aop.Filter;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Users;
 using LinCms.Data;
+using LinCms.Exceptions;
+using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
@@ -15,10 +17,13 @@ namespace LinCms.Controllers.Cms
     {
         private readonly IUserService _userSevice;
         private readonly IAdminService _adminService;
-        public AdminController(IUserService userSevice, IAdminService adminService)
+        private readonly ICurrentUser _currentUser;
+
+        public AdminController(IUserService userSevice, IAdminService adminService, ICurrentUser currentUser)
         {
             _userSevice = userSevice;
             _adminService = adminService;
+            _currentUser = currentUser;
         }
 
         /// <summary>
@@ -57,6 +62,10 @@ namespace LinCms.Controllers.Cms
         [LinCmsAuthorize("删除用户", "管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
+            if (id == _currentUser?.Id)
+            {
+                throw new LinCmsException("您无法删除自己");
+            }
             await _userSevice.DeleteAsync(id);
             return UnifyResponseDto.Success("删除用户成功");
         }

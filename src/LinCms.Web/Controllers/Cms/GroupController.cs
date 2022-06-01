@@ -35,11 +35,11 @@ namespace LinCms.Controllers.Cms
         }
 
         [HttpPost]
-        [LinCmsAuthorize("新建权限组", "管理员")]
+        [LinCmsAuthorize("新增权限组", "管理员")]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
             await _groupService.CreateAsync(inputDto);
-            return UnifyResponseDto.Success("新建分组成功");
+            return UnifyResponseDto.Success("新增分组成功");
         }
 
         [HttpPut("{id}")]

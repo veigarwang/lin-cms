@@ -81,7 +81,7 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("你无权解绑此账号");
             }
 
-            List<LinUserIdentity> userIdentities = await _userIdentityRepository.Select.Where(r => r.CreateUserId == CurrentUser.Id).ToListAsync();
+            List<LinUserIdentity> userIdentities = await _userIdentityRepository.Where(r => r.CreateUserId == CurrentUser.Id).ToListAsync();
 
             bool hasPwd = userIdentities.Where(r => r.IdentityType == LinUserIdentity.Password).Any();
 

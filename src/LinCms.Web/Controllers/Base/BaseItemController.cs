@@ -22,7 +22,7 @@ namespace LinCms.Controllers.Base
         }
 
         [HttpDelete("{id}")]
-        [LinCmsAuthorize("删除字典", "字典管理")]
+        [LinCmsAuthorize("删除字典条目", "字典条目")]
         public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
             await _baseItemService.DeleteAsync(id);
@@ -32,7 +32,7 @@ namespace LinCms.Controllers.Base
         [HttpGet]
         public Task<List<BaseItemDto>> GetListAsync([FromQuery] string typeCode)
         {
-            return _baseItemService.GetListAsync(typeCode); ;
+            return _baseItemService.GetListAsync(typeCode);
         }
 
         [HttpGet("{id}")]
@@ -42,19 +42,19 @@ namespace LinCms.Controllers.Base
         }
 
         [HttpPost]
-        [LinCmsAuthorize("新增字典", "字典管理")]
+        [LinCmsAuthorize("新增字典条目", "字典条目")]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseItemDto createBaseItem)
         {
             await _baseItemService.CreateAsync(createBaseItem);
-            return UnifyResponseDto.Success("新建字典成功");
+            return UnifyResponseDto.Success("新增字典条目成功");
         }
 
         [HttpPut("{id}")]
-        [LinCmsAuthorize("编辑字典", "字典管理")]
+        [LinCmsAuthorize("编辑字典条目", "字典条目")]
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
         {
             await _baseItemService.UpdateAsync(id, updateBaseItem);
-            return UnifyResponseDto.Success("更新字典成功");
+            return UnifyResponseDto.Success("更新字典条目成功");
         }
     }
 }

@@ -36,8 +36,8 @@ namespace LinCms.Cms.Logs
             return new LogDashboard()
             {
                 AllCount = await _serilogBaseRepository.Select.CountAsync(),
-                TodayCount = await _serilogBaseRepository.Select.Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
-                HourCount = await _serilogBaseRepository.Select.Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
+                TodayCount = await _serilogBaseRepository.Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
+                HourCount = await _serilogBaseRepository.Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
                 UniqueCount = await _serilogBaseRepository.Select.WithSql(@"select count(*) AS TOTAL from app_serilog group by message").CountAsync(),
             };
         }

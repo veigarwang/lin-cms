@@ -60,7 +60,7 @@ namespace LinCms.Controllers.Blog
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateTagDto createTag)
         {
             await _tagService.CreateAsync(createTag);
-            return UnifyResponseDto.Success("新建标签成功");
+            return UnifyResponseDto.Success("新增标签成功");
         }
 
         [LinCmsAuthorize("编辑标签", "标签管理")]

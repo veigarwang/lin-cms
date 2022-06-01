@@ -60,8 +60,8 @@ namespace LinCms.Cms.Logs
 
             long totalVisitsCount = _linLogRepository.Select.Count();
             long totalUserCount = _linUserAuditBaseRepository.Select.Count();
-            long monthVisitsCount = _linLogRepository.Select.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
-            long monthUserCount = _linUserAuditBaseRepository.Select.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
+            long monthVisitsCount = _linLogRepository.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
+            long monthUserCount = _linUserAuditBaseRepository.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
 
             return new VisitLogUserDto()
             {

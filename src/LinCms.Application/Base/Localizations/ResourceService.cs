@@ -40,7 +40,7 @@ namespace LinCms.Base.Localizations
 
         public async Task<ResourceDto> GetAsync(long id)
         {
-            LocalResource entity = await _resourceRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            LocalResource entity = await _resourceRepository.Where(a => a.Id == id).ToOneAsync();
             ResourceDto resourceDto = Mapper.Map<ResourceDto>(entity);
             return resourceDto;
         }
@@ -59,7 +59,7 @@ namespace LinCms.Base.Localizations
 
         public async Task UpdateAsync(ResourceDto resourceDto)
         {
-            LocalResource entity = await _resourceRepository.Select.Where(r => r.Id == resourceDto.Id).ToOneAsync();
+            LocalResource entity = await _resourceRepository.Where(r => r.Id == resourceDto.Id).ToOneAsync();
             if (entity == null)
             {
                 throw new LinCmsException("该数据不存在");

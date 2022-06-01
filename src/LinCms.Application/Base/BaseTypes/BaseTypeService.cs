@@ -34,7 +34,7 @@ namespace LinCms.Base.BaseTypes
 
         public async Task<BaseTypeDto> GetAsync(int id)
         {
-            BaseType baseType = await _baseTypeRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            BaseType baseType = await _baseTypeRepository.Where(a => a.Id == id).ToOneAsync();
             return Mapper.Map<BaseTypeDto>(baseType);
         }
 
@@ -52,7 +52,7 @@ namespace LinCms.Base.BaseTypes
 
         public async Task UpdateAsync(int id, CreateUpdateBaseTypeDto updateBaseType)
         {
-            BaseType baseType = await _baseTypeRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            BaseType baseType = await _baseTypeRepository.Where(r => r.Id == id).ToOneAsync();
             if (baseType == null)
             {
                 throw new LinCmsException("该数据不存在");

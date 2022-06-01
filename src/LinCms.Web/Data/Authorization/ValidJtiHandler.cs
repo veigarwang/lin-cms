@@ -28,7 +28,7 @@ namespace LinCms.Data.Authorization
             DefaultHttpContext? defaultHttpContext = context.Resource as DefaultHttpContext;
             if (!context.User.Identity.IsAuthenticated)
             {
-                HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登陆", ErrorCode.AuthenticationFailed);
+                HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登录", ErrorCode.AuthenticationFailed);
                 context.Fail();
                 return;
             }

@@ -19,7 +19,7 @@ namespace LinCms.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        [LinCmsAuthorize("删除图书", "图书")]
+        [LinCmsAuthorize("删除书籍", "书籍")]
         public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
             await _bookService.DeleteAsync(id);
@@ -39,18 +39,20 @@ namespace LinCms.Controllers.v1
             return await _bookService.GetAsync(id);
         }
 
+        [LinCmsAuthorize("新增书籍", "书籍")]
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBookDto createBook)
         {
             await _bookService.CreateAsync(createBook);
-            return UnifyResponseDto.Success("新建图书成功");
+            return UnifyResponseDto.Success("新增书籍成功");
         }
 
+        [LinCmsAuthorize("更新书籍", "书籍")]
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
         {
             await _bookService.UpdateAsync(id, updateBook);
-            return UnifyResponseDto.Success("更新图书成功");
+            return UnifyResponseDto.Success("更新书籍成功");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace LinCms.Base.Docs
 
         public async Task<DocDto> GetAsync(long id)
         {
-            Doc doc = await Repository.Select.Where(a => a.Id == id).ToOneAsync();
+            Doc doc = await Repository.Where(a => a.Id == id).ToOneAsync();
             return Mapper.Map<DocDto>(doc);
         }
 
@@ -46,7 +46,7 @@ namespace LinCms.Base.Docs
 
         public async Task UpdateAsync(long id, CreateUpdateDocDto updateDoc)
         {
-            Doc doc = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
+            Doc doc = await Repository.Where(r => r.Id == id).ToOneAsync();
             if (doc == null)
             {
                 throw new LinCmsException("该数据不存在");

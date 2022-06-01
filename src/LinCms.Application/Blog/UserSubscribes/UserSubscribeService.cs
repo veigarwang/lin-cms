@@ -32,7 +32,7 @@ namespace LinCms.Blog.UserSubscribes
         public async Task<List<long>> GetSubscribeUserIdAsync(long userId)
         {
             List<long> subscribeUserIds = await _userSubscribeRepository
-                .Select.Where(r => r.CreateUserId == userId)
+                .Where(r => r.CreateUserId == userId)
                 .ToListAsync(r => r.SubscribeUserId);
             return subscribeUserIds;
         }
@@ -99,7 +99,7 @@ namespace LinCms.Blog.UserSubscribes
                 throw new LinCmsException("您无法关注自己");
             }
 
-            LinUser linUser = _userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
+            LinUser linUser = _userRepository.Where(r => r.Id == subscribeUserId).ToOne();
             if (linUser == null)
             {
                 throw new LinCmsException("该用户不存在");

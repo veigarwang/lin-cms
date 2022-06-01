@@ -30,7 +30,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// <returns></returns>
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            LinUser user = await _userRepository.Select.Where(r => r.Username == context.UserName || r.Email == context.UserName).ToOneAsync();
+            LinUser user = await _userRepository.Where(r => r.Username == context.UserName || r.Email == context.UserName).ToOneAsync();
 
             if (user == null)
             {
