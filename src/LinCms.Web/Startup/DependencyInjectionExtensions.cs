@@ -268,7 +268,7 @@ namespace LinCms.Startup
             {
                 try
                 {
-                     var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+                    var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
                     await clientPolicyStore.SeedAsync();
 
                     // get the IpPolicyStore instance
