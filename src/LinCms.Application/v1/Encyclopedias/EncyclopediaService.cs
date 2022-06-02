@@ -29,27 +29,27 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task CreateAsync(CreateUpdateEncyclopediaDto createEncyclopedia)
         {
-            Encyclopedia exist = await _encyclopediaRepository.Select.Where(r => r.Name == createEncyclopedia.Name || r.Alias.Contains(createEncyclopedia.Name)).ToOneAsync();
+            Encyclopedia exist = await _encyclopediaRepository.Where(r => r.Name == createEncyclopedia.Name || r.Alias.Contains(createEncyclopedia.Name)).ToOneAsync();
             if (exist != null)
             {
-                if (!string.IsNullOrEmpty(createEncyclopedia.Alias))
+                if (!string.IsNullOrEmpty(createEncyclopedia.Alias) && !exist.Alias.Contains(createEncyclopedia.Alias))
                     exist.Alias += string.IsNullOrEmpty(exist.Alias) ? createEncyclopedia.Alias : "," + createEncyclopedia.Alias;
-                if (!string.IsNullOrEmpty(createEncyclopedia.Explanation))
+                if (!string.IsNullOrEmpty(createEncyclopedia.Explanation) && !exist.Explanation.Contains(createEncyclopedia.Explanation))
                     exist.Explanation += string.IsNullOrEmpty(exist.Explanation) ? createEncyclopedia.Explanation : "," + createEncyclopedia.Explanation;
-                if (!string.IsNullOrEmpty(createEncyclopedia.Effect))
+                if (!string.IsNullOrEmpty(createEncyclopedia.Effect) && !exist.Effect.Contains(createEncyclopedia.Effect))
                     exist.Effect += string.IsNullOrEmpty(exist.Effect) ? createEncyclopedia.Effect : "," + createEncyclopedia.Effect;
-                if (!string.IsNullOrEmpty(createEncyclopedia.Provenance))
+                if (!string.IsNullOrEmpty(createEncyclopedia.Provenance) && !exist.Provenance.Contains(createEncyclopedia.Provenance))
                     exist.Provenance += string.IsNullOrEmpty(exist.Provenance) ? createEncyclopedia.Provenance : "," + createEncyclopedia.Provenance;
                 exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
                 if (!string.IsNullOrEmpty(createEncyclopedia.Guozhu))
                     exist.Guozhu += string.IsNullOrEmpty(exist.Guozhu) ? createEncyclopedia.Guozhu : "\n" + createEncyclopedia.Guozhu;
-                if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan))
+                if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan) && !exist.Tuzan.Contains(createEncyclopedia.Tuzan))
                     exist.Tuzan += string.IsNullOrEmpty(exist.Tuzan) ? createEncyclopedia.Tuzan : "\n" + createEncyclopedia.Tuzan;
                 if (!string.IsNullOrEmpty(createEncyclopedia.Jijie))
                     exist.Jijie += string.IsNullOrEmpty(exist.Jijie) ? createEncyclopedia.Jijie : "\n" + createEncyclopedia.Jijie;
                 if (!string.IsNullOrEmpty(createEncyclopedia.Remarks))
                     exist.Remarks += string.IsNullOrEmpty(exist.Remarks) ? createEncyclopedia.Remarks : "\n" + createEncyclopedia.Remarks;
-                
+
                 await _encyclopediaRepository.UpdateAsync(exist);
                 //throw new LinCmsException("词条" + createEncyclopedia.Name + "已存在");
             }
@@ -87,7 +87,7 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = (await _encyclopediaRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
 
             foreach (var encyclopedia in items)
             {
