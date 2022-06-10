@@ -11,7 +11,7 @@ namespace LinCms.Base.BaseTypes
     {
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
 
-        public BaseTypeService( IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseTypeService(IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseTypeRepository = baseTypeRepository;
         }
@@ -34,7 +34,7 @@ namespace LinCms.Base.BaseTypes
 
         public async Task<BaseTypeDto> GetAsync(int id)
         {
-            BaseType baseType = await _baseTypeRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            BaseType baseType = await _baseTypeRepository.Where(a => a.Id == id).ToOneAsync();
             return Mapper.Map<BaseTypeDto>(baseType);
         }
 
@@ -52,14 +52,13 @@ namespace LinCms.Base.BaseTypes
 
         public async Task UpdateAsync(int id, CreateUpdateBaseTypeDto updateBaseType)
         {
-            BaseType baseType = await _baseTypeRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            BaseType baseType = await _baseTypeRepository.Where(r => r.Id == id).ToOneAsync();
             if (baseType == null)
             {
                 throw new LinCmsException("该数据不存在");
             }
 
-            bool exist =
-                await _baseTypeRepository.Select.AnyAsync(r => r.TypeCode == updateBaseType.TypeCode && r.Id != id);
+            bool exist = await _baseTypeRepository.Select.AnyAsync(r => r.TypeCode == updateBaseType.TypeCode && r.Id != id);
             if (exist)
             {
                 throw new LinCmsException($"基础类别-编码[{updateBaseType.TypeCode}]已存在");

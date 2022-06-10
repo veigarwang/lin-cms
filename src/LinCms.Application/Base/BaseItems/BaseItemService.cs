@@ -12,7 +12,7 @@ namespace LinCms.Base.BaseItems
         private readonly IAuditBaseRepository<BaseItem> _baseItemRepository;
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
 
-        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository,IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository, IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseItemRepository = baseItemRepository;
             _baseTypeRepository = baseTypeRepository;
@@ -25,7 +25,7 @@ namespace LinCms.Base.BaseItems
 
         public async Task<List<BaseItemDto>> GetListAsync(string typeCode)
         {
-            long baseTypeId = _baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
+            long baseTypeId = _baseTypeRepository.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
 
             List<BaseItemDto> baseItems = (await _baseItemRepository.Select
                     .OrderBy(r => r.SortCode)
@@ -39,7 +39,7 @@ namespace LinCms.Base.BaseItems
 
         public async Task<BaseItemDto> GetAsync(int id)
         {
-            BaseItem baseItem = await _baseItemRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            BaseItem baseItem = await _baseItemRepository.Where(a => a.Id == id).ToOneAsync();
             return Mapper.Map<BaseItemDto>(baseItem);
         }
 
@@ -58,7 +58,7 @@ namespace LinCms.Base.BaseItems
 
         public async Task UpdateAsync(int id, CreateUpdateBaseItemDto updateBaseItem)
         {
-            BaseItem baseItem = await _baseItemRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            BaseItem baseItem = await _baseItemRepository.Where(r => r.Id == id).ToOneAsync();
             if (baseItem == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -78,7 +78,7 @@ namespace LinCms.Base.BaseItems
                 throw new LinCmsException($"编码[{updateBaseItem.ItemCode}]已存在");
             }
 
-            Mapper.Map(updateBaseItem, baseItem);
+            Mapper.Map(updateBaseItem, destination: baseItem);
             await _baseItemRepository.UpdateAsync(baseItem);
         }
     }

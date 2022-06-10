@@ -31,6 +31,9 @@ namespace LinCms.Entities.Base
         [Column(StringLength = 50)]
         public string ItemName { get; set; }
 
+        [Column(StringLength = 50)]
+        public string ItemDetails { get; set; }
+
         public int? SortCode { get; set; }
 
         public bool Status { get; set; }

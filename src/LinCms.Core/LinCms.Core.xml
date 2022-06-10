@@ -673,9 +673,189 @@
             关注的用户Id
             </summary>
         </member>
-        <member name="T:LinCms.Entities.Book">
+        <member name="P:LinCms.Entities.Book.Isbn">
             <summary>
-            也是demo。
+            国际标准书号
+            </summary>        
+        </member>
+        <member name="P:LinCms.Entities.Book.Title">
+            <summary>
+            书名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Subtitle">
+            <summary>
+            副标题
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.BookType">
+            <summary>
+            书籍类别
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.AuthorType1">
+            <summary>
+            第一著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Author1">
+            <summary>
+            第一著者
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.AuthorType2">
+            <summary>
+            第二著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Author2">
+            <summary>
+            第二著者
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.AuthorType3">
+            <summary>
+            第三著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Author3">
+            <summary>
+            第三著者
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Press">
+            <summary>
+            出版公司
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Printing">
+            <summary>
+            印刷公司
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Kaiben">
+            <summary>
+            开本
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.WordCount">
+            <summary>
+            字数
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Yinzhang">
+            <summary>
+            印张
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.EditionNumber">
+            <summary>
+            版次
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Impression">
+            <summary>
+            印次
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Price">
+            <summary>
+            定价
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Volumes">
+            <summary>
+            册数
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.DatePurchased">
+            <summary>
+            购买日期
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.IsRead">
+            <summary>
+            已读
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Rate">
+            <summary>
+            评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Book.Summary">
+            <summary>
+            读后感
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Name">
+            <summary>
+            词条名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Pronunciation">
+            <summary>
+            读音
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Explanation">
+            <summary>
+             释名
+             </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.ItemType">
+            <summary>
+            词条类别
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.OriginalText">
+            <summary>
+            原文
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Guozhu">
+            <summary>
+            郭注
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Tuzan">
+            <summary>
+            图赞
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Jijie">
+            <summary>
+            集解
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Effect">
+            <summary>
+            作用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Provenance">
+            <summary>
+            出处
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Picture">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Encyclopedia.Remarks">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="P:LinCms.Entities.EntityDto`1.Id">

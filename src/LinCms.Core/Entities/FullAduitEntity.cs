@@ -48,7 +48,7 @@ namespace LinCms.Entities
         /// 是否删除
         /// </summary>
         [Column(Position = -5)]
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         /// <summary>
         /// 删除人id

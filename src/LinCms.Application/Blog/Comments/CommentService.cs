@@ -48,47 +48,46 @@ namespace LinCms.Blog.Comments
                     .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                     .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                     .Page(commentSearchDto.Page + 1, commentSearchDto.Count).ToListAsync())
-                //.ToPagerList(commentSearchDto, out long totalCount    
-                .Select(r =>
-                {
-                    CommentDto commentDto = Mapper.Map<CommentDto>(r);
-                    if (commentDto.IsAudit == false)
+                    //.ToPagerList(commentSearchDto, out long totalCount    
+                    .Select(r =>
                     {
-                        commentDto.Text = "[该评论因违规被拉黑]";
-                    }
-
-                    if (commentDto.UserInfo == null)
-                    {
-                        commentDto.UserInfo = new OpenUserDto("该用户已被系统删除");
-                    }
-                    else
-                    {
-                        commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
-                    }
-
-
-                    commentDto.IsLiked =
-                        userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
-
-                    commentDto.TopComment = r.Childs.ToList().Select(u =>
-                    {
-                        CommentDto childrenDto = Mapper.Map<CommentDto>(u);
-                        if (childrenDto.UserInfo != null)
+                        CommentDto commentDto = Mapper.Map<CommentDto>(r);
+                        if (commentDto.IsAudit == false)
                         {
-                            childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
+                            commentDto.Text = "[该评论因违规被拉黑]";
                         }
 
-                        if (childrenDto.IsAudit == false)
+                        if (commentDto.UserInfo == null)
                         {
-                            childrenDto.Text = "[该评论因违规被拉黑]";
+                            commentDto.UserInfo = new OpenUserDto("该用户已被系统删除");
+                        }
+                        else
+                        {
+                            commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
                         }
 
-                        childrenDto.IsLiked =
-                            userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
-                        return childrenDto;
+                        commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
+                        commentDto.TopComment = r.Childs.ToList().Select(u =>
+                        {
+                            CommentDto childrenDto = Mapper.Map<CommentDto>(u);
+                            if (childrenDto.UserInfo != null)
+                            {
+                                childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
+                            }
+
+                            if (childrenDto.IsAudit == false)
+                            {
+                                childrenDto.Text = "[该评论因违规被拉黑]";
+                            }
+
+                            childrenDto.IsLiked =
+                                userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
+                            return childrenDto;
+                        }).ToList();
+
+                        return commentDto;
+
                     }).ToList();
-                    return commentDto;
-                }).ToList();
 
             //计算一个文章多少个评论
             long totalCount = GetCommentCount(commentSearchDto);
@@ -151,6 +150,8 @@ namespace LinCms.Blog.Comments
                         .Where(r => r.Id == createCommentDto.SubjectId)
                         .ExecuteAffrowsAsync();
                     break;
+                default:
+                    break;
             }
 
             if (CurrentUser.Id != createCommentDto.RespUserId)
@@ -171,7 +172,7 @@ namespace LinCms.Blog.Comments
 
         public async Task DeleteAsync(Guid id)
         {
-            Comment comment = _commentRepository.Select.Where(r => r.Id == id).First();
+            Comment comment = _commentRepository.Where(r => r.Id == id).First();
             await DeleteAsync(comment);
         }
 
@@ -202,13 +203,15 @@ namespace LinCms.Blog.Comments
                     await _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows)
                         .Where(r => r.Id == comment.SubjectId).ExecuteAffrowsAsync();
                     break;
+                default:
+                    break;
             }
         }
 
         [Transactional]
         public async Task DeleteMyComment(Guid id)
         {
-            Comment comment = await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
+            Comment comment = await _commentRepository.Where(r => r.Id == id).FirstAsync();
             if (comment == null)
             {
                 throw new LinCmsException("该评论已删除");
@@ -221,7 +224,7 @@ namespace LinCms.Blog.Comments
 
             using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
 
-            await this.DeleteAsync(comment);
+            await DeleteAsync(comment);
 
             await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
             {
@@ -236,7 +239,7 @@ namespace LinCms.Blog.Comments
 
         public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)
         {
-            Comment comment = await _commentRepository.Select.Where(r => r.Id == subjectId).ToOneAsync();
+            Comment comment = await _commentRepository.Where(r => r.Id == subjectId).ToOneAsync();
             comment.UpdateLikeQuantity(likesQuantity);
             await _commentRepository.UpdateAsync(comment);
         }

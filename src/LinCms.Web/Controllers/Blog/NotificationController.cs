@@ -30,7 +30,7 @@ namespace LinCms.Controllers.Blog
         public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateNotificationDto createNotification)
         {
             await _notificationService.CreateOrCancelAsync(createNotification);
-            return UnifyResponseDto.Success("新建消息成功");
+            return UnifyResponseDto.Success("新增消息成功");
         }
 
         [HttpPut("{id}")]

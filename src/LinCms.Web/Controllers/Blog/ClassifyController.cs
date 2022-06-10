@@ -60,7 +60,7 @@ namespace LinCms.Controllers.Blog
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateClassifyDto createClassify)
         {
             await _classifyService.CreateAsync(createClassify);
-            return UnifyResponseDto.Success("新建分类专栏成功");
+            return UnifyResponseDto.Success("新增分类专栏成功");
         }
 
         [HttpPut("{id}")]

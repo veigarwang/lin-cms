@@ -53,7 +53,7 @@ namespace LinCms.Controllers.Cms
         /// 新增用户-不是注册，注册不可能让用户选择gourp_id
         /// </summary>
         /// <param name="userInput"></param>
-        [Logger("管理员新建了一个用户")]
+        [Logger("管理员新增了一个用户")]
         [HttpPost("register")]
         [Authorize(Roles = LinGroup.Admin)]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)

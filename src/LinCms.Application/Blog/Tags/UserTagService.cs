@@ -4,7 +4,6 @@ using LinCms.Aop.Attributes;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.Tags
 {
@@ -24,7 +23,7 @@ namespace LinCms.Blog.Tags
         [Transactional]
         public async Task CreateUserTagAsync(Guid tagId)
         {
-            Tag tag = await _tagRepository.Select.Where(r => r.Id == tagId).ToOneAsync();
+            Tag tag = await _tagRepository.Where(r => r.Id == tagId).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("该标签不存在");
@@ -35,14 +34,13 @@ namespace LinCms.Blog.Tags
                 throw new LinCmsException("该标签已被拉黑");
             }
 
-            bool any = await _userTagRepository.Select.AnyAsync(r =>
-                 r.CreateUserId == CurrentUser.Id && r.TagId == tagId);
+            bool any = await _userTagRepository.Select.AnyAsync(r => r.CreateUserId == CurrentUser.Id && r.TagId == tagId);
             if (any)
             {
                 throw new LinCmsException("您已关注该标签");
             }
 
-            UserTag userTag = new UserTag() { TagId = tagId };
+            UserTag userTag = new() { TagId = tagId };
             await _userTagRepository.InsertAsync(userTag);
             await _tagService.UpdateSubscribersCountAsync(tagId, 1);
         }

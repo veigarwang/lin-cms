@@ -2,7 +2,6 @@
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using LinCms.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +27,7 @@ namespace LinCms.Data.Authorization
             DefaultHttpContext? defaultHttpContext = context.Resource as DefaultHttpContext;
             if (!context.User.Identity.IsAuthenticated)
             {
-                HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登陆", ErrorCode.AuthenticationFailed);
+                HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登录", ErrorCode.AuthenticationFailed);
                 context.Fail();
                 return;
             }

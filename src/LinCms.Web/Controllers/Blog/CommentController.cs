@@ -104,7 +104,7 @@ namespace LinCms.Controllers.Blog
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
         {
-            Comment comment = _commentRepository.Select.Where(r => r.Id == id).ToOne();
+            Comment comment = _commentRepository.Where(r => r.Id == id).ToOne();
             if (comment == null)
             {
                 throw new LinCmsException("没有找到相关评论");
@@ -125,7 +125,7 @@ namespace LinCms.Controllers.Blog
         [HttpPut("{subjectId}/type/${subject_type}")]
         public UnifyResponseDto CorrectedComment(Guid subjectId, int subjectType)
         {
-            long count = _commentRepository.Select.Where(r => r.SubjectId == subjectId).Count();
+            long count = _commentRepository.Where(r => r.SubjectId == subjectId).Count();
 
             switch (subjectType)
             {

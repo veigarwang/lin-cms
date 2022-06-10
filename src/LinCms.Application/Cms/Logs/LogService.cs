@@ -5,15 +5,14 @@ using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Cms.Logs
 {
-    public class LogService :ApplicationService, ILogService
+    public class LogService : ApplicationService, ILogService
     {
         private readonly IAuditBaseRepository<LinLog> _linLogRepository;
         private readonly IUserRepository _linUserAuditBaseRepository;
-        public LogService(IAuditBaseRepository<LinLog> linLogRepository,IUserRepository linUserAuditBaseRepository)
+        public LogService(IAuditBaseRepository<LinLog> linLogRepository, IUserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _linUserAuditBaseRepository = linUserAuditBaseRepository;
@@ -60,8 +59,8 @@ namespace LinCms.Cms.Logs
 
             long totalVisitsCount = _linLogRepository.Select.Count();
             long totalUserCount = _linUserAuditBaseRepository.Select.Count();
-            long monthVisitsCount = _linLogRepository.Select.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
-            long monthUserCount = _linUserAuditBaseRepository.Select.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
+            long monthVisitsCount = _linLogRepository.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
+            long monthUserCount = _linUserAuditBaseRepository.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
 
             return new VisitLogUserDto()
             {

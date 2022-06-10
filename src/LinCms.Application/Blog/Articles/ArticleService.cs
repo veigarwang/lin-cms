@@ -63,7 +63,7 @@ namespace LinCms.Blog.Articles
                 .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
-                .Where(r => r.IsAudit == true)
+                .Where(r => r.IsAudit)
                 .WhereCascade(r => r.IsDeleted == false)
                 .WhereIf(searchDto.UserId != null, r => r.CreateUserId == searchDto.UserId)
                 .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
@@ -77,7 +77,7 @@ namespace LinCms.Blog.Articles
                     searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
                     searchDto.Sort == "MONTHLY_HOTTEST" ||
                     searchDto.Sort == "HOTTEST",
-                    r => r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30)
+                    r => r.ViewHits + (r.LikesQuantity * 20) + (r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime).ToPagerListAsync(searchDto, out long totalCount);
 
             List<ArticleListDto> articleDtos = articles
@@ -97,7 +97,7 @@ namespace LinCms.Blog.Articles
 
         public async Task DeleteAsync(Guid id)
         {
-            Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
+            Article article = _articleRepository.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
             if (article.IsNotNull())
             {
                 await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
@@ -172,7 +172,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
-            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            Article article = _articleRepository.Where(r => r.Id == id).ToOne();
 
 
             if (article.CreateUserId != CurrentUser.Id)
@@ -210,13 +210,13 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
-            List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
+            List<Guid> tagIds = await _tagArticleRepository.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
             tagIds.ForEach(async (tagId) => { await _tagService.UpdateArticleCountAsync(tagId, -1); });
 
             _tagArticleRepository.Delete(r => r.ArticleId == id);
 
-            List<TagArticle> tagArticles = new List<TagArticle>();
+            List<TagArticle> tagArticles = new();
 
             updateArticleDto.TagIds.ForEach(async (tagId) =>
             {
@@ -269,7 +269,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateCommentable(Guid id, bool commetable)
         {
-            Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            Article article = await _articleRepository.Where(a => a.Id == id).ToOneAsync();
             if (article == null)
             {
                 throw new LinCmsException("没有找到相关随笔", ErrorCode.NotFound);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Aop.Attributes;
 using LinCms.Data;
 using LinCms.Entities.Blog;
@@ -98,7 +97,7 @@ namespace LinCms.Blog.Channels
         [Transactional]
         public async Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel)
         {
-            Channel channel = await _channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            Channel channel = await _channelRepository.Where(r => r.Id == id).ToOneAsync();
             if (channel == null)
             {
                 throw new LinCmsException("该数据不存在");

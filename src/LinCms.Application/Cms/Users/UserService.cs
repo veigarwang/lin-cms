@@ -1,4 +1,8 @@
-﻿using DotNetCore.Security;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DotNetCore.Security;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Groups;
@@ -10,10 +14,6 @@ using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
@@ -180,7 +180,7 @@ namespace LinCms.Cms.Users
 
         public async Task ChangeStatusAsync(long id, UserActive userActive)
         {
-            LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            LinUser user = await _userRepository.Where(r => r.Id == id).ToOneAsync();
 
             if (user == null)
             {
@@ -207,7 +207,7 @@ namespace LinCms.Cms.Users
             if (CurrentUser.Id != null)
             {
                 long userId = (long)CurrentUser.Id;
-                return _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
+                return _userRepository.Where(r => r.Id == userId).ToOneAsync();
             }
 
             return null;

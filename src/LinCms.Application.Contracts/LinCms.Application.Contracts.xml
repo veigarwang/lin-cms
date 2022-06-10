@@ -630,5 +630,390 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="P:LinCms.v1.Books.BookDto.Isbn">
+            <summary>
+            国际标准书号
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Title">
+            <summary>
+            书名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Subtitle">
+            <summary>
+            副标题
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.ShowName">
+            <summary>
+            完整书名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.BookType">
+            <summary>
+            书籍类别编码
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.BookTypeName">
+            <summary>
+            书籍类别名称
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorType1">
+            <summary>
+            第一著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Author1">
+            <summary>
+            第一著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorType2">
+            <summary>
+            第二著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Author2">
+            <summary>
+            第二著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorType3">
+            <summary>
+            第三著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Author3">
+            <summary>
+            第三著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Press">
+            <summary>
+            出版公司
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Printing">
+            <summary>
+            印刷公司
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Kaiben">
+            <summary>
+            开本
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.WordCount">
+            <summary>
+            字数
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Yinzhang">
+            <summary>
+            印章
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.EditionNumber">
+            <summary>
+            版次
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Impression">
+            <summary>
+            印次
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Price">
+            <summary>
+            定价
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Volumes">
+            <summary>
+            册数
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.DatePurchased">
+            <summary>
+            购买日期
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.IsRead">
+            <summary>
+            已读
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Rate">
+            <summary>
+            评分
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.Summary">
+            <summary>
+            读后感
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.ISBN">
+            <summary>
+            国际标准书号
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Title">
+            <summary>
+            书名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Subtitle">
+            <summary>
+            副标题
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.BookType">
+            <summary>
+            书籍类别
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.AuthorType1">
+            <summary>
+            第一著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Author1">
+            <summary>
+            第一著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.AuthorType2">
+            <summary>
+            第二著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Author2">
+            <summary>
+            第二著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.AuthorType3">
+            <summary>
+            第三著者类型
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Author3">
+            <summary>
+            第三著者
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Press">
+            <summary>
+            出版公司
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Printing">
+            <summary>
+            印刷公司
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Kaiben">
+            <summary>
+            开本
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.WordCount">
+            <summary>
+            字数
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Yinzhang">
+            <summary>
+            印章
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.EditionNumber">
+            <summary>
+            版次
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Impression">
+            <summary>
+            印次
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Price">
+            <summary>
+            定价
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Volumes">
+            <summary>
+            册数
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.DatePurchased">
+            <summary>
+            购买日期
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.IsRead">
+            <summary>
+            已读
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Rate">
+            <summary>
+            评分
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.Summary">
+            <summary>
+            读后感
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Name">
+            <summary>
+            词条名称
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Pronunciation">
+            <summary>
+            读音
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Explanation">
+            <summary>
+            释名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.ItemType">
+            <summary>
+            词条类别
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.OriginalText">
+            <summary>
+            原文
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Guozhu">
+            <summary>
+            郭注
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Tuzan">
+            <summary>
+            图赞
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Jijie">
+            <summary>
+            集解
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Effect">
+            <summary>
+            作用
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Provenance">
+            <summary>
+            出处
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Picture">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Remarks">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Name">
+            <summary>
+            词条名称
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Pronunciation">
+            <summary>
+            读音
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Explanation">
+            <summary>
+            释名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.ItemType">
+            <summary>
+            词条类别
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.ItemTypeName">
+            <summary>
+            词条类别名
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.OriginalText">
+            <summary>
+            原文
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Guozhu">
+            <summary>
+            郭注
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Tuzan">
+            <summary>
+            图赞
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Jijie">
+            <summary>
+            集解
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Effect">
+            <summary>
+            作用
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Provenance">
+            <summary>
+            出处
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Picture">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Remarks">
+            <summary>
+            备注
+            </summary>
+        </member>
     </members>
 </doc>

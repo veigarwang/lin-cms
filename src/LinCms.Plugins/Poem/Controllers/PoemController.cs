@@ -45,7 +45,7 @@ namespace LinCms.Plugins.Poem.Controllers
         [HttpGet("{id}")]
         public PoemDto Get(long id)
         {
-            LinPoem poem = _poemRepository.Select.Where(a => a.Id == id).ToOne();
+            LinPoem poem = _poemRepository.Where(a => a.Id == id).ToOne();
             return _mapper.Map<PoemDto>(poem);
         }
 
@@ -54,13 +54,13 @@ namespace LinCms.Plugins.Poem.Controllers
         {
             LinPoem poem = _mapper.Map<LinPoem>(createPoem);
             _poemRepository.Insert(poem);
-            return UnifyResponseDto.Success("新建诗词成功");
+            return UnifyResponseDto.Success("新增诗词成功");
         }
 
         [HttpPut("{id}")]
         public UnifyResponseDto Put(long id, [FromBody] CreateUpdatePoemDto updatePoem)
         {
-            LinPoem poem = _poemRepository.Select.Where(r => r.Id == id).ToOne();
+            LinPoem poem = _poemRepository.Where(r => r.Id == id).ToOne();
             if (poem == null)
             {
                 throw new LinCmsException("没有找到诗词");

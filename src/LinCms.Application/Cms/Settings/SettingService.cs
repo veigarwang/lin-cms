@@ -1,12 +1,12 @@
-﻿using LinCms.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using LinCms.Data;
 using LinCms.Entities.Settings;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Settings
 {
@@ -86,7 +86,7 @@ namespace LinCms.Cms.Settings
 
         public async Task UpdateAsync(Guid id, CreateUpdateSettingDto updateSettingDto)
         {
-            LinSetting setting = await _settingRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            LinSetting setting = await _settingRepository.Where(r => r.Id == id).ToOneAsync();
             if (setting == null)
             {
                 throw new LinCmsException("该数据不存在");

@@ -23,7 +23,7 @@ namespace LinCms.Blog.Articles
 
         public async Task UpdateAsync(Guid id, UpdateArticleDraftDto updateArticleDto)
         {
-            ArticleDraft articleDraft = await _articleDraftRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            ArticleDraft articleDraft = await _articleDraftRepository.Where(r => r.Id == id).ToOneAsync();
             if (articleDraft != null && articleDraft.CreateUserId != CurrentUser.Id)
             {
                 throw new LinCmsException("您无权修改他人的随笔");

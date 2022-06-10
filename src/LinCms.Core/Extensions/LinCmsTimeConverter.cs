@@ -28,7 +28,7 @@ namespace LinCms.Extensions
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.Value.ToString() == "")
+            if (reader.Value?.ToString() == "")
             {
                 return null;
             }
@@ -40,12 +40,12 @@ namespace LinCms.Extensions
 
             if (objectType == typeof(DateTime) || objectType == typeof(DateTime?))
             {
-                DateTime.TryParse(reader.Value.ToString(), out DateTime readerTime);
+                DateTime.TryParse(reader.Value?.ToString(), out DateTime readerTime);
                 return readerTime;
             }
             if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))
             {
-                DateTimeOffset.TryParse(reader.Value.ToString(), out var readerTime);
+                DateTimeOffset.TryParse(reader.Value?.ToString(), out var readerTime);
                 return readerTime;
             }
 

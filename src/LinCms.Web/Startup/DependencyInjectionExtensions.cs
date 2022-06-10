@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using AspNetCoreRateLimit;
+﻿using AspNetCoreRateLimit;
 using CSRedis;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
@@ -14,7 +10,6 @@ using LinCms.Email;
 using LinCms.Entities;
 using LinCms.FreeSql;
 using LinCms.Utils;
-using Microsoft.AspNetCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using ToolGood.Words;
 
 namespace LinCms.Startup
@@ -174,19 +173,19 @@ namespace LinCms.Startup
                     case CapStorageType.InMemoryStorage:
                         @this.UseInMemoryStorage();
                         break;
-                    case CapStorageType.Mysql:
-                        IConfigurationSection mySql = Configuration.GetSection($"ConnectionStrings:MySql");
-                        @this.UseMySql(mySql.Value);
-                        break;
-                    //case CapStorageType.SqlServer:
-                    //    IConfigurationSection sqlServer = Configuration.GetSection($"ConnectionStrings:SqlServer");
-                    //    @this.UseSqlServer(opt =>
-                    //    {
-                    //        opt.ConnectionString = sqlServer.Value;
-                    // //使用SQL SERVER2008才需要打开他
-                    //        opt.UseSqlServer2008();
-                    //    });
+                    //case CapStorageType.Mysql:
+                    //    IConfigurationSection mySql = Configuration.GetSection($"ConnectionStrings:MySql");
+                    //    @this.UseMySql(mySql.Value);
                     //    break;
+                    case CapStorageType.SqlServer:
+                        IConfigurationSection sqlServer = Configuration.GetSection($"ConnectionStrings:SqlServer");
+                        @this.UseSqlServer(opt =>
+                        {
+                            opt.ConnectionString = sqlServer.Value;
+                            //使用SQL SERVER2008才需要打开他
+                            //opt.UseSqlServer2008();
+                        });
+                        break;
                     default:
                         break;
                 }
@@ -269,7 +268,7 @@ namespace LinCms.Startup
             {
                 try
                 {
-                     var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+                    var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
                     await clientPolicyStore.SeedAsync();
 
                     // get the IpPolicyStore instance

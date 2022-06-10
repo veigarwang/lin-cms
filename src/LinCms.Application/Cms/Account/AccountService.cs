@@ -1,4 +1,6 @@
-﻿using LinCms.Cms.Users;
+﻿using System;
+using System.Threading.Tasks;
+using LinCms.Cms.Users;
 using LinCms.Data.Options;
 using LinCms.Email;
 using LinCms.Entities;
@@ -6,8 +8,6 @@ using LinCms.Exceptions;
 using LinCms.IRepositories;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
 {
@@ -101,7 +101,7 @@ namespace LinCms.Cms.Account
 
             await _userRepository.UpdateAsync(user);
 
-            //await _emailSender.SendAsync(message);
+            await _emailSender.SendAsync(message);
 
             await RedisHelper.SetAsync(user.Email, rand6Value, 30 * 60);
 
@@ -110,7 +110,7 @@ namespace LinCms.Cms.Account
 
         private async Task<LinUser> GetUserByChecking(string inputEmailAddress)
         {
-            var user = await _userRepository.Select.Where(r => r.Email == inputEmailAddress).FirstAsync();
+            var user = await _userRepository.Where(r => r.Email == inputEmailAddress).FirstAsync();
             if (user == null)
             {
                 throw new LinCmsException("InvalidEmailAddress");
@@ -131,7 +131,7 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException("验证码不正确");//InvalidEmailConfirmationCode
             }
 
-            var user = await _userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
+            var user = await _userRepository.Where(r => r.Email == resetPassword.Email).FirstAsync();
             if (user == null || resetPassword.PasswordResetCode != user.PasswordResetCode)
             {
                 throw new LinCmsException("该请求无效，请重新获取验证码");

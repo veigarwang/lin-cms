@@ -40,7 +40,7 @@ namespace LinCms.Blog.Tags
 
         public async Task UpdateAsync(Guid id, CreateUpdateTagDto updateTag)
         {
-            Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            Tag tag = await _tagRepository.Where(r => r.Id == id).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -58,13 +58,13 @@ namespace LinCms.Blog.Tags
 
         public async Task<TagListDto> GetAsync(Guid id)
         {
-            Tag tag = await _tagRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            Tag tag = await _tagRepository.Where(a => a.Id == id).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("不存在此标签");
             }
             TagListDto tagDto = Mapper.Map<TagListDto>(tag);
-            tagDto.IsSubscribe = await this.IsSubscribeAsync(id);
+            tagDto.IsSubscribe = await IsSubscribeAsync(id);
             tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
         }
@@ -147,7 +147,7 @@ namespace LinCms.Blog.Tags
             //防止数量一直减，减到小于0
             if (inCreaseCount < 0)
             {
-                Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+                Tag tag = await _tagRepository.Where(r => r.Id == id).ToOneAsync();
                 if (tag.ArticleCount < -inCreaseCount)
                 {
                     return;
@@ -167,7 +167,7 @@ namespace LinCms.Blog.Tags
                 return;
             }
 
-            Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            Tag tag = await _tagRepository.Where(r => r.Id == id).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("标签不存在", ErrorCode.NotFound);
@@ -178,7 +178,7 @@ namespace LinCms.Blog.Tags
         }
         public async Task CorrectedTagCountAsync(Guid tagId)
         {
-            long count = await _tagArticleRepository.Select.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).CountAsync();
+            long count = await _tagArticleRepository.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).CountAsync();
             await _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrowsAsync();
         }
 

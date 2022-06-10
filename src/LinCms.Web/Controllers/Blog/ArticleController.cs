@@ -8,7 +8,6 @@ using AutoMapper;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Classifys;
-using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -18,8 +17,6 @@ using LinCms.Security;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json;
 
 namespace LinCms.Controllers.Blog
 {
@@ -177,7 +174,7 @@ namespace LinCms.Controllers.Blog
         [HttpPut("audit/{id}")]
         public async Task<UnifyResponseDto> AuditAsync(Guid id, bool isAudit)
         {
-            Article article = await _articleRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            Article article = await _articleRepository.Where(r => r.Id == id).ToOneAsync();
             if (article == null)
             {
                 throw new LinCmsException("没有找到相关随笔");
