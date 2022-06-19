@@ -44,7 +44,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 郭注
         /// </summary>
-        [StringLength(500, ErrorMessage = "郭注应小于500字符")]
+        [StringLength(1000, ErrorMessage = "郭注应小于1000字符")]
         public string Guozhu { get; init; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 出处
         /// </summary>
-        [StringLength(20, ErrorMessage = "出处应小于20字符")]
+        [StringLength(40, ErrorMessage = "出处应小于40字符")]
         public string Provenance { get; init; }
 
         /// <summary>

@@ -33,6 +33,23 @@ namespace LinCms.Entities
         public string Path { get; set; }
 
         /// <summary>
+        /// 页面地址
+        /// </summary>
+        [Column(StringLength = 1000)]
+        public string ExecuteUrl { get; set; }
+        
+        /// <summary>
+        /// 执行参数
+        /// </summary>
+        [Column(StringLength = 2000)]
+        public string ExecuteParam { get; set; }
+
+        /// <summary>
+        /// 执行用时
+        /// </summary>
+        public int ExecuteTime { get; set; }
+
+        /// <summary>
         /// 请求的http返回码
         /// </summary>
         public int? StatusCode { get; set; }

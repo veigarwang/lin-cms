@@ -326,13 +326,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.LogController.GetUserLogs(LinCms.Cms.Logs.LogSearchDto)">
-            <summary>
-            日志搜素（人员，时间）（内容）， 分页展示
-            </summary>
-            <param name="searchDto"></param>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Controllers.Cms.LogController.GetSerilogListAsync(LinCms.Cms.Logs.SerilogSearchDto)">
             <summary>
             Serilog日志

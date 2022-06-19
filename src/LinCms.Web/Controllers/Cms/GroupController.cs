@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Groups;
 using LinCms.Data;
@@ -19,6 +20,7 @@ namespace LinCms.Controllers.Cms
             _groupService = groupService;
         }
 
+        [Logger("查询了所有权限组")]
         [HttpGet("all")]
         [LinCmsAuthorize("查询所有权限组", "管理员")]
         public Task<List<LinGroup>> GetListAsync()
@@ -34,6 +36,7 @@ namespace LinCms.Controllers.Cms
             return groupDto;
         }
 
+        [Logger("新增了一个权限组")]
         [HttpPost]
         [LinCmsAuthorize("新增权限组", "管理员")]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateGroupDto inputDto)
@@ -42,6 +45,7 @@ namespace LinCms.Controllers.Cms
             return UnifyResponseDto.Success("新增分组成功");
         }
 
+        [Logger("更新了一个权限组")]
         [HttpPut("{id}")]
         [LinCmsAuthorize("更新一个权限组", "管理员")]
         public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateGroupDto updateGroupDto)
@@ -50,6 +54,7 @@ namespace LinCms.Controllers.Cms
             return UnifyResponseDto.Success("更新分组成功");
         }
 
+        [Logger("删除了一个权限组")]
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除一个权限组", "管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)

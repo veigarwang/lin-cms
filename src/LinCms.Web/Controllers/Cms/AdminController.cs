@@ -31,6 +31,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
+        [Logger("查询了所有用户")]
         [HttpGet("users")]
         [LinCmsAuthorize("查询所有用户", "管理员")]
         public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery] UserSearchDto searchDto)
@@ -44,6 +45,7 @@ namespace LinCms.Controllers.Cms
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>
         /// <returns></returns>
+        [Logger("更新了用户信息")]
         [HttpPut("user/{id}")]
         [LinCmsAuthorize("管理员更新用户信息", "管理员")]
         public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateUserDto updateUserDto)
@@ -57,7 +59,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Logger("管理员删除了一个用户")]
+        [Logger("删除了一个用户")]
         [HttpDelete("user/{id}")]
         [LinCmsAuthorize("删除用户", "管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
@@ -76,6 +78,7 @@ namespace LinCms.Controllers.Cms
         /// <param name="id">用户id</param>
         /// <param name="resetPasswordDto"></param>
         /// <returns></returns>
+        [Logger("重置了用户密码")]
         [HttpPut("user/{id}/password")]
         [LinCmsAuthorize("修改用户密码", "管理员")]
         public async Task<UnifyResponseDto> ResetPasswordAsync(long id, [FromBody] ResetPasswordDto resetPasswordDto)

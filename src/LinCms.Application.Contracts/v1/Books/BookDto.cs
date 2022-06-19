@@ -6,6 +6,11 @@ namespace LinCms.v1.Books
     public class BookDto : EntityDto
     {
         /// <summary>
+        /// 版本号
+        /// </summary>
+        public int Version { get; init; }
+
+        /// <summary>
         /// 国际标准书号
         /// </summary>
         public string Isbn { get; set; }

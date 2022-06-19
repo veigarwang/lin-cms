@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.v1.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.v1
@@ -9,7 +11,7 @@ namespace LinCms.Controllers.v1
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("v1/book")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -18,6 +20,7 @@ namespace LinCms.Controllers.v1
             _bookService = bookService;
         }
 
+        [Logger("新增了一本书籍")]
         [LinCmsAuthorize("新增书籍", "书籍")]
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBookDto createBook)
@@ -26,6 +29,7 @@ namespace LinCms.Controllers.v1
             return UnifyResponseDto.Success("新增书籍成功");
         }
 
+        [Logger("删除了一本书籍")]
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除书籍", "书籍")]
         public async Task<UnifyResponseDto> DeleteAsync(int id)
@@ -35,6 +39,7 @@ namespace LinCms.Controllers.v1
 
         }
 
+        [Logger("更新了一本书籍")]
         [LinCmsAuthorize("更新书籍", "书籍")]
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
@@ -42,7 +47,7 @@ namespace LinCms.Controllers.v1
             await _bookService.UpdateAsync(id, updateBook);
             return UnifyResponseDto.Success("更新书籍成功");
         }
-               
+        
         [HttpGet("{id}")]
         public async Task<BookDto> GetAsync(int id)
         {
@@ -55,6 +60,7 @@ namespace LinCms.Controllers.v1
             return await _bookService.GetTotalAsync();
         }
 
+        [Logger("查询了书籍列表")]
         [HttpGet]
         public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
         {

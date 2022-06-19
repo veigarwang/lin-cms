@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Permissions;
 using LinCms.Data;
@@ -23,6 +24,7 @@ namespace LinCms.Controllers.Cms
         /// 查询所有可分配的权限
         /// </summary>
         /// <returns></returns>
+        [Logger("查询了所有可分配的权限")]
         [HttpGet]
         [LinCmsAuthorize("查询所有可分配的权限", "管理员")]
         public IDictionary<string, List<PermissionDto>> GetAllPermissions()
@@ -35,6 +37,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="permissionDto"></param>
         /// <returns></returns>
+        [Logger("删除了权限")]
         [HttpPost("remove")]
         [LinCmsAuthorize("删除多个权限", "管理员")]
         public async Task<UnifyResponseDto> RemovePermissions(RemovePermissionDto permissionDto)
@@ -48,6 +51,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="permissionDto"></param>
         /// <returns></returns>
+        [Logger("分配了权限")]
         [HttpPost("dispatch/batch")]
         [LinCmsAuthorize("分配多个权限", "管理员")]
         public async Task<UnifyResponseDto> DispatchPermissions(DispatchPermissionsDto permissionDto)

@@ -39,7 +39,7 @@ namespace LinCms.Controllers.Cms
         /// 登录接口
         /// </summary>
         /// <param name="loginInputDto">用户名/密码：admin/123qwe</param>
-        [DisableAuditing]
+        [Logger("{context.ActionArguments.loginInputDto.Username}登录后台系统")]
         [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("login")]
         public Task<Tokens> Login(LoginInputDto loginInputDto)
@@ -100,6 +100,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="sendEmailCode"></param>
         /// <returns></returns>
+        [Logger("发送了重置密码的验证码的邮件")]
         [HttpPost("account/send_password_reset_code")]
         public Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
         {
@@ -111,6 +112,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="resetPassword"></param>
         /// <returns></returns>
+        [Logger("修改了密码")]
         [HttpPost("account/reset_password")]
         public Task ResetPassword([FromBody] ResetEmailPasswordDto resetPassword)
         {

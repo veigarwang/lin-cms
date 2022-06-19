@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Settings;
 using LinCms.Data;
@@ -27,13 +28,15 @@ namespace LinCms.Controllers.Cms
             _settingRepository = settingRepository;
         }
 
-        [LinCmsAuthorize("得到所有设置", "设置")]
+        [Logger("查询了所有设置")]
+        [LinCmsAuthorize("查询所有设置", "设置")]
         [HttpGet]
         public async Task<PagedResultDto<SettingDto>> GetPagedListAsync([FromQuery] PageDto pageDto)
         {
             return await _settingService.GetPagedListAsync(pageDto);
         }
 
+        [Logger("删除了一个设置")]
         [LinCmsAuthorize("删除设置", "设置")]
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
@@ -41,6 +44,7 @@ namespace LinCms.Controllers.Cms
             await _settingRepository.DeleteAsync(id);
         }
 
+        [Logger("新增了一个设置")]
         [LinCmsAuthorize("新增设置", "设置")]
         [HttpPost]
         public async Task CreateAsync([FromBody] CreateUpdateSettingDto createSetting)
@@ -48,6 +52,7 @@ namespace LinCms.Controllers.Cms
             await _settingService.CreateAsync(createSetting);
         }
 
+        [Logger("修改了一个设置")]
         [LinCmsAuthorize("修改设置", "设置")]
         [HttpPut("{id}")]
         public async Task UpdateAsync(Guid id, [FromBody] CreateUpdateSettingDto updateSettingDto)

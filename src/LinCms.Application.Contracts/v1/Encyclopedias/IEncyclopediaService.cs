@@ -5,7 +5,7 @@ namespace LinCms.v1.Encyclopedias
 {
     public interface IEncyclopediaService
     {
-        Task CreateAsync(CreateUpdateEncyclopediaDto inputDto);
+        Task<int> CreateAsync(CreateUpdateEncyclopediaDto inputDto);
 
         Task DeleteAsync(long id);
 

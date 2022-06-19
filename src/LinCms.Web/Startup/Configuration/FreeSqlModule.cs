@@ -30,7 +30,8 @@ namespace LinCms.Startup.Configuration
                 .UseConnectionString(_configuration)
                 .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                 .UseAutoSyncStructure(true)
-                .UseNoneCommandParameter(true)
+                //.UseNoneCommandParameter(true)                
+                .UseGenerateCommandParameterWithLambda(true)
                 .UseMonitorCommand(cmd =>
                     {
                         Trace.WriteLine(cmd.CommandText + ";");

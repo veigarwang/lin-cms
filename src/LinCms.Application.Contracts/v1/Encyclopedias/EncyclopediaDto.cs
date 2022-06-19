@@ -6,6 +6,11 @@ namespace LinCms.v1.Encyclopedias
     public class EncyclopediaDto : EntityDto
     {
         /// <summary>
+        /// 版本号
+        /// </summary>
+        public int Version { get; init; }
+
+        /// <summary>
         /// 词条名称
         /// </summary>
         public string Name { get; init; }

@@ -19,6 +19,12 @@ namespace LinCms.v1.Encyclopedias
         private readonly IFileRepository _fileRepository;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
+        private enum CreateType
+        {
+            Insert,
+            Append
+        }
+
         public EncyclopediaService(IAuditBaseRepository<Encyclopedia> encyclopediaRepository, IAuditBaseRepository<BaseItem> baseItemRepository, IFileRepository fileRepository, IWebHostEnvironment hostingEnvironment)
         {
             _encyclopediaRepository = encyclopediaRepository;
@@ -27,9 +33,9 @@ namespace LinCms.v1.Encyclopedias
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task CreateAsync(CreateUpdateEncyclopediaDto createEncyclopedia)
+        public async Task<int> CreateAsync(CreateUpdateEncyclopediaDto createEncyclopedia)
         {
-            Encyclopedia exist = await _encyclopediaRepository.Where(r => r.Name == createEncyclopedia.Name || r.Alias.Contains(createEncyclopedia.Name)).ToOneAsync();
+            Encyclopedia exist = await _encyclopediaRepository.Where(r => (r.Name == createEncyclopedia.Name || r.Alias.Contains(createEncyclopedia.Name)) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
             if (exist != null)
             {
                 if (!string.IsNullOrEmpty(createEncyclopedia.Alias) && !string.IsNullOrEmpty(exist.Alias) && !exist.Alias.Contains(createEncyclopedia.Alias))
@@ -60,11 +66,13 @@ namespace LinCms.v1.Encyclopedias
 
                 await _encyclopediaRepository.UpdateAsync(exist);
                 //throw new LinCmsException("词条" + createEncyclopedia.Name + "已存在");
+                return CreateType.Append.ToInt32();
             }
             else
             {
                 Encyclopedia encyclopedia = Mapper.Map<Encyclopedia>(createEncyclopedia);
                 await _encyclopediaRepository.InsertAsync(encyclopedia);
+                return CreateType.Insert.ToInt32();
             }
         }
 
@@ -124,7 +132,7 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
 
             foreach (var encyclopedia in items)
             {

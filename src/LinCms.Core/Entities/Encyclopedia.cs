@@ -3,9 +3,15 @@ using System;
 
 namespace LinCms.Entities
 {
-    [Table(Name = "encyclopedia")]
+    [Table(Name = "encyclopedia", DisableSyncStructure = true)]
     public class Encyclopedia : FullAduitEntity
     {
+        /// <summary>
+        /// 版本号
+        /// </summary>
+        [Column(IsVersion = true)]
+        public int Version { get; set; }
+
         /// <summary>
         /// 词条名称
         /// </summary>
@@ -44,7 +50,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 郭注
         /// </summary>
-        [Column(StringLength = 500)]
+        [Column(StringLength = 1000)]
         public string Guozhu { get; set; } = string.Empty;
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 出处
         /// </summary>
-        [Column(StringLength = 20)]
+        [Column(StringLength = 40)]
         public string Provenance { get; set; } = string.Empty;
 
         /// <summary>
@@ -82,6 +88,7 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 1000)]
         public string Remarks { get; set; } = string.Empty;
+
     }
 
 }

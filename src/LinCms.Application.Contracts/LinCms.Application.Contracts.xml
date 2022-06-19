@@ -630,6 +630,11 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="P:LinCms.v1.Books.BookDto.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
         <member name="P:LinCms.v1.Books.BookDto.Isbn">
             <summary>
             国际标准书号
@@ -943,6 +948,11 @@
         <member name="P:LinCms.v1.Encyclopedias.CreateUpdateEncyclopediaDto.Remarks">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Version">
+            <summary>
+            版本号
             </summary>
         </member>
         <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Name">

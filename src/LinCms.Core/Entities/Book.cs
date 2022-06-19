@@ -7,6 +7,12 @@ namespace LinCms.Entities
     public class Book : FullAduitEntity
     {
         /// <summary>
+        /// 版本号
+        /// </summary>
+        [Column(IsVersion = true)]
+        public int Version { get; set; }
+
+        /// <summary>
         /// 国际标准书号
         /// </summary>        
         [Column(StringLength = 13)]

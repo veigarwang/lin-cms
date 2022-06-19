@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.v1.Encyclopedias;
@@ -18,14 +19,16 @@ namespace LinCms.Controllers.v1
             _encyclopediaService = encyclopediaService;
         }
 
+        [Logger("新增了一个词条")]
         [LinCmsAuthorize("新增词条", "山海百科")]
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateEncyclopediaDto createEncyclopedia)
         {
-            await _encyclopediaService.CreateAsync(createEncyclopedia);
-            return UnifyResponseDto.Success("新增词条成功");
+            int res = await _encyclopediaService.CreateAsync(createEncyclopedia);
+            return UnifyResponseDto.Success((res == 0 ? "新增" : "追加") + "词条成功");
         }
 
+        [Logger("删除了一个词条")]
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除词条", "山海百科")]
         public async Task<UnifyResponseDto> DeleteAsync(int id)
@@ -35,6 +38,7 @@ namespace LinCms.Controllers.v1
 
         }
 
+        [Logger("更新了一个词条")]
         [LinCmsAuthorize("更新词条", "山海百科")]
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateEncyclopediaDto updateEncyclopedia)
@@ -46,7 +50,8 @@ namespace LinCms.Controllers.v1
         [HttpGet("{id}")]
         public async Task<EncyclopediaDto> GetAsync(int id)
         {
-            return await _encyclopediaService.GetAsync(id);
+            var item = await _encyclopediaService.GetAsync(id);
+            return item;
         }
 
         [HttpGet("getTotal")]
@@ -55,6 +60,7 @@ namespace LinCms.Controllers.v1
             return await _encyclopediaService.GetTotalAsync();
         }
 
+        [Logger("查询了百科词条列表")]
         [HttpGet]
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync([FromQuery] PageDto pageDto)
         {
