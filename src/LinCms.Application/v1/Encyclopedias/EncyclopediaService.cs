@@ -90,28 +90,6 @@ namespace LinCms.v1.Encyclopedias
                 File.Delete(@url);
         }
 
-        public async Task<EncyclopediaDto> GetAsync(long id)
-        {
-            Encyclopedia encyclopedia = await _encyclopediaRepository.Where(a => a.Id == id).ToOneAsync();
-            if (encyclopedia == null)
-            {
-                throw new LinCmsException("指定词条不存在");
-            }
-            encyclopedia.Picture = _fileRepository.GetFileUrl(encyclopedia.Picture);
-            return Mapper.Map<EncyclopediaDto>(encyclopedia);
-        }
-
-        public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
-        {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
-
-            foreach (var encyclopedia in items)
-            {
-                encyclopedia.ItemTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 3 && p.ItemCode == encyclopedia.ItemType.ToString()).ToOne().ItemName;
-            }
-            return new PagedResultDto<EncyclopediaDto>(items, count);
-        }
-
         public async Task UpdateAsync(long id, CreateUpdateEncyclopediaDto updateEncyclopedia)
         {
             Encyclopedia encyclopedia = await _encyclopediaRepository.Where(r => r.Id == id).ToOneAsync();
