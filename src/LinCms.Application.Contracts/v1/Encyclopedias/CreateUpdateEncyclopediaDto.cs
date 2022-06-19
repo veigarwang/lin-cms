@@ -18,6 +18,7 @@ namespace LinCms.v1.Encyclopedias
         [StringLength(30, ErrorMessage = "读音应小于30字符")]
         public string Pronunciation { get; init; }
 
+
         /// <summary>
         /// 别名
         /// </summary>
