@@ -47,13 +47,16 @@ namespace LinCms.Controllers.v1
             await _bookService.UpdateAsync(id, updateBook);
             return UnifyResponseDto.Success("更新书籍成功");
         }
-        
+
+        [Logger("查看了书籍详情")]
         [HttpGet("{id}")]
+        [LinCmsAuthorize("查看书籍详情", "书籍")]
         public async Task<BookDto> GetAsync(int id)
         {
             return await _bookService.GetAsync(id);
         }
 
+        [DisableAuditing]
         [HttpGet("getTotal")]
         public async Task<long> GetTotalAsync()
         {
@@ -62,6 +65,7 @@ namespace LinCms.Controllers.v1
 
         [Logger("查询了书籍列表")]
         [HttpGet]
+        [LinCmsAuthorize("查询书籍列表", "书籍")]
         public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
         {
             return await _bookService.GetListAsync(pageDto);

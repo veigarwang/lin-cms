@@ -31,7 +31,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        [Logger("查询了所有用户")]
+        [Logger("查询了用户列表")]
         [HttpGet("users")]
         [LinCmsAuthorize("查询所有用户", "管理员")]
         public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery] UserSearchDto searchDto)

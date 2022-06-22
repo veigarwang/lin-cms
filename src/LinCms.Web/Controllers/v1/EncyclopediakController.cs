@@ -47,13 +47,16 @@ namespace LinCms.Controllers.v1
             return UnifyResponseDto.Success("更新词条成功");
         }
 
+        [Logger("查看了词条详情")]
         [HttpGet("{id}")]
+        [LinCmsAuthorize("查看百科词条详情", "山海百科")]
         public async Task<EncyclopediaDto> GetAsync(int id)
         {
             var item = await _encyclopediaService.GetAsync(id);
             return item;
         }
 
+        [DisableAuditing]
         [HttpGet("getTotal")]
         public async Task<long> GetTotalAsync()
         {
@@ -62,6 +65,7 @@ namespace LinCms.Controllers.v1
 
         [Logger("查询了百科词条列表")]
         [HttpGet]
+        [LinCmsAuthorize("查询百科词条列表", "山海百科")]
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync([FromQuery] PageDto pageDto)
         {
             return await _encyclopediaService.GetListAsync(pageDto);

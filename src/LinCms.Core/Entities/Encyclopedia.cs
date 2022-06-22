@@ -50,7 +50,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 郭注
         /// </summary>
-        [Column(StringLength = 1000)]
+        [Column(StringLength = 2000)]
         public string Guozhu { get; set; } = string.Empty;
 
         /// <summary>

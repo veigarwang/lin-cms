@@ -39,7 +39,7 @@ namespace LinCms.Controllers.Cms
         /// 日志浏览（人员，时间），分页展示
         /// </summary>
         /// <returns></returns>
-        [Logger("查询了日志")]
+        [Logger("查询了系统日志")]
         [HttpGet]
         [LinCmsAuthorize("查询所有日志", "日志")]
         public PagedResultDto<LinLog> GetLogs([FromQuery] LogSearchDto searchDto)
