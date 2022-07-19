@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DotNetCore.Security;
 using LinCms.Cms.Users;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Cms.Account
 {
+    [DisableConventionalRegistrationAttribute]
     public class JwtTokenService : ITokenService
     {
         private readonly IUserRepository _userRepository;
