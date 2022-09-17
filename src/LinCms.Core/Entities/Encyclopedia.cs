@@ -44,7 +44,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 原文
         /// </summary>
-        [Column(StringLength = 1000)]
+        [Column(StringLength = 3000)]
         public string OriginalText { get; set; } = string.Empty;
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 出处
         /// </summary>
-        [Column(StringLength = 40)]
+        [Column(StringLength = 100)]
         public string Provenance { get; set; } = string.Empty;
 
         /// <summary>

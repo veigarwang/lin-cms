@@ -35,20 +35,42 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<int> CreateAsync(CreateUpdateEncyclopediaDto createEncyclopedia)
         {
-            Encyclopedia exist = await _encyclopediaRepository.Where(r => (r.Name == createEncyclopedia.Name || r.Alias.Contains(createEncyclopedia.Name)) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+            Encyclopedia exist = await _encyclopediaRepository.Where(r => (r.Name == createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+            if (exist == null)
+                exist = await _encyclopediaRepository.Where(r => (r.Alias.Contains(createEncyclopedia.Name)) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
             if (exist != null)
             {
-                if (!string.IsNullOrEmpty(createEncyclopedia.Alias) && !string.IsNullOrEmpty(exist.Alias) && !exist.Alias.Contains(createEncyclopedia.Alias))
-                    exist.Alias += string.IsNullOrEmpty(exist.Alias) ? createEncyclopedia.Alias : "," + createEncyclopedia.Alias;
+                if (!string.IsNullOrEmpty(createEncyclopedia.Alias))
+                {
+                    if (string.IsNullOrEmpty(exist.Alias))
+                        exist.Alias = createEncyclopedia.Alias;
+                    else if (!exist.Alias.Contains(createEncyclopedia.Alias))
+                        exist.Alias += "," + createEncyclopedia.Alias;
+                }
 
-                if (!string.IsNullOrEmpty(createEncyclopedia.Explanation) && !string.IsNullOrEmpty(exist.Explanation) && !exist.Explanation.Contains(createEncyclopedia.Explanation))
-                    exist.Explanation += string.IsNullOrEmpty(exist.Explanation) ? createEncyclopedia.Explanation : "," + createEncyclopedia.Explanation;
+                if (!string.IsNullOrEmpty(createEncyclopedia.Explanation))
+                {
+                    if (string.IsNullOrEmpty(exist.Explanation))
+                        exist.Explanation = createEncyclopedia.Explanation;
+                    else if (!exist.Explanation.Contains(createEncyclopedia.Explanation))
+                        exist.Explanation += "," + createEncyclopedia.Explanation;
+                }
 
-                if (!string.IsNullOrEmpty(createEncyclopedia.Effect) && !string.IsNullOrEmpty(exist.Effect) && !exist.Effect.Contains(createEncyclopedia.Effect))
-                    exist.Effect += string.IsNullOrEmpty(exist.Effect) ? createEncyclopedia.Effect : "," + createEncyclopedia.Effect;
+                if (!string.IsNullOrEmpty(createEncyclopedia.Effect))
+                {
+                    if (string.IsNullOrEmpty(exist.Effect))
+                        exist.Effect = createEncyclopedia.Effect;
+                    else if (!exist.Effect.Contains(createEncyclopedia.Effect))
+                        exist.Effect += "," + createEncyclopedia.Effect;
+                }
 
-                if (!string.IsNullOrEmpty(createEncyclopedia.Provenance) && !string.IsNullOrEmpty(exist.Provenance) && !exist.Provenance.Contains(createEncyclopedia.Provenance))
-                    exist.Provenance += string.IsNullOrEmpty(exist.Provenance) ? createEncyclopedia.Provenance : "," + createEncyclopedia.Provenance;
+                if (!string.IsNullOrEmpty(createEncyclopedia.Provenance))
+                {
+                    if (string.IsNullOrEmpty(exist.Provenance))
+                        exist.Provenance = createEncyclopedia.Provenance;
+                    else if (!exist.Provenance.Contains(createEncyclopedia.Provenance))
+                        exist.Provenance += "," + createEncyclopedia.Provenance;
+                }
 
                 exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
 

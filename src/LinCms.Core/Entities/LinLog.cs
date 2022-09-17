@@ -41,7 +41,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 执行参数
         /// </summary>
-        [Column(StringLength = 2000)]
+        [Column(StringLength = -1)]
         public string ExecuteParam { get; set; }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 原文
         /// </summary>
-        [StringLength(1000, ErrorMessage = "原文应小于1000字符")]
+        [StringLength(3000, ErrorMessage = "原文应小于3000字符")]
         public string OriginalText { get; init; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 出处
         /// </summary>
-        [StringLength(40, ErrorMessage = "出处应小于40字符")]
+        [StringLength(100, ErrorMessage = "出处应小于100字符")]
         public string Provenance { get; init; }
 
         /// <summary>
