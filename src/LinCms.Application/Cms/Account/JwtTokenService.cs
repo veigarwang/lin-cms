@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DotNetCore.Security;
 using LinCms.Cms.Users;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Cms.Account
 {
+    [DisableConventionalRegistration]
     public class JwtTokenService : ITokenService
     {
         private readonly IUserRepository _userRepository;
@@ -41,6 +43,11 @@ namespace LinCms.Cms.Account
             if (user == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+            }
+
+            if (user.Active == UserStatus.NotActive)
+            {
+                throw new LinCmsException("用户未激活", ErrorCode.NoPermission);
             }
 
             bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);

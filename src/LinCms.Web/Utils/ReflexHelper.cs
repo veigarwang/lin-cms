@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FreeSql.DataAnnotations;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Entities;
@@ -207,25 +208,18 @@ namespace LinCms.Utils
         public static Type[] GetTypesByTableAttribute()
         {
             List<Type> tableAssembies = new List<Type>();
-            foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())
-            {
-                foreach (Attribute attribute in type.GetCustomAttributes())
-                {
-                    if (attribute is TableAttribute tableAttribute)
-                    {
-                        if (tableAttribute.DisableSyncStructure == false)
-                        {
-                            tableAssembies.Add(type);
-                        }
-                    }
-                }
-            };
+            var assembly = Assembly.GetAssembly(typeof(IEntity));
+            if (assembly == null) return new Type[0];
+
+            tableAssembies = assembly.GetExportedTypes()
+                .Where(t => t.GetCustomAttributes<TableAttribute>(false).FirstOrDefault()?.DisableSyncStructure == false)
+                .ToList();
+
             return tableAssembies.ToArray();
         }
 
         public static Type[] GetTypesByNameSpace()
         {
-            List<Type> tableAssembies = new List<Type>();
             List<string> entitiesFullName = new List<string>()
             {
                 "LinCms.Entities.Settings",
@@ -234,18 +228,15 @@ namespace LinCms.Utils
                 "LinCms.Entities.Lin",
                 "LinCms.Entities.Book",
             };
+            Assembly? assembly = Assembly.GetAssembly(typeof(IEntity));
+            if (assembly == null) return new Type[0];
+            List<Type> tableAssembies = assembly
+                .GetExportedTypes()
+                .Where(t =>
+                    entitiesFullName.Any(u => t.FullName != null && t.FullName.StartsWith(u) && t.IsClass)
+                )
+                .ToList();
 
-            foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())
-            {
-                foreach (var fullname in entitiesFullName)
-                {
-                    if (type.FullName.StartsWith(fullname) && type.IsClass)
-                    {
-                        tableAssembies.Add(type);
-                    }
-                }
-
-            }
             return tableAssembies.ToArray();
         }
     }

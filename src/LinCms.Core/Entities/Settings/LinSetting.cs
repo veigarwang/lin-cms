@@ -4,10 +4,10 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Settings
 {
     /// <summary>
-    /// all settings config
+    /// 配置项
     /// </summary>
     [Table(Name = "lin_settings")]
-    public class LinSetting : FullAduitEntity<Guid>
+    public class LinSetting : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 键

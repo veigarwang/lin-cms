@@ -5,7 +5,9 @@ using LinCms.Entities;
 
 namespace LinCms.Cms.Users
 {
-
+    /// <summary>
+    /// 用户对应多个身份体系
+    /// </summary>
     public interface IUserIdentityService
     {
         /// <summary>
@@ -34,7 +36,13 @@ namespace LinCms.Cms.Users
         /// <param name="salt"></param>
         Task ChangePasswordAsync(long userId, string newpassword, string salt);
 
+        /// <summary>
+        /// 根据用户Id删除绑定信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task DeleteAsync(long userId);
+
         /// <summary>
         /// 根据用户id得到密码模式的用户授权信息
         /// </summary>
@@ -42,8 +50,18 @@ namespace LinCms.Cms.Users
         /// <returns></returns>
         Task<LinUserIdentity> GetFirstByUserIdAsync(long userId);
 
+        /// <summary>
+        /// 根据用户Id获取第三方绑定信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<List<UserIdentityDto>> GetListAsync(long userId);
-        
+
+        /// <summary>
+        /// 解绑用户的第三方账号：当用户没有密码时，无法解绑最后一个账号,只可以解绑自己的账号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task UnBind(Guid id);
     }
 }
