@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Extras.DynamicProxy;
 using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Tags;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
-using LinCms.Middleware;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog
 {
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/tags")]
     [ApiController]
@@ -72,11 +71,11 @@ namespace LinCms.Controllers.Blog
         }
 
         /// <summary>
-        /// 标签-校正标签对应文章数量
+        /// 标签-校正标签对应随笔数量
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        [LinCmsAuthorize("校正文章数量", "标签管理")]
+        [LinCmsAuthorize("校正随笔数量", "标签管理")]
         [HttpPut("correct/{tagId}")]
         public async Task<UnifyResponseDto> CorrectedTagCountAsync(Guid tagId)
         {

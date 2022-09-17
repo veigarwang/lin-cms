@@ -10,7 +10,7 @@ namespace LinCms.Entities
     /// 用户
     /// </summary>
     [Table(Name = "lin_user")]
-    public class LinUser : FullAduitEntity
+    public class LinUser : FullAuditEntity
     {
         /// <summary>
         /// 用户名
@@ -38,7 +38,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
-        public UserActive Active { get; set; } = UserActive.Active;
+        public UserStatus Active { get; set; } = UserStatus.Active;
 
         /// <summary>
         /// 手机号
@@ -68,7 +68,15 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 200)]
         public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// 邮件是否激活
+        /// </summary>
         public bool IsEmailConfirmed { get; set; } = false;
+
+        /// <summary>
+        /// 密码重置码（非验证码，用于验证是否是同一个浏览器请求）
+        /// </summary>
         public string PasswordResetCode { get; set; }
 
         /// <summary>
@@ -89,12 +97,12 @@ namespace LinCms.Entities
 
         public void SetNewPasswordResetCode()
         {
-            this.PasswordResetCode = Guid.NewGuid().ToString("N").Truncate(328);
+            PasswordResetCode = Guid.NewGuid().ToString("N").Truncate(328);
         }
 
         public bool IsActive()
         {
-            return Active == UserActive.Active;
+            return Active == UserStatus.Active;
         }
 
         /// <summary>

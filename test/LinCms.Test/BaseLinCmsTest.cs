@@ -17,7 +17,7 @@ namespace LinCms.Test
         protected TestServer Server { get; }
         protected HttpClient Client { get; }
         protected IServiceProvider ServiceProvider { get; }
-        public static Microsoft.Extensions.Configuration.IConfiguration Configuration { get; } = new ConfigurationBuilder()
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
@@ -47,7 +47,7 @@ namespace LinCms.Test
                   .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                   .ConfigureWebHostDefaults(webBuilder =>
                   {
-                      webBuilder.UseStartup<Startup.Startup>().UseEnvironment("Development");
+                      //webBuilder.UseStartup<Startup.Startup>().UseEnvironment("Development");
                       webBuilder.UseTestServer();
                   })
                   .ConfigureLogging(logging =>
@@ -65,12 +65,12 @@ namespace LinCms.Test
 
         public T GetService<T>()
         {
-            return this.ServiceProvider.GetService<T>();
+            return ServiceProvider.GetService<T>();
         }
 
-        public  T GetRequiredService<T>()
+        public T GetRequiredService<T>()
         {
-            return this.ServiceProvider.GetRequiredService<T>();
+            return ServiceProvider.GetRequiredService<T>();
         }
 
     }

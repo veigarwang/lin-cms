@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Autofac;
 using LinCms.Cms.Files;
 using LinCms.Data.Options;
 using LinCms.Exceptions;
@@ -7,12 +10,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/file")]
     [ApiController]
@@ -44,7 +47,7 @@ namespace LinCms.Controllers.Cms
             foreach (var file in files)
             {
                 len += file.Length;
-                this.ValidFile(file);
+                ValidFile(file);
             }
 
             if (len > _fileStorageOption.MaxFileSize)
@@ -76,7 +79,7 @@ namespace LinCms.Controllers.Cms
                 throw new LinCmsException($"The request couldn't be processed (Error 1).");
             }
 
-            this.ValidFile(file);
+            ValidFile(file);
             return _fileService.UploadAsync(file, key);
         }
 

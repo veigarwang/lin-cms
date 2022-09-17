@@ -1,4 +1,9 @@
-﻿using FreeSql;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Controllers.Cms;
 using LinCms.Data;
@@ -6,11 +11,6 @@ using LinCms.FreeSql;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -92,7 +92,7 @@ namespace LinCms.Test
         [Fact]
         public void GetAssemblyMethodsAttributes()
         {
-            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.ServiceCollectionExtensions).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(r =>
@@ -118,7 +118,7 @@ namespace LinCms.Test
         [Fact]
         public void GetControllerAttributes()
         {
-            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.ServiceCollectionExtensions).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>

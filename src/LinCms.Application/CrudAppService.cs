@@ -10,14 +10,14 @@ namespace LinCms
 {
     public abstract class CrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput,
             TUpdateInput>
-        : ApplicationService,ICrudAppService<TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
+        : ApplicationService, ICrudAppService<TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
         where TEntity : class, IEntity<TKey>
         where TGetOutputDto : IEntityDto<TKey>
         where TGetListOutputDto : IEntityDto<TKey>
     {
-        protected  IAuditBaseRepository<TEntity, TKey> Repository { get; }
+        protected IAuditBaseRepository<TEntity, TKey> Repository { get; }
 
-        protected CrudAppService(IAuditBaseRepository<TEntity, TKey>repository)
+        protected CrudAppService(IAuditBaseRepository<TEntity, TKey> repository)
         {
             Repository = repository;
         }
@@ -100,14 +100,8 @@ namespace LinCms
             return Mapper.Map<TGetOutputDto>(entity);
         }
 
-        public virtual async Task DeleteAsync(TKey id)
-        {
-            await Repository.DeleteAsync(id);
-        }
+        public virtual Task DeleteAsync(TKey id) => Repository.DeleteAsync(id);
 
-        protected virtual async Task<TEntity> GetEntityByIdAsync(TKey id)
-        {
-            return await Repository.GetAsync(id);
-        }
+        protected virtual Task<TEntity> GetEntityByIdAsync(TKey id) => Repository.GetAsync(id);
     }
 }

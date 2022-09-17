@@ -1,4 +1,8 @@
-﻿using LinCms.Data.Options;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
+using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.SnakeCaseQuery;
@@ -12,15 +16,18 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace LinCms.Startup
 {
     public static class SwaggerExtensions
     {
+        #region AddSwaggerGen
+        /// <summary>
+        /// Swagger 扩展方法配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        /// <exception cref="LinCmsException"></exception>
         public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
         {
             //解决  https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1349#issuecomment-572537295
@@ -57,6 +64,8 @@ namespace LinCms.Startup
                 });
 
                 options.SwaggerDoc("cms", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "cms" });
+                options.SwaggerDoc("base", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "base" });
+                options.SwaggerDoc("blog", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "blog" });
 
                 //添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
@@ -79,7 +88,7 @@ namespace LinCms.Startup
                     Name = "Authorization", //jwt默认的参数名称
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
-                    
+
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
@@ -132,7 +141,7 @@ namespace LinCms.Startup
 
                 try
                 {
-                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Program).Assembly.GetName().Name}.xml");
                     options.IncludeXmlComments(xmlPath, true);
                     //实体层的xml文件名
                     string xmlEntityPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IEntity).Assembly.GetName().Name}.xml");
@@ -146,24 +155,26 @@ namespace LinCms.Startup
                     Log.Logger.Warning(ex.Message);
                 }
 
-                //options.AddServer(new OpenApiServer()
-                //{
-                //    Url = "https://localhost:5001",
-                //    Description = "本地"
-                //}); ;
-                //options.AddServer(new OpenApiServer()
-                //{
-                //    Url = "https://api.igeekfan.cn",
-                //    Description = "服务端"
-                //});
+                options.AddServer(new OpenApiServer()
+                {
+                    Url = "https://localhost:5001",
+                    Description = "本地"
+                }); ;
+                options.AddServer(new OpenApiServer()
+                {
+                    Url = "https://api.igeekfan.cn",
+                    Description = "服务端"
+                });
 
                 options.CustomOperationIds(apiDesc =>
                 {
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                    return $"{controllerAction.ControllerName}-{controllerAction.ActionName}-{ controllerAction.GetHashCode()}";
+                    if (controllerAction == null) return Guid.NewGuid().ToString();
+                    return $"{controllerAction.ControllerName}-{controllerAction.ActionName}";//-{controllerAction.GetHashCode()}
                 });
             });
             return services;
         }
+        #endregion
     }
 }

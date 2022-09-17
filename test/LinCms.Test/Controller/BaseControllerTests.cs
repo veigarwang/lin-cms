@@ -24,7 +24,7 @@ namespace LinCms.Test.Controller
         {
             _configuration = GetService<IConfiguration>();
 
-            var builder = this.CreateHostBuilder(); ;
+            var builder = CreateHostBuilder(); ;
             IdentityServer = new TestServer(builder)
             {
                 BaseAddress = new Uri("https://localhost:5003")
@@ -37,7 +37,8 @@ namespace LinCms.Test.Controller
             return WebHost.CreateDefaultBuilder()
                             .UseEnvironment("Development")
                             .UseUrls("https://*:5003")
-                            .UseStartup<IdentityServer4.Startup>();
+                            //.UseStartup<IdentityServer4.Startup>()
+                            ;
         }
 
         public async Task HttpClientResourePassword()

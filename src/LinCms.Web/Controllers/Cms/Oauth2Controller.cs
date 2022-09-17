@@ -24,6 +24,9 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 第三方登录
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/oauth2")]
     [ApiController]
@@ -33,9 +36,9 @@ namespace LinCms.Controllers.Cms
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
         private readonly IUserRepository _userRepository;
-        private readonly IJsonWebTokenService _jsonWebTokenService;
+        private readonly IJwtService _jsonWebTokenService;
         private readonly IComponentContext _componentContext;
-        public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService, IComponentContext componentContext)
+        public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJwtService jsonWebTokenService, IComponentContext componentContext)
         {
             _userCommunityService = userCommunityService;
             _logger = logger;
@@ -81,10 +84,15 @@ namespace LinCms.Controllers.Cms
 
             long id = await oAuth2Service.SaveUserAsync(authenticateResult.Principal, openIdClaim.Value);
 
+            if (authenticateResult.Principal == null) throw new LinCmsException("无法获取第三方授权信息");
+
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
-                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
+            LinUser user = await _userRepository.Select
+                .IncludeMany(r => r.LinGroups)
+                .WhereCascade(r => r.IsDeleted == false)
+                .Where(r => r.Id == id)
+                .FirstAsync();
 
             if (user == null)
             {
@@ -184,10 +192,10 @@ namespace LinCms.Controllers.Cms
             {
                 return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
             }
-            long userId = long.Parse(nameIdentifier);
+            long userId = long.Parse(nameIdentifier ?? "0");
             UnifyResponseDto unifyResponseDto;
 
-            List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
+            List<string> supportProviders = new() { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
 
             if (!supportProviders.Contains(provider))
             {
@@ -207,7 +215,7 @@ namespace LinCms.Controllers.Cms
         /// 第三方账号绑定，需要把token值传过来，用于与当前登录人绑定起来
         /// </summary>
         /// <param name="provider">GitHub/Gitee/QQ</param>
-        /// <param name="redirectUrl">http://localhost:8081/   http://vvlog.baimocore.cn/</param>
+        /// <param name="redirectUrl">http://localhost:8081/   http://vvlog.igeekfan.cn/</param>
         /// <param name="token">Bearer {Token}</param>
         /// <returns></returns>
 
@@ -247,12 +255,12 @@ namespace LinCms.Controllers.Cms
         }
 
         [HttpGet("signout")]
-        public IActionResult SignOut()
+        public new IActionResult SignOut()
         {
             // Instruct the cookies middleware to delete the local cookie created
             // when the user agent is redirected from the external identity provider
             // after a successful authentication flow (e.g Google or Facebook).
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+            return base.SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         /// <summary>
@@ -265,7 +273,7 @@ namespace LinCms.Controllers.Cms
         {
             AuthenticateResult authenticateResult = await HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;
-            Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            Claim? openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
 
         }
@@ -293,7 +301,7 @@ namespace LinCms.Controllers.Cms
         }
 
         /// <summary>
-        /// 解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
+        /// 解绑用户的第三方账号：当用户没有密码时，无法解绑最后一个账号,只可以解绑自己的账号
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

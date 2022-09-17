@@ -1,15 +1,17 @@
-﻿using AspNet.Security.OAuth.GitHub;
-using LinCms.Common;
-using LinCms.Data.Enums;
-using LinCms.Entities;
-using LinCms.IRepositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.GitHub;
+using LinCms.Common;
+using LinCms.Data.Enums;
+using LinCms.Dependency;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
+    [DisableConventionalRegistration]
     public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
@@ -44,9 +46,9 @@ namespace LinCms.Cms.Users
                 string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
                 string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
 
-                LinUser user = new LinUser
+                LinUser user = new()
                 {
-                    Active = UserActive.Active,
+                    Active = UserStatus.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,

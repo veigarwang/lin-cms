@@ -1,15 +1,19 @@
-﻿using LinCms.Aop.Filter;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using LinCms.Aop.Filter;
 using LinCms.Cms.Settings;
 using LinCms.Data;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {
+
+    /// <summary>
+    /// 设置
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/settings")]
     [ApiController]

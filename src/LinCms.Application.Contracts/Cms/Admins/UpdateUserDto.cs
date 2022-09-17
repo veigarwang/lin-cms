@@ -1,6 +1,5 @@
-﻿using LinCms.Data.Enums;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using LinCms.Data.Enums;
 
 namespace LinCms.Cms.Admins
 {
@@ -9,7 +8,7 @@ namespace LinCms.Cms.Admins
         public string Email { get; set; }
         public string Nickname { get; set; }
         public string Username { get; set; }
-        public UserActive Active { get; set; }
+        public UserStatus Active { get; set; }
         public List<long> GroupIds { get; set; }
     }
 }

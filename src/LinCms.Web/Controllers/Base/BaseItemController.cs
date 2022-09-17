@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using LinCms.Aop.Filter;
 using LinCms.Base.BaseItems;
 using LinCms.Data;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Base
 {
+    /// <summary>
+    /// 数据字典-详情项
+    /// </summary>
+    [ApiExplorerSettings(GroupName = "base")]
     [Area("base")]
     [Route("api/base/item")]
     [ApiController]

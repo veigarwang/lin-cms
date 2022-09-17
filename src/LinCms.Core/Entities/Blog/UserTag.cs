@@ -3,8 +3,11 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    /// 用户关注的标签
+    /// </summary>
     [Table(Name = "blog_user_tag")]
-    public class UserTag : Entity<Guid>,ICreateAduitEntity
+    public class UserTag : Entity<Guid>, ICreateAuditEntity
     {
         public Guid TagId { get; set; }
 

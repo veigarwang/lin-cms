@@ -8,12 +8,12 @@ namespace LinCms.Entities.Blog
     /// 技术频道，官方分类。标签的分类。
     /// </summary>
     [Table(Name = "blog_channel")]
-    public class Channel : FullAduitEntity<Guid>
+    public class Channel : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 封面图
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string Thumbnail { get; set; }
 
         /// <summary>
@@ -31,14 +31,15 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 编码
         /// </summary>
-         [Column(StringLength = 50)]
+        [Column(StringLength = 50)]
         public string ChannelCode { get; set; }
 
         /// <summary>
         /// 备注描述
         /// </summary>
-         [Column(StringLength =500)]
+        [Column(StringLength = 500)]
         public string Remark { get; set; }
+
         /// <summary>
         /// 是否有效
         /// </summary>

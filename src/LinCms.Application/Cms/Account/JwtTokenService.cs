@@ -1,26 +1,28 @@
-﻿using DotNetCore.Security;
-using LinCms.Cms.Account;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using DotNetCore.Security;
+using LinCms.Cms.Users;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace LinCms.Cms.Users
+namespace LinCms.Cms.Account
 {
+    [DisableConventionalRegistration]
     public class JwtTokenService : ITokenService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserIdentityService _userIdentityService;
         private readonly ILogger<JwtTokenService> _logger;
-        private readonly IJsonWebTokenService _jsonWebTokenService;
+        private readonly IJwtService _jsonWebTokenService;
 
-        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService)
+        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJwtService jsonWebTokenService)
         {
             _userRepository = userRepository;
             _logger = logger;
@@ -41,6 +43,11 @@ namespace LinCms.Cms.Users
             if (user == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+            }
+
+            if (user.Active == UserStatus.NotActive)
+            {
+                throw new LinCmsException("用户未激活", ErrorCode.NoPermission);
             }
 
             bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);
@@ -79,7 +86,7 @@ namespace LinCms.Cms.Users
 
         private async Task<Tokens> CreateTokenAsync(LinUser user)
         {
-            List<Claim> claims = new List<Claim>()
+            List<Claim> claims = new()
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (ClaimTypes.Email, user.Email?? ""),

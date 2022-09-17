@@ -1,14 +1,11 @@
 ﻿using FreeSql.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LinCms.Entities.Base
 {
     /// <summary>
     /// 文档---示例代码生成。
     /// </summary>
-    public class Doc : FullAduitEntity
+    public class Doc : FullAuditEntity
     {
         /// <summary>
         /// 文档名

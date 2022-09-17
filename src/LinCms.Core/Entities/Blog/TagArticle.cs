@@ -3,8 +3,11 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    /// 随笔标签
+    /// </summary>
     [Table(Name = "blog_tag_article")]
-    public class TagArticle:Entity<Guid>
+    public class TagArticle : Entity<Guid>
     {
         public Guid TagId { get; set; }
 

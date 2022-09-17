@@ -2,7 +2,6 @@
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using LinCms.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +25,7 @@ namespace LinCms.Data.Authorization
             //检查是否登录
             AuthorizationFilterContext? filterContext = context.Resource as AuthorizationFilterContext;
             DefaultHttpContext? defaultHttpContext = context.Resource as DefaultHttpContext;
-            if (!context.User.Identity.IsAuthenticated)
+            if (context.User.Identity == null || !context.User.Identity.IsAuthenticated)
             {
                 HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登陆", ErrorCode.AuthenticationFailed);
                 context.Fail();
@@ -34,7 +33,7 @@ namespace LinCms.Data.Authorization
             }
 
             // 检查 jti 是否在黑名单
-            string? jti = await _contextAccessor.HttpContext.GetTokenAsync("Bearer", "access_token");
+            string? jti = _contextAccessor.HttpContext != null ? await _contextAccessor.HttpContext.GetTokenAsync("Bearer", "access_token") : null;
             var tokenExists = _blackRecordRepository.Where(r => r.Jti == jti).Any();
             if (tokenExists)
             {

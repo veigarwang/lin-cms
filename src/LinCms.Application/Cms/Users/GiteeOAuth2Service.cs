@@ -1,15 +1,17 @@
-﻿using AspNet.Security.OAuth.Gitee;
-using LinCms.Common;
-using LinCms.Data.Enums;
-using LinCms.Entities;
-using LinCms.IRepositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Gitee;
+using LinCms.Common;
+using LinCms.Data.Enums;
+using LinCms.Dependency;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
+    [DisableConventionalRegistration]
     public class GiteeOAuth2Service : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
@@ -40,9 +42,9 @@ namespace LinCms.Cms.Users
                 string bio = principal.FindFirst("urn:gitee:bio")?.Value;
                 string htmlUrl = principal.FindFirst("urn:gitee:html_url")?.Value;
 
-                LinUser user = new LinUser
+                LinUser user = new()
                 {
-                    Active = UserActive.Active,
+                    Active = UserStatus.Active,
                     Avatar = avatarUrl,
                     LastLoginTime = DateTime.Now,
                     Email = email,

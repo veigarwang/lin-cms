@@ -4,12 +4,13 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_notification")]
-    public class Notification : FullAduitEntity<Guid>
+    public class Notification : FullAuditEntity<Guid>
     {
         /// <summary>
-        /// 消息类型
+        /// 消息通知
         /// </summary>
         public NotificationType NotificationType { get; set; }
+
         /// <summary>
         /// 默认消息未读
         /// </summary>
@@ -38,8 +39,9 @@ namespace LinCms.Entities.Blog
         /// </summary>
         [Navigate("CommentId")]
         public Comment CommentEntry { get; set; }
+
         /// <summary>
-        /// 文章内容
+        /// 随笔内容
         /// </summary>
         [Navigate("ArticleId")]
         public Article ArticleEntry { get; set; }
@@ -54,7 +56,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 用户点赞随笔上的评论
         /// </summary>
-        UserLikeArticleComment=1,
+        UserLikeArticleComment = 1,
         /// <summary>
         /// 用户评论随笔
         /// </summary>

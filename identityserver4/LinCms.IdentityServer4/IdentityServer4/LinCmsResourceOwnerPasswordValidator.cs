@@ -1,11 +1,12 @@
-﻿using IdentityModel;
+﻿using System;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Cms.Users;
+using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.IdentityServer4
 {
@@ -35,6 +36,12 @@ namespace LinCms.IdentityServer4.IdentityServer4
             if (user == null)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户不存在");
+                return;
+            }
+
+            if (user.Active == UserStatus.NotActive)
+            {
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户未激活");
                 return;
             }
 

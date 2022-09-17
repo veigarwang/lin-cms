@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Aop.Attributes;
 using LinCms.Data;
 using LinCms.Entities.Blog;
@@ -26,10 +25,6 @@ namespace LinCms.Blog.Channels
             _fileRepository = fileRepository;
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            await _channelRepository.DeleteAsync(new Channel { Id = id });
-        }
 
         public async Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto)
         {
@@ -53,7 +48,7 @@ namespace LinCms.Blog.Channels
         public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
         {
             List<NavChannelListDto> channel = (await _channelRepository.Select
-                    .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                    .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
                     .OrderByDescending(r => r.SortCode)
                     .OrderBy(r => r.CreateTime)
                     .ToPagerListAsync(pageDto, out long totalCount))
@@ -117,7 +112,11 @@ namespace LinCms.Blog.Channels
             var channelTagLists = new List<ChannelTag>();
             updateChannel.TagIds?.ForEach(r => { channelTagLists.Add(new ChannelTag(id, r)); });
             await _channelTagRepository.InsertAsync(channelTagLists);
+        }
 
+        public Task DeleteAsync(Guid id)
+        {
+            return _channelRepository.DeleteAsync(new Channel { Id = id });
         }
     }
 }

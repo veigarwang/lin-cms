@@ -19,9 +19,9 @@ namespace LinCms.Startup
 {
     public static class JwtExtensions
     {
-        public static JsonWebTokenSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
+        public static JwtSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
         {
-            JsonWebTokenSettings jsonWebTokenSettings = new JsonWebTokenSettings(
+            JwtSettings jsonWebTokenSettings = new JwtSettings(
                            configuration["Authentication:JwtBearer:SecurityKey"],
                            new TimeSpan(1, 0, 0, 0),
                            configuration["Authentication:JwtBearer:Audience"],
@@ -29,13 +29,13 @@ namespace LinCms.Startup
                        );
             services.AddHashService();
             services.AddICryptographyService("lin-cms-dotnetcore-cryptography");
-            services.AddJsonWebTokenService(jsonWebTokenSettings);
+            services.AddJwtService(jsonWebTokenSettings);
             return jsonWebTokenSettings;
         }
 
-        public static void AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
         {
-            JsonWebTokenSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
+            JwtSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
 
             //基于策略 处理 退出登录 黑名单策略 授权
             services.AddAuthorization(options =>
@@ -49,6 +49,10 @@ namespace LinCms.Startup
                 // If no policy specified, use this
                 options.DefaultPolicy = defaultPolicy;
             });
+
+            services.Configure<BasicAuthenticationOption>(Configuration.GetSection("Basic"));
+            BasicAuthenticationOption basicOption = new BasicAuthenticationOption();
+            Configuration.Bind("Basic", basicOption);
 
             //认证
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//使用指定的方案启用 JWT 持有者身份验证。
@@ -178,8 +182,15 @@ namespace LinCms.Startup
                    //options.Scope.Add("enterprises");
 
                    options.SaveTokens = true;
-               });
+               })
+               .AddScheme<BasicAuthenticationOption, BasicAuthenticationHandler>(BasicAuthenticationScheme.DefaultScheme, r =>
+                {
+                    r.UserName = basicOption.UserName;
+                    r.UserPassword = basicOption.UserPassword;
+                    r.Realm = basicOption.Realm;
+                });
 
+            return services;
         }
     }
 }

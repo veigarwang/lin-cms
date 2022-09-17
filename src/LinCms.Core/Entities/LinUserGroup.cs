@@ -2,6 +2,9 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 用户分组中间表
+    /// </summary>
     [Table(Name = "lin_user_group")]
     public class LinUserGroup : Entity<long>
     {
@@ -19,9 +22,9 @@ namespace LinCms.Entities
         public long GroupId { get; set; }
 
         [Navigate("UserId")]
-        public  LinUser LinUser { get; set; }
+        public LinUser LinUser { get; set; }
 
         [Navigate("GroupId")]
-        public  LinGroup LinGroup { get; set; }
+        public LinGroup LinGroup { get; set; }
     }
 }

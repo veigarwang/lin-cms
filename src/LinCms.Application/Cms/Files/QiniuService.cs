@@ -1,5 +1,10 @@
-﻿using LinCms.Common;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using LinCms.Common;
 using LinCms.Data.Options;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -8,13 +13,10 @@ using Microsoft.Extensions.Options;
 using Qiniu.Http;
 using Qiniu.Storage;
 using Qiniu.Util;
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Files
 {
+    [DisableConventionalRegistration]
     public class QiniuService : IFileService
     {
         private readonly IAuditBaseRepository<LinFile> _fileRepository;
@@ -28,8 +30,8 @@ namespace LinCms.Cms.Files
 
         private string GetAccessToken()
         {
-            Mac mac = new Mac(_fileStorageOption.Qiniu.AK, _fileStorageOption.Qiniu.SK);
-            PutPolicy putPolicy = new PutPolicy { Scope = _fileStorageOption.Qiniu.Bucket };
+            Mac mac = new(_fileStorageOption.Qiniu.AK, _fileStorageOption.Qiniu.SK);
+            PutPolicy putPolicy = new() { Scope = _fileStorageOption.Qiniu.Bucket };
             return Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
         }
 
@@ -45,7 +47,7 @@ namespace LinCms.Cms.Files
                 throw new LinCmsException("文件为空");
             }
 
-            FormUploader upload = new FormUploader(new Config()
+            FormUploader upload = new(new Config()
             {
                 Zone = Zone.ZONE_CN_South,
                 UseHttps = _fileStorageOption.Qiniu.UseHttps
@@ -81,9 +83,9 @@ namespace LinCms.Cms.Files
                 };
             }
 
-            string path = this.QiniuUpload(file);
+            string path = QiniuUpload(file);
 
-            LinFile saveLinFile = new LinFile()
+            LinFile saveLinFile = new()
             {
                 Extension = Path.GetExtension(file.FileName),
                 Md5 = md5,

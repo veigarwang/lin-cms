@@ -1,12 +1,12 @@
-﻿using DotNetCore.Security;
-using FreeSql;
-using LinCms.Entities.Base;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using DotNetCore.Security;
+using FreeSql;
+using LinCms.Entities.Base;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,13 +16,13 @@ namespace LinCms.Test
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly IFreeSql freeSql;
-        private readonly IJsonWebTokenService jsonWebTokenService;
+        private readonly IJwtService jsonWebTokenService;
         private readonly ICryptographyService _cryptographyService;
         public LinCmsTest(ITestOutputHelper testOut)
         {
             _testOutputHelper = testOut;
             freeSql = GetService<IFreeSql>();
-            jsonWebTokenService = GetService<IJsonWebTokenService>();
+            jsonWebTokenService = GetService<IJwtService>();
             _cryptographyService = GetService<ICryptographyService>();
         }
 

@@ -1,4 +1,8 @@
-﻿using DotNetCore.Security;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DotNetCore.Security;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Groups;
@@ -10,10 +14,6 @@ using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
@@ -41,6 +41,7 @@ namespace LinCms.Cms.Users
         {
             long currentUserId = CurrentUser.Id ?? 0;
             LinUser user = await _userRepository.Where(r => r.Id == currentUserId).FirstAsync();
+           
             bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
             if (!valid)
             {
@@ -178,7 +179,7 @@ namespace LinCms.Cms.Users
             await _groupService.AddUserGroupAsync(id, addIds);
         }
 
-        public async Task ChangeStatusAsync(long id, UserActive userActive)
+        public async Task ChangeStatusAsync(long id, UserStatus userStatus)
         {
             LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
 
@@ -187,18 +188,18 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            if (user.IsActive() && userActive == UserActive.Active)
+            if (user.IsActive() && userStatus == UserStatus.Active)
             {
                 throw new LinCmsException("当前用户已处于禁止状态");
             }
 
-            if (!user.IsActive() && userActive == UserActive.NotActive)
+            if (!user.IsActive() && userStatus == UserStatus.NotActive)
             {
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
             await _userRepository.UpdateDiy.Where(r => r.Id == id)
-                                           .Set(r => new { Active = userActive.GetHashCode() })
+                                           .Set(r => new { Active = userStatus.GetHashCode() })
                                            .ExecuteUpdatedAsync();
         }
 
@@ -228,7 +229,7 @@ namespace LinCms.Cms.Users
 
         public async Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId)
         {
-            List<LinPermission> permissions = await GetUserPermissions(userId);
+            List<LinPermission> permissions = await GetUserPermissionsAsync(userId);
             return _permissionService.StructuringPermissions(permissions);
         }
 
@@ -237,7 +238,7 @@ namespace LinCms.Cms.Users
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<LinPermission>> GetUserPermissions(long userId)
+        public async Task<List<LinPermission>> GetUserPermissionsAsync(long userId)
         {
             LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
             List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();

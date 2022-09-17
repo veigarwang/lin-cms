@@ -5,11 +5,14 @@ using LinCms.Exceptions;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    /// 随笔
+    /// </summary>
     [Table(Name = "blog_article")]
-    public class Article : FullAduitEntity<Guid>
+    public class Article : FullAuditEntity<Guid>
     {
         /// <summary>
-        /// 文章所在分类专栏Id
+        /// 随笔所在分类专栏Id
         /// </summary>
         public Guid? ClassifyId { get; set; }
 
@@ -45,9 +48,12 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 正文
         /// </summary>
-        [Column(StringLength =-2)]
+        [Column(StringLength = -2)]
         public string Content { get; set; }
 
+        /// <summary>
+        /// 浏览量
+        /// </summary>
         public int ViewHits { get; set; }
 
         /// <summary>
@@ -117,7 +123,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 随笔是否开启评论
         /// </summary>
-        public bool Commentable { get; set; } = true;                                                                   
+        public bool Commentable { get; set; } = true;
 
         public virtual Classify Classify { get; set; }
 
@@ -135,14 +141,14 @@ namespace LinCms.Entities.Blog
 
         public void IncreaseViewHits()
         {
-            this.ViewHits += 1;
+            ViewHits += 1;
         }
 
         public void UpdateLikeQuantity(int likesQuantity)
         {
             if (IsAudit == false)
             {
-                throw new LinCmsException("该文章因违规被拉黑");
+                throw new LinCmsException("该随笔因违规被拉黑");
             }
 
             if (likesQuantity < 0)
@@ -154,7 +160,7 @@ namespace LinCms.Entities.Blog
                 }
             }
 
-            this.LikesQuantity += likesQuantity;
+            LikesQuantity += likesQuantity;
         }
     }
 

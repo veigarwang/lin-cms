@@ -2,31 +2,34 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [Table(Name = "lin_file")]
-    public class LinFile : FullAduitEntity
+    public class LinFile : FullAuditEntity
     {
         /// <summary>
-        /// 后缀
+        /// 文件后缀
         /// </summary>
-         [Column(StringLength = 50)]
+        [Column(StringLength = 50)]
         public string Extension { get; set; } = string.Empty;
 
         /// <summary>
         /// 图片md5值，防止上传重复图片
         /// </summary>
-         [Column(StringLength =40)]
+        [Column(StringLength = 40)]
         public string Md5 { get; set; } = string.Empty;
 
         /// <summary>
         /// 名称
         /// </summary>
-         [Column(StringLength =300)]
+        [Column(StringLength = 300)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// 路径
         /// </summary>
-         [Column(StringLength =500)]
+        [Column(StringLength = 500)]
         public string Path { get; set; } = string.Empty;
 
         /// <summary>
@@ -39,8 +42,8 @@ namespace LinCms.Entities
         /// </summary>
         public short? Type { get; set; }
 
-        public static string LocalFileService = "LocalFileService";
-        public static string QiniuService = "QiniuService";
+        public const string LocalFileService = "LocalFileService";
+        public const string QiniuService = "QiniuService";
 
     }
 }

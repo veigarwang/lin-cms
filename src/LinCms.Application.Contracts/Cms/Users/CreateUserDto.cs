@@ -1,7 +1,7 @@
-﻿using LinCms.Data.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
+using LinCms.Data.Enums;
 
 namespace LinCms.Cms.Users
 {
@@ -44,7 +44,7 @@ namespace LinCms.Cms.Users
         [Required(ErrorMessage = "请输入分组id")]
         //[Remote("/cms/admin/group/validateGroup", HttpMethod = "Post",ErrorMessage = "分组不存在")]
         public List<long> GroupIds { get; set; }
-        public UserActive Active { get; set; }
+        public UserStatus Active { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (!Email.IsNullOrEmpty())

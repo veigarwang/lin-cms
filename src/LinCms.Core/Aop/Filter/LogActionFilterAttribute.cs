@@ -26,7 +26,7 @@ namespace LinCms.Aop.Filter
         {
             _currentUser = currentUser;
             _diagnosticContext = diagnosticContext;
-            this._logRepository = logRepository;
+            _logRepository = logRepository;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -62,7 +62,7 @@ namespace LinCms.Aop.Filter
 
             if (loggerAttribute != null)
             {
-                linLog.Message = this.ParseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
+                linLog.Message = ParseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
             }
             else
             {
@@ -94,17 +94,13 @@ namespace LinCms.Aop.Filter
             int i = item.LastIndexOf('.');
             string obj = item.Substring(0, i);
             string prop = item.Substring(i + 1);
-            switch (obj)
+            return obj switch
             {
-                case "user":
-                    return GetValueByPropName(userDo, prop);
-                case "request":
-                    return GetValueByPropName(request, prop);
-                case "response":
-                    return GetValueByPropName(response, prop);
-                default:
-                    return "";
-            }
+                "user" => GetValueByPropName(userDo, prop),
+                "request" => GetValueByPropName(request, prop),
+                "response" => GetValueByPropName(response, prop),
+                _ => "",
+            };
         }
 
         private string GetValueByPropName<T>(T t, string prop)

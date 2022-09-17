@@ -8,7 +8,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Blog.UserLikes
 {
-    public class UserLikeService :ApplicationService, IUserLikeService
+    public class UserLikeService : ApplicationService, IUserLikeService
     {
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IArticleService _articleService;
@@ -26,8 +26,7 @@ namespace LinCms.Blog.UserLikes
 
         public async Task<bool> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            Expression<Func<UserLike, bool>> predicate = r =>
-                r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == CurrentUser.Id;
+            Expression<Func<UserLike, bool>> predicate = r => r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == CurrentUser.Id;
 
             bool exist = await _userLikeRepository.Select.AnyAsync(predicate);
             int increaseLikeQuantity = 1;
@@ -46,13 +45,14 @@ namespace LinCms.Blog.UserLikes
                 case UserLikeSubjectType.UserLikeComment:
                     await _commentService.UpdateLikeQuantityAysnc(createUpdateUserLike.SubjectId, increaseLikeQuantity);
                     break;
+                default:
+                    break;
             }
 
             if (exist)
             {
                 return true;
             }
-
 
             UserLike userLike = Mapper.Map<UserLike>(createUpdateUserLike);
             await _userLikeRepository.InsertAsync(userLike);

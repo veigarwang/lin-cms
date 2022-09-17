@@ -1,11 +1,15 @@
 using System.Threading.Tasks;
 using LinCms.Aop.Filter;
-using LinCms.Data;
 using LinCms.Base.Docs;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Base
 {
+    /// <summary>
+    /// 简单文档示例，仅仅是一个demo
+    /// </summary>
+    [ApiExplorerSettings(GroupName = "base")]
     [Route("api/base/docs")]
     [ApiController]
     public class DocController : ControllerBase

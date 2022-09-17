@@ -8,7 +8,6 @@ using AutoMapper;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Classifys;
-using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -19,10 +18,9 @@ using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Newtonsoft.Json;
-
 namespace LinCms.Controllers.Blog
 {
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/articles")]
     [ApiController]
@@ -200,7 +198,7 @@ namespace LinCms.Controllers.Blog
         }
 
         /// <summary>
-        /// 修改随笔是否验证评论
+        /// 修改随笔是否允许其他人评论
         /// </summary>
         /// <param name="id">随笔主键</param>
         /// <param name="commetable">true:允许评论;false:不允许评论</param>

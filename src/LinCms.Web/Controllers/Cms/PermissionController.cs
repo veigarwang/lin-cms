@@ -1,13 +1,16 @@
-﻿using LinCms.Aop.Filter;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using LinCms.Aop.Filter;
 using LinCms.Cms.Permissions;
 using LinCms.Data;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 权限
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/admin/permission")]
     [ApiController]

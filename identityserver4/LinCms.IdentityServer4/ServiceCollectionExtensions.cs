@@ -1,56 +1,74 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using AutoMapper;
+using DotNetCore.Security;
+using FreeSql;
+using FreeSql.Internal;
 using IdentityServer4.Configuration;
-using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Data.Enums;
+using LinCms.Entities;
 using LinCms.Extensions;
+using LinCms.FreeSql;
 using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.IRepositories;
 using LinCms.Repositories;
 using LinCms.Security;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Serilog;
-using DotNetCore.Security;
-
 #if !DEBUG
 using System.Security.Cryptography.X509Certificates;
 #endif
-
 namespace LinCms.IdentityServer4
 {
-    public class Startup
+    public static class ServiceCollectionExtensions
     {
-        public IConfiguration Configuration { get; }
-        public object JwtBearerDefaults { get; private set; }
-
-        public Startup(IConfiguration configuration)
+        #region FreeSql
+        /// <summary>
+        /// FreeSql
+        /// </summary>
+        /// <param name="services"></param>
+        public static void AddFreeSql(this IServiceCollection services)
         {
-            Configuration = configuration;
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
+            IFreeSql fsql = new FreeSqlBuilder()
+                   .UseConnectionString(configuration)
+                   .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
+                   .UseAutoSyncStructure(true)
+                   .UseMonitorCommand(cmd =>
+                       {
+                           Trace.WriteLine(cmd.CommandText);
+                       }
+                   )
+                   .Build();
+            fsql.CodeFirst.IsSyncStructureToLower = true;
+
+            services.AddSingleton(fsql);
+            services.AddScoped<UnitOfWorkManager>();
+            services.AddFreeRepository(filter =>
+            {
+                filter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
+            });
         }
+        #endregion
 
-        public void ConfigureServices(IServiceCollection services)
+        #region AddServices
+        public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration Configuration)
         {
-            InMemoryConfiguration.Configuration = this.Configuration;
 
-            services.AddContext();
+            services.AddFreeSql();
 
             services.AddCors();
             services.AddHashService();
@@ -100,7 +118,7 @@ namespace LinCms.IdentityServer4
                     Title = ApiName + RuntimeInformation.FrameworkDescription,
                     Version = "v1",
                     Contact = new OpenApiContact { Name = ApiName, Email = "luoyunchong@foxmail.com", Url = new Uri("https://www.cnblogs.com/igeekfan/") },
-                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
+                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
                 });
                 var security = new OpenApiSecurityRequirement()
                 {
@@ -123,7 +141,7 @@ namespace LinCms.IdentityServer4
                 });
                 try
                 {
-                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Program).Assembly.GetName().Name}.xml");
                     options.IncludeXmlComments(xmlPath, true);
                 }
                 catch (Exception ex)
@@ -153,104 +171,54 @@ namespace LinCms.IdentityServer4
             services.AddAutoMapper(typeof(UserProfile).Assembly);
 
             services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<LinCmsExceptionFilter>();
+            })
+            .AddNewtonsoftJson(opt =>
+            {
+                //忽略循环引用
+                opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                //设置自定义时间戳格式
+                opt.SerializerSettings.Converters = new List<JsonConverter>()
                 {
-                    options.Filters.Add<LinCmsExceptionFilter>();
-                })
-                .AddNewtonsoftJson(opt =>
+                    new LinCmsTimeConverter()
+                };
+                // 设置下划线方式，首字母是小写
+                //opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                //{
+                //    NamingStrategy = new SnakeCaseNamingStrategy()
+                //    {
+                //        ProcessDictionaryKeys = true
+                //    }
+                //};
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                //自定义 BadRequest 响应
+                options.InvalidModelStateResponseFactory = context =>
                 {
-                    //忽略循环引用
-                    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                    //设置自定义时间戳格式
-                    opt.SerializerSettings.Converters = new List<JsonConverter>()
-                    {
-                        new LinCmsTimeConverter()
-                    };
-                    // 设置下划线方式，首字母是小写
-                    //opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                    //{
-                    //    NamingStrategy = new SnakeCaseNamingStrategy()
-                    //    {
-                    //        ProcessDictionaryKeys = true
-                    //    }
-                    //};
-                })
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    options.SuppressConsumesConstraintForFormFileParameters = true;
-                    //自定义 BadRequest 响应
-                    options.InvalidModelStateResponseFactory = context =>
-                    {
-                        var problemDetails = new ValidationProblemDetails(context.ModelState);
+                    var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+                    var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
 
-                        return new BadRequestObjectResult(resultDto)
-                        {
-                            ContentTypes = { "application/json" }
-                        };
+                    return new BadRequestObjectResult(resultDto)
+                    {
+                        ContentTypes = { "application/json" }
                     };
-                });
+                };
+            });
             services.AddHttpsRedirection(options =>
             {
                 options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
                 options.HttpsPort = 443;
             });
             services.AddHealthChecks();
+
+            return services;
         }
+        #endregion
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-            var options = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            };
-            options.KnownNetworks.Clear();
-            options.KnownProxies.Clear();
-            app.UseForwardedHeaders(options);
-
-            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            app.UseHttpsRedirection();
-
-            //app.UseSerilogRequestLogging();
-
-            app.UseCors(builder =>
-            {
-                string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
-                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
-            });
-
-            app.UseCookiePolicy();
-            app.UseSession();
-
-            app.UseRouting();
-            app.UseStaticFiles();
-
-            app.UseAuthorization();
-
-            app.UseIdentityServer();
-
-            app.UseSwagger();
-
-            app.UseRapiDocUI(c =>
-            {
-                c.DocumentTitle = "LinCms.IdentityServer4";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
-            });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
-            });
-        }
     }
 }

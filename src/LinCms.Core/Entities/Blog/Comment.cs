@@ -9,7 +9,7 @@ namespace LinCms.Entities.Blog
     /// 用户评论信息
     /// </summary>
     [Table(Name = "blog_comment")]
-    public class Comment : FullAduitEntity<Guid>
+    public class Comment : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 回复评论Id
@@ -20,7 +20,7 @@ namespace LinCms.Entities.Blog
         /// </summary>
         public Guid? RootCommentId { get; set; }
 
-        public int ChildsCount { get; set; } = 0;
+        public int ChildsCount { get; set; }
 
         /// <summary>
         /// 被回复的用户Id
@@ -29,7 +29,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 回复的文本内容
         /// </summary>
-        [Column(StringLength =500)]
+        [Column(StringLength = 500)]
         public string Text { get; set; }
 
         /// <summary>
