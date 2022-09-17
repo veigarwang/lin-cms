@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 权限
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/admin/permission")]
     [ApiController]

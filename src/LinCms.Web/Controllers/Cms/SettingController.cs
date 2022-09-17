@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+
+    /// <summary>
+    /// 设置
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/settings")]
     [ApiController]

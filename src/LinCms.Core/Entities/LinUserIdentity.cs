@@ -8,7 +8,7 @@ namespace LinCms.Entities
     /// 用户身份认证登录表
     /// </summary>
     [Table(Name = "lin_user_identity")]
-    public class LinUserIdentity : FullAduitEntity<Guid>
+    public class LinUserIdentity : FullAuditEntity<Guid>
     {
         public const string GitHub = "GitHub";
         public const string Password = "Password";
@@ -46,11 +46,17 @@ namespace LinCms.Entities
         [Column(StringLength = 50)]
         public string Credential { get; set; }
 
-
-        public string ExtraProperties { get; set; }
+        /// <summary>
+        /// 扩展属性
+        /// </summary>
+        [JsonMap]
+        public ExtraProperties ExtraProperties { get; set; }
 
     }
 
+    /// <summary>
+    /// 扩展属性
+    /// </summary>
     public class ExtraProperties : Dictionary<string, string>
     {
 

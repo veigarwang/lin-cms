@@ -2,11 +2,14 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [Table(Name = "lin_file")]
-    public class LinFile : FullAduitEntity
+    public class LinFile : FullAuditEntity
     {
         /// <summary>
-        /// 后缀
+        /// 文件后缀
         /// </summary>
         [Column(StringLength = 50)]
         public string Extension { get; set; } = string.Empty;
