@@ -6,6 +6,7 @@ using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Exceptions;
 using LinCms.Security;
+using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
@@ -37,6 +38,19 @@ namespace LinCms.Controllers.Cms
         public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery] UserSearchDto searchDto)
         {
             return _userSevice.GetUserListByGroupId(searchDto);
+        }
+
+        /// <summary>
+        /// 修改用户状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userStatus"></param>
+        /// <returns></returns>
+        [HttpPut("user/{id}/status/{userStatus}")]
+        [LinCmsAuthorize("修改用户密码", "管理员")]
+        public Task ChangeStatusAsync(long id, UserStatus userStatus)
+        {
+            return _userSevice.ChangeStatusAsync(id, userStatus);
         }
 
         /// <summary>

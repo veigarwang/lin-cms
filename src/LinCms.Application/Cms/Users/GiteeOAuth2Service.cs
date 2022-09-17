@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AspNet.Security.OAuth.Gitee;
 using LinCms.Common;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
+    [DisableConventionalRegistration]
     public class GiteeOAuth2Service : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
@@ -42,7 +44,7 @@ namespace LinCms.Cms.Users
 
                 LinUser user = new()
                 {
-                    Active = UserActive.Active,
+                    Active = UserStatus.Active,
                     Avatar = avatarUrl,
                     LastLoginTime = DateTime.Now,
                     Email = email,

@@ -5,10 +5,10 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities
 {
     /// <summary>
-    /// 用户组
+    ///  分组
     /// </summary>
     [Table(Name = "lin_group")]
-    public class LinGroup : FullAduitEntity<long>
+    public class LinGroup : FullAuditEntity<long>
     {
         public LinGroup()
         {

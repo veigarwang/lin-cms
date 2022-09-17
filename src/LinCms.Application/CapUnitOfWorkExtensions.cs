@@ -23,6 +23,11 @@ namespace LinCms
             return publisher.Transaction.Value.Begin(unitOfWork.GetOrBeginTransaction(), autoCommit);
         }
 
+        /// <summary>
+        /// 提交CAP 和FreeSql的UnitOfWork事务
+        /// </summary>
+        /// <param name="capTransaction"></param>
+        /// <param name="unitOfWork"></param>
         public static void Commit(this ICapTransaction capTransaction, IUnitOfWork unitOfWork)
         {
             unitOfWork.Commit();

@@ -100,14 +100,8 @@ namespace LinCms
             return Mapper.Map<TGetOutputDto>(entity);
         }
 
-        public virtual async Task DeleteAsync(TKey id)
-        {
-            await Repository.DeleteAsync(id);
-        }
+        public virtual Task DeleteAsync(TKey id) => Repository.DeleteAsync(id);
 
-        protected virtual async Task<TEntity> GetEntityByIdAsync(TKey id)
-        {
-            return await Repository.GetAsync(id);
-        }
+        protected virtual Task<TEntity> GetEntityByIdAsync(TKey id) => Repository.GetAsync(id);
     }
 }

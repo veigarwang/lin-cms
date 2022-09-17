@@ -4,7 +4,7 @@ using System;
 namespace LinCms.Entities
 {
     [Table(Name = "book")]
-    public class Book : FullAduitEntity
+    public class Book : FullAuditEntity
     {
         /// <summary>
         /// 版本号

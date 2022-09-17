@@ -4,10 +4,10 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Blog
 {
     /// <summary>
-    /// 文章草稿箱
+    /// 随笔草稿箱
     /// </summary>
     [Table(Name = "blog_article_draft")]
-    public class ArticleDraft : FullAduitEntity<Guid>
+    public class ArticleDraft : FullAuditEntity<Guid>
     {
         public ArticleDraft()
         {
