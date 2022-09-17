@@ -14,6 +14,7 @@ namespace LinCms.Controllers.Blog
     /// <summary>
     /// 随笔评论
     /// </summary>
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/comments")]
     [ApiController]
@@ -116,7 +117,7 @@ namespace LinCms.Controllers.Blog
         }
 
         /// <summary>
-        /// 评论-校正评论量,subjectType(1：文章)
+        /// 评论-校正评论量,subjectType(1：随笔)
         /// </summary>
         /// <param name="subjectId"></param>
         /// <param name="subjectType"></param>

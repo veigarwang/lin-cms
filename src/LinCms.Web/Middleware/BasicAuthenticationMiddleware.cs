@@ -51,8 +51,12 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
         string username, password;
         try
         {
-            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
-            var credentialBytes = Convert.FromBase64String(s: authHeader.Parameter);
+            AuthenticationHeaderValue authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+            if (authHeader.Parameter == null)
+            {
+                return AuthenticateResult.Fail("Authorization Header is null");
+            }
+            var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
             var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
             username = credentials[0];
             password = credentials[1];
@@ -108,7 +112,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
 // HTTP基本认证Middleware
 public static class BasicAuthentication
 {
-    public static void UseBasicAuthentication(this IApplicationBuilder app)
+    public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder app)
     {
         IOptionsMonitor<BasicAuthenticationOption>? optionsMonitor = app.ApplicationServices.GetService<IOptionsMonitor<BasicAuthenticationOption>>();
 
@@ -121,6 +125,8 @@ public static class BasicAuthentication
             }
             app.UseWhen(expression.Compile(), configuration: x => { x.UseMiddleware<BasicAuthenticationMiddleware>(); });
         }
+
+        return app;
     }
 }
 
