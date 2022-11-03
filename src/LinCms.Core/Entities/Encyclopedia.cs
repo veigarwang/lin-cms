@@ -4,7 +4,7 @@ using System;
 namespace LinCms.Entities
 {
     [Table(Name = "encyclopedia", DisableSyncStructure = true)]
-    public class Encyclopedia : FullAduitEntity
+    public class Encyclopedia : FullAuditEntity
     {
         /// <summary>
         /// 版本号
@@ -21,7 +21,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 读音
         /// </summary>
-        [Column(StringLength = 30)]
+        [Column(StringLength = 35)]
         public string Pronunciation { get; set; } = string.Empty;
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 郭注
         /// </summary>
-        [Column(StringLength = 2000)]
+        [Column(StringLength = 3000)]
         public string Guozhu { get; set; } = string.Empty;
 
         /// <summary>

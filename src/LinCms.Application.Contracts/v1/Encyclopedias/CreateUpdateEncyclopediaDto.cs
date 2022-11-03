@@ -15,7 +15,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 读音
         /// </summary>
-        [StringLength(30, ErrorMessage = "读音应小于30字符")]
+        [StringLength(35, ErrorMessage = "读音应小于35字符")]
         public string Pronunciation { get; init; }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 郭注
         /// </summary>
-        [StringLength(2000, ErrorMessage = "郭注应小于2000字符")]
+        [StringLength(3000, ErrorMessage = "郭注应小于3000字符")]
         public string Guozhu { get; init; }
 
         /// <summary>

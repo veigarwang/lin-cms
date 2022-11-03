@@ -773,6 +773,11 @@
             关注的用户Id
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Blog.UserTag">
+            <summary>
+            用户关注的标签
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Book.Version">
             <summary>
             版本号
@@ -964,12 +969,6 @@
             </summary>
         </member>
         <member name="P:LinCms.Entities.Encyclopedia.Remarks">
-        <member name="T:LinCms.Entities.Blog.UserTag">
-            <summary>
-            用户关注的标签
-            </summary>
-        </member>
-        <member name="T:LinCms.Entities.Book">
             <summary>
             备注
             </summary>

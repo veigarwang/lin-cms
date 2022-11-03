@@ -244,19 +244,19 @@ namespace LinCms.Startup
                     case CapStorageType.InMemoryStorage:
                         @this.UseInMemoryStorage();
                         break;
-                    case CapStorageType.Mysql:
-                        IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
-                        @this.UseMySql(mySql.Value);
-                        break;
-                    //case CapStorageType.SqlServer:
-                    //    IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
-                    //    @this.UseSqlServer(opt =>
-                    //    {
-                    //        opt.ConnectionString = sqlServer.Value;
-                    // //使用SQL SERVER2008才需要打开他
-                    //        opt.UseSqlServer2008();
-                    //    });
+                    //case CapStorageType.Mysql:
+                    //    IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
+                    //    @this.UseMySql(mySql.Value);
                     //    break;
+                    case CapStorageType.SqlServer:
+                        IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
+                        @this.UseSqlServer(opt =>
+                        {
+                            opt.ConnectionString = sqlServer.Value;
+                            //使用SQL SERVER2008才需要打开他
+                            //opt.UseSqlServer2008();
+                        });
+                        break;
                     default:
                         break;
                 }
