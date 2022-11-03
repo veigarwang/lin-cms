@@ -1,3 +1,4 @@
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Entities.Base;
@@ -35,9 +36,9 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("书籍《" + createBook.Title + "》" + createBook.Subtitle + "已存在");
             }
 
-            Book book = Mapper.Map<Book>(createBook);
-            await _bookRepository.InsertAsync(book);
-        }
+        Book book = Mapper.Map<Book>(createBook);
+        await _bookRepository.InsertAsync(book);
+    }
 
         public Task DeleteAsync(long id)
         {
@@ -77,8 +78,8 @@ namespace LinCms.v1.Books
             //book.Summary = updateBook.Summary;
             //book.Summary = updateBook.Summary;
 
-            //使用AutoMapper方法简化类与类之间的转换过程
-            Mapper.Map(updateBook, book);
+        //使用AutoMapper方法简化类与类之间的转换过程
+        Mapper.Map(updateBook, book);
 
             await _bookRepository.UpdateAsync(book);
         }
@@ -99,7 +100,13 @@ namespace LinCms.v1.Books
             return await _bookRepository.Select.CountAsync();            
         }
 
-        public async Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto)
+        public async Task<List<BookDto>> GetListAsync()
+        {
+            List<BookDto> items = (await _bookRepository.Select.OrderByDescending(r => r.Id).ToListAsync()).Select(r => Mapper.Map<BookDto>(r)).ToList();
+            return items;
+        }
+
+        public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
         {
             List<BookDto> items = (await _bookRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
 

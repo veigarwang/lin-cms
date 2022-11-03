@@ -1,9 +1,9 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.v1.Books
 {
-    public class BookDto : EntityDto
+    public class BookDto : EntityDto<long>
     {
         /// <summary>
         /// 版本号

@@ -1,10 +1,10 @@
 ﻿using FreeSql.DataAnnotations;
-using System;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
     [Table(Name = "encyclopedia", DisableSyncStructure = true)]
-    public class Encyclopedia : FullAuditEntity
+    public class Encyclopedia : FullAuditEntity<long, long>
     {
         /// <summary>
         /// 版本号

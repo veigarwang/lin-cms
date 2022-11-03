@@ -1,9 +1,8 @@
-﻿using LinCms.Entities;
-using System;
+﻿using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.v1.Encyclopedias
 {
-    public class EncyclopediaDto : EntityDto
+    public class EncyclopediaDto : EntityDto<long>
     {
         /// <summary>
         /// 版本号

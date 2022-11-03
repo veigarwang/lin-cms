@@ -1,9 +1,9 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Base.BaseItems
 {
-    public class BaseItemDto : EntityDto
+    public class BaseItemDto : EntityDto<long>
     {
         public int BaseTypeId { get; set; }
         public string ItemCode { get; set; }

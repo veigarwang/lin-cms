@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Users;
@@ -8,6 +8,7 @@ using LinCms.Exceptions;
 using LinCms.Security;
 using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Mvc;
+using IGeekFan.FreeKit.Extras.Security;
 
 namespace LinCms.Controllers.Cms
 {
@@ -78,7 +79,7 @@ namespace LinCms.Controllers.Cms
         [LinCmsAuthorize("删除用户", "管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
-            if (id == _currentUser?.Id)
+            if (id == _currentUser?.FindUserId())
             {
                 throw new LinCmsException("您无法删除自己");
             }

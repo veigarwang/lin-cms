@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.v1.Encyclopedias;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.v1
 {

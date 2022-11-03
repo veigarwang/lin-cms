@@ -1,27 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Groups;
 using LinCms.Data;
 using LinCms.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace LinCms.Controllers.Cms
+namespace LinCms.Controllers.Cms;
+
+/// <summary>
+/// 分组
+/// </summary>
+[ApiExplorerSettings(GroupName = "cms")]
+[Route("cms/admin/group")]
+[ApiController]
+public class GroupController : ControllerBase
 {
-    /// <summary>
-    /// 分组
-    /// </summary>
-    [ApiExplorerSettings(GroupName = "cms")]
-    [Route("cms/admin/group")]
-    [ApiController]
-    public class GroupController : ControllerBase
+    private readonly IGroupService _groupService;
+    public GroupController(IGroupService groupService)
     {
-        private readonly IGroupService _groupService;
-        public GroupController(IGroupService groupService)
-        {
-            _groupService = groupService;
-        }
+        _groupService = groupService;
+    }
 
         [Logger("查询了所有权限组")]
         [HttpGet("all")]
@@ -31,13 +31,13 @@ namespace LinCms.Controllers.Cms
             return _groupService.GetListAsync();
         }
 
-        [HttpGet("{id}")]
-        [LinCmsAuthorize("查询一个权限组及其权限", "管理员")]
-        public async Task<GroupDto> GetAsync(long id)
-        {
-            GroupDto groupDto = await _groupService.GetAsync(id);
-            return groupDto;
-        }
+    [HttpGet("{id}")]
+    [LinCmsAuthorize("查询一个权限组及其权限", "管理员")]
+    public async Task<GroupDto> GetAsync(long id)
+    {
+        GroupDto groupDto = await _groupService.GetAsync(id);
+        return groupDto;
+    }
 
         [Logger("新增了一个权限组")]
         [HttpPost]
@@ -66,5 +66,4 @@ namespace LinCms.Controllers.Cms
             return UnifyResponseDto.Success("删除分组成功");
         }
 
-    }
 }

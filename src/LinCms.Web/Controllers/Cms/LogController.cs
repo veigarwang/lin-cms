@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Logs;
 using LinCms.Data;
@@ -32,7 +32,6 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [HttpGet("users")]
         [LinCmsAuthorize("查询日志记录的用户", "日志")]
-        [DisableAuditingAttribute]
         public List<string> GetUsers([FromQuery] PageDto pageDto)
         {
             return _logService.GetLoggedUsers(pageDto);
@@ -51,11 +50,22 @@ namespace LinCms.Controllers.Cms
         }
 
         /// <summary>
+        /// 日志搜素（人员，时间）（内容）， 分页展示
+        /// </summary>
+        /// <param name="searchDto"></param>
+        /// <returns></returns>
+        [HttpGet("search")]
+        [LinCmsAuthorize("搜索日志", "日志")]
+        public PagedResultDto<LinLog> GetUserLogs([FromQuery] LogSearchDto searchDto)
+        {
+            return _logService.GetUserLogs(searchDto);
+        }
+
+        /// <summary>
         /// Serilog日志
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        [Logger("搜索了Serilog日志")]
         [HttpGet("serilog")]
         [LinCmsAuthorize("Serilog日志", "日志")]
         public Task<PagedResultDto<SerilogDO>> GetSerilogListAsync([FromQuery] SerilogSearchDto searchDto)

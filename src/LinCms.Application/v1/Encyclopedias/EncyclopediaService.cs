@@ -1,3 +1,4 @@
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Entities.Base;

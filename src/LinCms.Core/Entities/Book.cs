@@ -1,10 +1,11 @@
 ﻿using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using System;
 
 namespace LinCms.Entities
 {
     [Table(Name = "book")]
-    public class Book : FullAuditEntity
+    public class Book : FullAuditEntity<long, long>
     {
         /// <summary>
         /// 版本号
