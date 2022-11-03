@@ -6,23 +6,23 @@ using LinCms.Base.BaseItems;
 using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Base
-{
-    /// <summary>
-    /// 数据字典-详情项
-    /// </summary>
-    [ApiExplorerSettings(GroupName = "base")]
-    [Area("base")]
-    [Route("api/base/item")]
-    [ApiController]
-    public class BaseItemController : ControllerBase
-    {
-        private readonly IBaseItemService _baseItemService;
+namespace LinCms.Controllers.Base;
 
-        public BaseItemController(IBaseItemService baseItemService)
-        {
-            _baseItemService = baseItemService;
-        }
+/// <summary>
+/// 数据字典-详情项
+/// </summary>
+[ApiExplorerSettings(GroupName = "base")]
+[Area("base")]
+[Route("api/base/item")]
+[ApiController]
+public class BaseItemController : ControllerBase
+{
+    private readonly IBaseItemService _baseItemService;
+
+    public BaseItemController(IBaseItemService baseItemService)
+    {
+        _baseItemService = baseItemService;
+    }
 
         [Logger("删除了一个字典条目")]
         [HttpDelete("{id}")]

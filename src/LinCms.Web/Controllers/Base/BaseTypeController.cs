@@ -6,22 +6,22 @@ using LinCms.Base.BaseTypes;
 using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Base
+namespace LinCms.Controllers.Base;
+
+/// <summary>
+/// 数据字典-分类
+/// </summary>
+[ApiExplorerSettings(GroupName = "base")]
+[Area("base")]
+[Route("api/base/type")]
+[ApiController]
+public class BaseTypeController : ControllerBase
 {
-    /// <summary>
-    /// 数据字典-分类
-    /// </summary>
-    [ApiExplorerSettings(GroupName = "base")]
-    [Area("base")]
-    [Route("api/base/type")]
-    [ApiController]
-    public class BaseTypeController : ControllerBase
+    private readonly IBaseTypeService _baseTypeService;
+    public BaseTypeController(IBaseTypeService baseTypeService)
     {
-        private readonly IBaseTypeService _baseTypeService;
-        public BaseTypeController(IBaseTypeService baseTypeService)
-        {
-            _baseTypeService = baseTypeService;
-        }
+        _baseTypeService = baseTypeService;
+    }
 
         [Logger("删除了一个字典类型")]
         [HttpDelete("{id}")]
