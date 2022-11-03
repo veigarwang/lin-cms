@@ -5,26 +5,29 @@ using LinCms.Blog.Notifications;
 using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Blog
+namespace LinCms.Controllers.Blog;
+
+/// <summary>
+/// 消息通知
+/// </summary>
+[ApiExplorerSettings(GroupName = "blog")]
+[Area("blog")]
+[Route("api/blog/notifications")]
+[ApiController]
+public class NotificationController : ControllerBase
 {
-    [ApiExplorerSettings(GroupName = "blog")]
-    [Area("blog")]
-    [Route("api/blog/notifications")]
-    [ApiController]
-    public class NotificationController : ControllerBase
+    private readonly INotificationService _notificationService;
+
+    public NotificationController(INotificationService notificationService)
     {
-        private readonly INotificationService _notificationService;
+        _notificationService = notificationService;
+    }
 
-        public NotificationController(INotificationService notificationService)
-        {
-            _notificationService = notificationService;
-        }
-
-        [HttpGet]
-        public async Task<PagedResultDto<NotificationDto>> GetListAsync([FromQuery] NotificationSearchDto pageDto)
-        {
-            return await _notificationService.GetListAsync(pageDto);
-        }
+    [HttpGet]
+    public async Task<PagedResultDto<NotificationDto>> GetListAsync([FromQuery] NotificationSearchDto pageDto)
+    {
+        return await _notificationService.GetListAsync(pageDto);
+    }
 
         [NonAction]
         [CapSubscribe(CreateNotificationDto.CreateOrCancelAsync)]
@@ -34,10 +37,9 @@ namespace LinCms.Controllers.Blog
             return UnifyResponseDto.Success("新增消息成功");
         }
 
-        [HttpPut("{id}")]
-        public async Task SetNotificationReadAsync(Guid id)
-        {
-            await _notificationService.SetNotificationReadAsync(id);
-        }
+    [HttpPut("{id}")]
+    public async Task SetNotificationReadAsync(Guid id)
+    {
+        await _notificationService.SetNotificationReadAsync(id);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Base.BaseItems
 {

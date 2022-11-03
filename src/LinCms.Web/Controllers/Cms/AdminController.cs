@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Users;
@@ -40,18 +40,18 @@ namespace LinCms.Controllers.Cms
             return _userSevice.GetUserListByGroupId(searchDto);
         }
 
-        /// <summary>
-        /// 修改用户状态
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="userStatus"></param>
-        /// <returns></returns>
-        [HttpPut("user/{id}/status/{userStatus}")]
-        [LinCmsAuthorize("修改用户密码", "管理员")]
-        public Task ChangeStatusAsync(long id, UserStatus userStatus)
-        {
-            return _userSevice.ChangeStatusAsync(id, userStatus);
-        }
+    /// <summary>
+    /// 修改用户状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="userStatus"></param>
+    /// <returns></returns>
+    [HttpPut("user/{id}/status/{userStatus}")]
+    [LinCmsAuthorize("修改用户密码", "管理员")]
+    public Task ChangeStatusAsync(long id, UserStatus userStatus)
+    {
+        return _userSevice.ChangeStatusAsync(id, userStatus);
+    }
 
         /// <summary>
         /// 修改用户信息
@@ -101,5 +101,4 @@ namespace LinCms.Controllers.Cms
             return UnifyResponseDto.Success("密码修改成功");
         }
 
-    }
 }

@@ -1,24 +1,31 @@
-﻿using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Data;
+using LinCms.FreeSql;
 using LinCms.v1.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.v1
+namespace LinCms.Controllers.v1;
+
+/// <summary>
+/// 图书
+/// </summary>
+[ApiExplorerSettings(GroupName = "v1")]
+[Route("v1/book")]
+[ApiController]
+// [Authorize]
+public class BookController : ControllerBase
 {
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Route("v1/book")]
-    [ApiController]
-    [Authorize]
-    public class BookController : ControllerBase
+    private readonly IBookService _bookService;
+    private readonly IDataSeedContributor _contributor;
+    public BookController(IBookService bookService, IDataSeedContributor contributor)
     {
-        private readonly IBookService _bookService;
-        public BookController(IBookService bookService)
-        {
-            _bookService = bookService;
-        }
+        _bookService = bookService;
+        _contributor = contributor;
+    }
 
         [Logger("新增了一本书籍")]
         [LinCmsAuthorize("新增书籍", "书籍")]
@@ -37,7 +44,11 @@ namespace LinCms.Controllers.v1
             await _bookService.DeleteAsync(id);
             return UnifyResponseDto.Success();
 
-        }
+    [HttpGet("list")]
+    public async Task<List<BookDto>> GetListAsync()
+    {
+        return await _bookService.GetListAsync();
+    }
 
         [Logger("更新了一本书籍")]
         [LinCmsAuthorize("更新书籍", "书籍")]

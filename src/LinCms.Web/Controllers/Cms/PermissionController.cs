@@ -7,21 +7,21 @@ using LinCms.Data;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Cms
+namespace LinCms.Controllers.Cms;
+
+/// <summary>
+/// 权限
+/// </summary>
+[ApiExplorerSettings(GroupName = "cms")]
+[Route("cms/admin/permission")]
+[ApiController]
+public class PermissionController : ControllerBase
 {
-    /// <summary>
-    /// 权限
-    /// </summary>
-    [ApiExplorerSettings(GroupName = "cms")]
-    [Route("cms/admin/permission")]
-    [ApiController]
-    public class PermissionController : ControllerBase
+    private readonly IPermissionService _permissionService;
+    public PermissionController(IPermissionService permissionService)
     {
-        private readonly IPermissionService _permissionService;
-        public PermissionController(IPermissionService permissionService)
-        {
-            _permissionService = permissionService;
-        }
+        _permissionService = permissionService;
+    }
 
         /// <summary>
         /// 查询所有可分配的权限
@@ -64,10 +64,9 @@ namespace LinCms.Controllers.Cms
             return UnifyResponseDto.Success("添加权限成功");
         }
 
-        [HttpGet("tree-list")]
-        public Task<List<TreePermissionDto>> GetTreePermissionListAsync()
-        {
-            return _permissionService.GetTreePermissionListAsync();
-        }
+    [HttpGet("tree-list")]
+    public Task<List<TreePermissionDto>> GetTreePermissionListAsync()
+    {
+        return _permissionService.GetTreePermissionListAsync();
     }
 }

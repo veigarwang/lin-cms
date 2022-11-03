@@ -6,20 +6,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LinCms.Data.Authorization
+namespace LinCms.Data.Authorization;
+
+public class PermissionAuthorizationHandler : AuthorizationHandler<ModuleAuthorizationRequirement>
 {
-    public class PermissionAuthorizationHandler : AuthorizationHandler<ModuleAuthorizationRequirement>
+    private readonly IPermissionService _permissionService;
+
+    public PermissionAuthorizationHandler(IPermissionService permissionService)
     {
-        private readonly IPermissionService _permissionService;
+        _permissionService = permissionService;
+    }
 
-        public PermissionAuthorizationHandler(IPermissionService permissionService)
-        {
-            _permissionService = permissionService;
-        }
-
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ModuleAuthorizationRequirement requirement)
-        {
-            AuthorizationFilterContext filterContext = context.Resource as AuthorizationFilterContext;
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ModuleAuthorizationRequirement requirement)
+    {
+        AuthorizationFilterContext filterContext = context.Resource as AuthorizationFilterContext;
 
             if (context.User.Identity == null || !context.User.Identity.IsAuthenticated)
             {
@@ -28,18 +28,17 @@ namespace LinCms.Data.Authorization
                 return;
             }
 
-            if (await _permissionService.CheckPermissionAsync(requirement.Module, requirement.Name))
-            {
-                context.Succeed(requirement);
-                return;
-            }
-            HandlerAuthenticationFailed(filterContext, $"您没有权限：{requirement.Module}-{requirement.Name}", ErrorCode.NoPermission);
-        }
-
-        public void HandlerAuthenticationFailed(AuthorizationFilterContext context, string errorMsg, ErrorCode errorCode)
+        if (await _permissionService.CheckPermissionAsync(requirement.Module, requirement.Name))
         {
-            context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            context.Result = new JsonResult(new UnifyResponseDto(errorCode, errorMsg, context.HttpContext));
+            context.Succeed(requirement);
+            return;
         }
+        HandlerAuthenticationFailed(filterContext, $"您没有权限：{requirement.Module}-{requirement.Name}", ErrorCode.NoPermission);
+    }
+
+    public void HandlerAuthenticationFailed(AuthorizationFilterContext context, string errorMsg, ErrorCode errorCode)
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        context.Result = new JsonResult(new UnifyResponseDto(errorCode, errorMsg, context.HttpContext));
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Entities;
-using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -56,7 +55,7 @@ namespace LinCms.Aop.Filter
                 ExecuteParam = context.HttpContext.Request.QueryString.Value,
                 ExecuteTime = sw.ElapsedMilliseconds.ToInt32(),
                 StatusCode = context.HttpContext.Response.StatusCode,
-                UserId = _currentUser.Id ?? 0,
+                UserId = _currentUser.FindUserId(),
                 Username = _currentUser.UserName
             };
             var areaName = context.RouteData.DataTokens["area"] + "/";

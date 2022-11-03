@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Settings;
 using LinCms.Data;
@@ -9,28 +9,27 @@ using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Cms
+namespace LinCms.Controllers.Cms;
+
+/// <summary>
+/// 设置
+/// </summary>
+[ApiExplorerSettings(GroupName = "cms")]
+[Route("cms/settings")]
+[ApiController]
+public class SettingController : ControllerBase
 {
+    private readonly ISettingService _settingService;
+    private readonly ICurrentUser _currentUser;
+    private readonly ISettingRepository _settingRepository;
 
-    /// <summary>
-    /// 设置
-    /// </summary>
-    [ApiExplorerSettings(GroupName = "cms")]
-    [Route("cms/settings")]
-    [ApiController]
-    public class SettingController : ControllerBase
+    public SettingController(ISettingService settingService, ICurrentUser currentUser,
+        ISettingRepository settingRepository)
     {
-        private readonly ISettingService _settingService;
-        private readonly ICurrentUser _currentUser;
-        private readonly ISettingRepository _settingRepository;
-
-        public SettingController(ISettingService settingService, ICurrentUser currentUser,
-            ISettingRepository settingRepository)
-        {
-            _settingService = settingService;
-            _currentUser = currentUser;
-            _settingRepository = settingRepository;
-        }
+        _settingService = settingService;
+        _currentUser = currentUser;
+        _settingRepository = settingRepository;
+    }
 
         [Logger("查询了所有设置")]
         [LinCmsAuthorize("查询所有设置", "设置")]
@@ -64,50 +63,49 @@ namespace LinCms.Controllers.Cms
             await _settingService.UpdateAsync(id, updateSettingDto);
         }
 
-        [HttpGet("{id}")]
-        public SettingDto Get(Guid id)
-        {
-            return _settingService.Get(id);
-        }
+    [HttpGet("{id}")]
+    public SettingDto Get(Guid id)
+    {
+        return _settingService.Get(id);
+    }
 
-        [HttpPost("set-values")]
-        public async Task SetSettingValues(IDictionary<string, string> settingValues)
+    [HttpPost("set-values")]
+    public async Task SetSettingValues(IDictionary<string, string> settingValues)
+    {
+        foreach (var kValue in settingValues)
         {
-            foreach (var kValue in settingValues)
+            string key = kValue.Key;
+            CreateUpdateSettingDto createSetting = new CreateUpdateSettingDto
             {
-                string key = kValue.Key;
-                CreateUpdateSettingDto createSetting = new CreateUpdateSettingDto
-                {
-                    Value = kValue.Value,
-                    ProviderName = "U",
-                    ProviderKey = _currentUser.Id.ToString(),
-                    Name = key
-                };
-                await _settingService.SetAsync(createSetting);
-            }
+                Value = kValue.Value,
+                ProviderName = "U",
+                ProviderKey = _currentUser.FindUserId().ToString(),
+                Name = key
+            };
+            await _settingService.SetAsync(createSetting);
         }
+    }
 
-        [HttpGet("key/{key}")]
-        public async Task<string> GetSettingByKey(string key)
+    [HttpGet("key/{key}")]
+    public async Task<string> GetSettingByKey(string key)
+    {
+        string providerName = "U";
+        string? providerKey = _currentUser.FindUserId().ToString();
+        return await _settingService.GetOrNullAsync(key, providerName, providerKey);
+    }
+
+    [HttpGet("keys")]
+    public async Task<IDictionary<string, string>> GetSettingKeys([FromQuery(Name = "keys[]")] List<string> keys)
+    {
+        string providerName = "U";
+        string? providerKey = _currentUser.FindUserId().ToString();
+        IDictionary<string, string> values = new Dictionary<string, string>();
+
+        foreach (var key in keys)
         {
-            string providerName = "U";
-            string? providerKey = _currentUser.Id.ToString();
-            return await _settingService.GetOrNullAsync(key, providerName, providerKey);
+            string value = await _settingService.GetOrNullAsync(key, providerName, providerKey);
+            values.Add(key, value);
         }
-
-        [HttpGet("keys")]
-        public async Task<IDictionary<string, string>> GetSettingKeys([FromQuery(Name = "keys[]")] List<string> keys)
-        {
-            string providerName = "U";
-            string? providerKey = _currentUser.Id.ToString();
-            IDictionary<string, string> values = new Dictionary<string, string>();
-
-            foreach (var key in keys)
-            {
-                string value = await _settingService.GetOrNullAsync(key, providerName, providerKey);
-                values.Add(key, value);
-            }
-            return values;
-        }
+        return values;
     }
 }
