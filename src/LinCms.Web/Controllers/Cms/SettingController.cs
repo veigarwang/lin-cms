@@ -65,9 +65,9 @@ public class SettingController : ControllerBase
         }
 
     [HttpGet("{id}")]
-    public SettingDto Get(Guid id)
+    public Task<SettingDto> Get(Guid id)
     {
-        return _settingService.Get(id);
+        return _settingService.GetAsync(id);
     }
 
     [HttpPost("set-values")]
