@@ -155,7 +155,7 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword)).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
 
             foreach (var encyclopedia in items)
             {
