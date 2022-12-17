@@ -66,7 +66,7 @@ services
     .AddCsRedisCore(c)
     .AddJwtBearer(c)
     .AddSwaggerGen()//Swagger 扩展方法配置
-    .AddCap(c)// 分布式事务一致性CAP
+    //.AddCap(c)// 分布式事务一致性CAP
     .AddIpRateLimiting(c)//之前请注入AddCsRedisCore，内部实现IDistributedCache接口
     .AddGooglereCaptchav3(c)//配置Google验证码
     ;

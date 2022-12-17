@@ -38,7 +38,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 原文
         /// </summary>
-        [StringLength(3000, ErrorMessage = "原文应小于3000字符")]
+        [StringLength(4000, ErrorMessage = "原文应小于4000字符")]
         public string OriginalText { get; init; }
 
         /// <summary>

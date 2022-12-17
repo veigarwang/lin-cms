@@ -351,6 +351,11 @@
             数据字典-名称
             </summary>
         </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.ItemDetails">
+            <summary>
+            数据字典-明细
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Base.BaseItem.SortCode">
             <summary>
             排序码

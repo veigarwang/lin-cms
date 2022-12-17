@@ -44,7 +44,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 原文
         /// </summary>
-        [Column(StringLength = 3000)]
+        [Column(StringLength = 4000)]
         public string OriginalText { get; set; } = string.Empty;
 
         /// <summary>

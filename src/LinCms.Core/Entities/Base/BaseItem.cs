@@ -47,6 +47,13 @@ namespace LinCms.Entities.Base
         public string ItemName { get; set; }
 
         /// <summary>
+        /// 数据字典-明细
+        /// </summary>
+
+        [Column(StringLength = 50)]
+        public string ItemDetails { get; set; }
+
+        /// <summary>
         /// 排序码
         /// </summary>
 
