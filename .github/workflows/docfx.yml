@@ -16,11 +16,11 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100
+        dotnet-version: 7.0.101
     - name: Install dependencies
-      run: dotnet restore lin-cms-dotnetcore.sln
+      run: dotnet restore LinCms.sln
     - name: Build solution
-      run: dotnet build lin-cms-dotnetcore.sln --configuration Release --no-restore
+      run: dotnet build LinCms.sln --configuration Release --no-restore
     
   generate-docs:
     runs-on: windows-latest
@@ -32,9 +32,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.100
+          dotnet-version: 7.0.101
       - name: Install dependencies
-        run:  dotnet restore lin-cms-dotnetcore.sln
+        run:  dotnet restore LinCms.sln
       - name: Setup DocFX
         uses: crazy-max/ghaction-chocolatey@v1
         with:
