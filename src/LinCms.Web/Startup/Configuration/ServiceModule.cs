@@ -20,20 +20,8 @@ public class ServiceModule : Autofac.Module
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<AopCacheIntercept>();
-
-        List<Type> interceptorServiceTypes = new List<Type>()
-        {
-            typeof(AopCacheIntercept),
-        };
-
-        Assembly servicesDllFile = Assembly.Load("LinCms.Application");
-
-        bool Predicate(Type a) => !a.IsDefined(typeof(DisableConventionalRegistrationAttribute), true) && a.Name.EndsWith("Service") && !a.IsAbstract && !a.IsInterface && a.IsPublic;
-
-        builder.RegisterAssemblyTypes(servicesDllFile)
-            .Where(Predicate)
-            .InterceptedBy(interceptorServiceTypes.ToArray());
-
+        builder.RegisterType<AopCacheAsyncIntercept>();
+        
         //一个接口多个实现，使用Named，区分
         builder.RegisterType<LocalFileService>().Named<IFileService>(LinFile.LocalFileService).InstancePerLifetimeScope();
         builder.RegisterType<QiniuService>().Named<IFileService>(LinFile.QiniuService).InstancePerLifetimeScope();
@@ -44,6 +32,7 @@ public class ServiceModule : Autofac.Module
         builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
         builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
         builder.RegisterType<QQOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.QQ).InstancePerLifetimeScope();
+        builder.RegisterType<WeixinOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Weixin).InstancePerLifetimeScope();
 
     }
 }
