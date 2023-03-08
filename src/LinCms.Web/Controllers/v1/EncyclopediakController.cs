@@ -25,7 +25,7 @@ namespace LinCms.Controllers.v1
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateEncyclopediaDto createEncyclopedia)
         {
             int res = await _encyclopediaService.CreateAsync(createEncyclopedia);
-            return UnifyResponseDto.Success((res == 0 ? "新增" : "追加") + "词条成功");
+            return UnifyResponseDto.Success("词条【" + createEncyclopedia.Name + "】" + (res == 0 ? "新增" : "追加") + "成功");
         }
 
         [Logger("删除了一个词条")]
@@ -44,7 +44,7 @@ namespace LinCms.Controllers.v1
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateEncyclopediaDto updateEncyclopedia)
         {
             await _encyclopediaService.UpdateAsync(id, updateEncyclopedia);
-            return UnifyResponseDto.Success("更新词条成功");
+            return UnifyResponseDto.Success("词条【" + updateEncyclopedia.Name + "】更新成功");
         }
 
         [Logger("查看了词条详情")]

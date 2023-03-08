@@ -15,7 +15,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 读音
         /// </summary>
-        [StringLength(35, ErrorMessage = "读音应小于35字符")]
+        [StringLength(45, ErrorMessage = "读音应小于45字符")]
         public string Pronunciation { get; init; }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 图赞
         /// </summary>
-        [StringLength(60, ErrorMessage = "图赞应小于60字符")]
+        [StringLength(65, ErrorMessage = "图赞应小于65字符")]
         public string Tuzan { get; init; }
 
         /// <summary>
         /// 集解
         /// </summary>
-        [StringLength(500, ErrorMessage = "集解应小于500字符")]
+        [StringLength(4000, ErrorMessage = "集解应小于4000字符")]
         public string Jijie { get; init; }
 
         /// <summary>

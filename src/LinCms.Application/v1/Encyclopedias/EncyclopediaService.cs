@@ -38,7 +38,12 @@ namespace LinCms.v1.Encyclopedias
         {
             Encyclopedia exist = await _encyclopediaRepository.Where(r => (r.Name == createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
             if (exist == null)
-                exist = await _encyclopediaRepository.Where(r => (r.Alias.Contains(createEncyclopedia.Name)) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+                exist = await _encyclopediaRepository.Where(r => r.Alias.Contains(createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+            if (exist == null)
+            {
+                BaseItem item = await _baseItemRepository.Where(r => r.BaseTypeId == 3 && r.ItemCode == createEncyclopedia.ItemType.ToString()).ToOneAsync();
+                exist = await _encyclopediaRepository.Where(r => (r.Name == (createEncyclopedia.Name + item.ItemName) || r.Name == createEncyclopedia.Name.Replace(item.ItemName, string.Empty)) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+            }
             if (exist != null)
             {
                 if (!string.IsNullOrEmpty(createEncyclopedia.Alias))
@@ -76,16 +81,16 @@ namespace LinCms.v1.Encyclopedias
                 exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Guozhu))
-                    exist.Guozhu += string.IsNullOrEmpty(exist.Guozhu) ? createEncyclopedia.Guozhu : "\n" + createEncyclopedia.Guozhu;
+                    exist.Guozhu += string.IsNullOrEmpty(exist.Guozhu) ? createEncyclopedia.Guozhu.TrimEnd('\n') : "\n" + createEncyclopedia.Guozhu.TrimEnd('\n');
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan) && !exist.Tuzan.Contains(createEncyclopedia.Tuzan))
-                    exist.Tuzan += string.IsNullOrEmpty(exist.Tuzan) ? createEncyclopedia.Tuzan : "\n" + createEncyclopedia.Tuzan;
+                    exist.Tuzan += string.IsNullOrEmpty(exist.Tuzan) ? createEncyclopedia.Tuzan : "\n" + createEncyclopedia.Tuzan.TrimEnd('\n');
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Jijie))
-                    exist.Jijie += string.IsNullOrEmpty(exist.Jijie) ? createEncyclopedia.Jijie : "\n" + createEncyclopedia.Jijie;
+                    exist.Jijie += string.IsNullOrEmpty(exist.Jijie) ? createEncyclopedia.Jijie : "\n" + createEncyclopedia.Jijie.TrimEnd('\n');
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Remarks))
-                    exist.Remarks += string.IsNullOrEmpty(exist.Remarks) ? createEncyclopedia.Remarks : "\n" + createEncyclopedia.Remarks;
+                    exist.Remarks += string.IsNullOrEmpty(exist.Remarks) ? createEncyclopedia.Remarks : "\n" + createEncyclopedia.Remarks.TrimEnd('\n');
 
                 await _encyclopediaRepository.UpdateAsync(exist);
                 //throw new LinCmsException("词条" + createEncyclopedia.Name + "已存在");
@@ -94,6 +99,10 @@ namespace LinCms.v1.Encyclopedias
             else
             {
                 Encyclopedia encyclopedia = Mapper.Map<Encyclopedia>(createEncyclopedia);
+                encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
+                encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
+                encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
+                encyclopedia.Remarks = encyclopedia.Remarks?.TrimEnd('\n');
                 await _encyclopediaRepository.InsertAsync(encyclopedia);
                 return CreateType.Insert.ToInt32();
             }
@@ -133,7 +142,10 @@ namespace LinCms.v1.Encyclopedias
 
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateEncyclopedia, encyclopedia);
-
+            encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
+            encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
+            encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
+            encyclopedia.Remarks = encyclopedia.Remarks?.TrimEnd('\n');
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
         }
 

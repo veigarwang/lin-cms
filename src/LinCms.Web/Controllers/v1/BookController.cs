@@ -32,7 +32,7 @@ public class BookController : ControllerBase
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBookDto createBook)
     {
         await _bookService.CreateAsync(createBook);
-        return UnifyResponseDto.Success("新增书籍成功");
+        return UnifyResponseDto.Success("书籍《" + createBook.Title + "》" + (!string.IsNullOrEmpty(createBook.Subtitle) ? createBook.Subtitle : string.Empty) + "创建成功");
     }
 
     [Logger("删除了一本书籍")]
@@ -56,7 +56,7 @@ public class BookController : ControllerBase
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
     {
         await _bookService.UpdateAsync(id, updateBook);
-        return UnifyResponseDto.Success("更新书籍成功");
+        return UnifyResponseDto.Success("书籍《" + updateBook.Title + "》" + (!string.IsNullOrEmpty(updateBook.Subtitle) ? updateBook.Subtitle : string.Empty) + "更新成功");
     }
 
     [Logger("查看了书籍详情")]

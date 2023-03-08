@@ -56,7 +56,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 图赞
         /// </summary>
-        [Column(StringLength = 60)]
+        [Column(StringLength = 65)]
         public string Tuzan { get; set; } = string.Empty;
 
         /// <summary>
