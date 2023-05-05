@@ -28,6 +28,8 @@ namespace LinCms.Data
 
         public string Sort { get; set; }
 
+        public string ItemType { get; set; }
+
         public string Keyword { get; set; }
     }
 

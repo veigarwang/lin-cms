@@ -1,6 +1,8 @@
-﻿using IGeekFan.FreeKit.Extras.FreeSql;
+﻿using AutoMapper;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Data;
+using LinCms.Entities;
 using LinCms.v1.Encyclopedias;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -33,8 +35,9 @@ namespace LinCms.Controllers.v1
         [LinCmsAuthorize("删除词条", "山海百科")]
         public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
+            var item = await _encyclopediaService.GetAsync(id);
             await _encyclopediaService.DeleteAsync(id);
-            return UnifyResponseDto.Success();
+            return UnifyResponseDto.Success("词条【" + item.Name + "】删除成功");
 
         }
 
@@ -52,8 +55,7 @@ namespace LinCms.Controllers.v1
         [LinCmsAuthorize("查看百科词条详情", "山海百科")]
         public async Task<EncyclopediaDto> GetAsync(int id)
         {
-            var item = await _encyclopediaService.GetAsync(id);
-            return item;
+            return await _encyclopediaService.GetAsync(id);
         }
 
         [DisableAuditing]

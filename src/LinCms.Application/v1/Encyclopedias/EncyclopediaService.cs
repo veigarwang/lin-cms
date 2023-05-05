@@ -6,9 +6,11 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LinCms.v1.Encyclopedias
@@ -38,7 +40,14 @@ namespace LinCms.v1.Encyclopedias
         {
             Encyclopedia exist = await _encyclopediaRepository.Where(r => (r.Name == createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
             if (exist == null)
+            {
                 exist = await _encyclopediaRepository.Where(r => r.Alias.Contains(createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
+                var alias = exist.Alias.Split(",");
+                if (alias.Length <= 0 || !alias.Contains(createEncyclopedia.Name))
+                {
+                    exist = null;
+                }
+            }
             if (exist == null)
             {
                 BaseItem item = await _baseItemRepository.Where(r => r.BaseTypeId == 3 && r.ItemCode == createEncyclopedia.ItemType.ToString()).ToOneAsync();
@@ -50,7 +59,7 @@ namespace LinCms.v1.Encyclopedias
                 {
                     if (string.IsNullOrEmpty(exist.Alias))
                         exist.Alias = createEncyclopedia.Alias;
-                    else if (!exist.Alias.Contains(createEncyclopedia.Alias))
+                    else if (!exist.Alias.Contains(createEncyclopedia.Alias) && !exist.Name.Contains(createEncyclopedia.Alias))
                         exist.Alias += "," + createEncyclopedia.Alias;
                 }
 
@@ -78,19 +87,42 @@ namespace LinCms.v1.Encyclopedias
                         exist.Provenance += "," + createEncyclopedia.Provenance;
                 }
 
-                exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
+                if (!exist.OriginalText.Contains(createEncyclopedia.OriginalText.Trim('\n')))
+                    exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Guozhu))
-                    exist.Guozhu += string.IsNullOrEmpty(exist.Guozhu) ? createEncyclopedia.Guozhu.TrimEnd('\n') : "\n" + createEncyclopedia.Guozhu.TrimEnd('\n');
+                {
+                    if (string.IsNullOrEmpty(exist.Guozhu))
+                        exist.Guozhu = createEncyclopedia.Guozhu;
+                    else if (!exist.Guozhu.Contains(createEncyclopedia.Guozhu.Trim('\n')))
+                        exist.Guozhu += "\n" + createEncyclopedia.Guozhu.TrimEnd('\n');
+                }
 
-                if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan) && !exist.Tuzan.Contains(createEncyclopedia.Tuzan))
-                    exist.Tuzan += string.IsNullOrEmpty(exist.Tuzan) ? createEncyclopedia.Tuzan : "\n" + createEncyclopedia.Tuzan.TrimEnd('\n');
+                if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan))
+                {
+                    if (string.IsNullOrEmpty(exist.Tuzan))
+                        exist.Tuzan = createEncyclopedia.Tuzan;
+                    else if (!exist.Tuzan.Contains(createEncyclopedia.Tuzan.Trim('\n')))
+                        exist.Tuzan += "\n" + createEncyclopedia.Tuzan.TrimEnd('\n');
+                }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Jijie))
-                    exist.Jijie += string.IsNullOrEmpty(exist.Jijie) ? createEncyclopedia.Jijie : "\n" + createEncyclopedia.Jijie.TrimEnd('\n');
+                {
+                    if (string.IsNullOrEmpty(exist.Jijie))
+                        exist.Jijie = createEncyclopedia.Jijie;
+                    else if (!exist.Jijie.Contains(CorrectQuatation(createEncyclopedia.Jijie).Trim('\n')))
+                        exist.Jijie += "\n" + createEncyclopedia.Jijie.TrimEnd('\n');
+                    exist.Jijie = CorrectQuatation(exist.Jijie);
+                }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Remarks))
-                    exist.Remarks += string.IsNullOrEmpty(exist.Remarks) ? createEncyclopedia.Remarks : "\n" + createEncyclopedia.Remarks.TrimEnd('\n');
+                {
+                    if (string.IsNullOrEmpty(exist.Remarks))
+                        exist.Remarks = createEncyclopedia.Remarks;
+                    else if (!exist.Jijie.Contains(CorrectQuatation(createEncyclopedia.Remarks).Trim('\n')))
+                        exist.Remarks += "\n" + createEncyclopedia.Remarks.TrimEnd('\n');
+                    exist.Remarks = CorrectQuatation(exist.Remarks);
+                }
 
                 await _encyclopediaRepository.UpdateAsync(exist);
                 //throw new LinCmsException("词条" + createEncyclopedia.Name + "已存在");
@@ -101,8 +133,8 @@ namespace LinCms.v1.Encyclopedias
                 Encyclopedia encyclopedia = Mapper.Map<Encyclopedia>(createEncyclopedia);
                 encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
                 encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
-                encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
-                encyclopedia.Remarks = encyclopedia.Remarks?.TrimEnd('\n');
+                encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie)?.TrimEnd('\n');
+                encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks)?.TrimEnd('\n');
                 await _encyclopediaRepository.InsertAsync(encyclopedia);
                 return CreateType.Insert.ToInt32();
             }
@@ -145,6 +177,7 @@ namespace LinCms.v1.Encyclopedias
             encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
             encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
             encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
+            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie);
             encyclopedia.Remarks = encyclopedia.Remarks?.TrimEnd('\n');
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
         }
@@ -167,13 +200,81 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
 
             foreach (var encyclopedia in items)
             {
                 encyclopedia.ItemTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 3 && p.ItemCode == encyclopedia.ItemType.ToString()).ToOne().ItemName;
             }
             return new PagedResultDto<EncyclopediaDto>(items, count);
+        }
+
+        private string CorrectQuatation(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            StringBuilder stringBuilder = new StringBuilder(text);
+            char[] quatationArray = { '『', '』', '「', '」' };
+            char[] leftQuatationArray = { '「', '『' };
+            int singleLeftQuatationCount = 0, singleRightQuatationCount = 0, doubleLeftQuatationCount = 0, doubleRightQuatationCount = 0,
+                quatationCount = 0;
+            char lastQuatation = '『', currentQuatation;
+            for (int i = 0; i < stringBuilder.Length; i++)
+            {
+                if (!quatationArray.Contains(stringBuilder[i])) continue;
+                currentQuatation = stringBuilder[i];
+                if (quatationCount++ == 0)
+                {
+                    if (stringBuilder[i] != '『')
+                        stringBuilder[i] = '『';
+                    doubleLeftQuatationCount++;
+                }
+                else
+                {
+                    // 始终判断上一个引号是什么，如果是左，此处应是右，单双相同；
+                    // 若此处也是左，则此处应是右，单双与上一个相同；此处是左，则改成右
+                    switch (lastQuatation)
+                    {
+                        case '『':
+                        case '」':
+                            if (leftQuatationArray.Contains(currentQuatation)) // 若上一个是左双/右单，此处是左引号，则应该是左单引号
+                            {
+                                currentQuatation = '「';
+                                singleLeftQuatationCount++;
+                            }
+                            else // 若上一个是左双/右单，此处是右引号，则此处应是右双引号
+                            {
+                                currentQuatation = '』';
+                                doubleRightQuatationCount++;
+                            }
+                            break;
+                        case '』':
+                        case '「':
+                            if (leftQuatationArray.Contains(currentQuatation)) // 若上一个是左单/右双，此处是左引号，则应该是左双引号
+                            {
+                                currentQuatation = '『';
+                                doubleLeftQuatationCount++;
+                            }
+                            else // 若上一个是左单/右双，此处是右引号，则此处应是右单引号
+                            {
+                                currentQuatation = '」';
+                                singleRightQuatationCount++;
+                            }
+                            break;
+
+                    }
+                    stringBuilder[i] = currentQuatation;
+                    lastQuatation = currentQuatation;
+                }
+            }
+            if (doubleLeftQuatationCount != doubleRightQuatationCount || singleLeftQuatationCount != singleRightQuatationCount)
+            {
+                throw new LinCmsException("左双引号数量：" + doubleLeftQuatationCount + "\n" +
+                    "右双引号数量：" + doubleRightQuatationCount + "\n" +
+                    "左单引号数量：" + singleLeftQuatationCount + "\n" +
+                    "右单引号数量：" + singleRightQuatationCount + "\n"
+                    );
+            }
+            return stringBuilder.ToString();
         }
     }
 }

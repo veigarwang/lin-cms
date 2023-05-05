@@ -40,8 +40,9 @@ public class BookController : ControllerBase
     [LinCmsAuthorize("删除书籍", "书籍")]
     public async Task<UnifyResponseDto> DeleteAsync(int id)
     {
+        var item = await _bookService.GetAsync(id);
         await _bookService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
+        return UnifyResponseDto.Success("书籍《" + item.Title + "》" + (!string.IsNullOrEmpty(item.Subtitle) ? item.Subtitle : string.Empty) + "删除成功");
     }
 
     [HttpGet("list")]

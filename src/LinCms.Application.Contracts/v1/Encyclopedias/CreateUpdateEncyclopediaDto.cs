@@ -9,7 +9,7 @@ namespace LinCms.v1.Encyclopedias
         /// 词条名称
         /// </summary>
         [Required(ErrorMessage = "必须传入词条名称")]
-        [StringLength(25, ErrorMessage = "名称应小于25字符")]
+        [StringLength(20, ErrorMessage = "名称应小于20字符")]
         public string Name { get; init; }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 释名
         /// </summary>
-        [StringLength(30, ErrorMessage = "释名应小于30字符")]
+        [StringLength(20, ErrorMessage = "释名应小于20字符")]
         public string Explanation { get; init; }
 
         /// <summary>
@@ -38,37 +38,37 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 原文
         /// </summary>
-        [StringLength(4000, ErrorMessage = "原文应小于4000字符")]
+        [StringLength(10000, ErrorMessage = "原文应小于10000字符")]
         public string OriginalText { get; init; }
 
         /// <summary>
         /// 郭注
         /// </summary>
-        [StringLength(3000, ErrorMessage = "郭注应小于3000字符")]
+        [StringLength(4000, ErrorMessage = "郭注应小于4000字符")]
         public string Guozhu { get; init; }
 
         /// <summary>
         /// 图赞
         /// </summary>
-        [StringLength(65, ErrorMessage = "图赞应小于65字符")]
+        [StringLength(93, ErrorMessage = "图赞应小于93字符")]
         public string Tuzan { get; init; }
 
         /// <summary>
         /// 集解
         /// </summary>
-        [StringLength(4000, ErrorMessage = "集解应小于4000字符")]
+        [StringLength(10000, ErrorMessage = "集解应小于10000字符")]
         public string Jijie { get; init; }
 
         /// <summary>
         /// 作用
         /// </summary>
-        [StringLength(30, ErrorMessage = "作用应小于30字符")]
+        [StringLength(20, ErrorMessage = "作用应小于20字符")]
         public string Effect { get; init; }
 
         /// <summary>
         /// 出处
         /// </summary>
-        [StringLength(100, ErrorMessage = "出处应小于100字符")]
+        [StringLength(90, ErrorMessage = "出处应小于90字符")]
         public string Provenance { get; init; }
 
         /// <summary>

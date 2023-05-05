@@ -15,7 +15,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 词条名称
         /// </summary>
-        [Column(StringLength = 25)]
+        [Column(StringLength = 20)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace LinCms.Entities
         ///<summary>
         /// 释名
         /// </summary>
-        [Column(StringLength = 30)]
+        [Column(StringLength = 20)]
         public string Explanation { get; set; } = string.Empty;
 
         /// <summary>
@@ -50,31 +50,31 @@ namespace LinCms.Entities
         /// <summary>
         /// 郭注
         /// </summary>
-        [Column(StringLength = 3000)]
+        [Column(StringLength = 4000)]
         public string Guozhu { get; set; } = string.Empty;
 
         /// <summary>
         /// 图赞
         /// </summary>
-        [Column(StringLength = 65)]
+        [Column(StringLength = 93)]
         public string Tuzan { get; set; } = string.Empty;
 
         /// <summary>
         /// 集解
         /// </summary>
-        [Column(StringLength = 500)]
+        [Column(StringLength = -1)]
         public string Jijie { get; set; } = string.Empty;
 
         /// <summary>
         /// 作用
         /// </summary>
-        [Column(StringLength = 30)]
+        [Column(StringLength = 20)]
         public string Effect { get; set; } = string.Empty;
 
         /// <summary>
         /// 出处
         /// </summary>
-        [Column(StringLength = 100)]
+        [Column(StringLength = 90)]
         public string Provenance { get; set; } = string.Empty;
 
         /// <summary>

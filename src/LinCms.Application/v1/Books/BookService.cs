@@ -6,6 +6,7 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,7 +109,7 @@ namespace LinCms.v1.Books
 
         public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
         {
-            List<BookDto> items = (await _bookRepository.WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
+            List<BookDto> items = (await _bookRepository.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
 
             foreach (var book in items)
             {
