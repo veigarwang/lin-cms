@@ -22,7 +22,7 @@ public class AccountService : ApplicationService, IAccountService
     private readonly IUserIdentityService _userIdentityService;
     private readonly SiteOption _siteOption;
     private readonly ICaptchaManager _captchaManager;
-    private readonly LoginCaptchaOption _loginCaptchaOption;
+    private readonly CaptchaOption _loginCaptchaOption;
     public AccountService(
         IAuditBaseRepository<LinUser, long> userRepository,
         IEmailSender emailSender,
@@ -30,7 +30,7 @@ public class AccountService : ApplicationService, IAccountService
         IUserIdentityService userIdentityService,
         IOptionsMonitor<SiteOption> siteOption,
         ICaptchaManager captchaManager,
-        IOptionsMonitor<LoginCaptchaOption> loginCaptchaOption)
+        IOptionsMonitor<CaptchaOption> loginCaptchaOption)
     {
         _userRepository = userRepository;
         _emailSender = emailSender;
@@ -47,7 +47,7 @@ public class AccountService : ApplicationService, IAccountService
     /// <returns>验证码</returns>
     public LoginCaptchaDto GenerateCaptcha()
     {
-        if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
+        //if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
         string captcha = _captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
         string base64String = _captchaManager.GetRandomCaptchaBase64(captcha);
         string tag = _captchaManager.GetTag(captcha, _loginCaptchaOption.Salt);

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Cms.Account;
 
@@ -26,6 +25,4 @@ public class LoginInputDto
     [CanBeNull]
     public string Captcha { get; set; }
 
-    [CanBeNull] 
-    public string Tag { get; set; }
 }
