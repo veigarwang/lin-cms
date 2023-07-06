@@ -16,6 +16,7 @@ using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
+using LinCms.Domain.Captcha;
 using LinCms.Extensions;
 using LinCms.FreeSql;
 using LinCms.Middleware;
@@ -65,7 +66,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient("IdentityServer4");
         services.AddEmailSender(configuration);
-        services.Configure<LoginCaptchaOption>(configuration.GetSection("LoginCaptcha"));
+        services.Configure<CaptchaOption>(configuration.GetSection("LoginCaptcha"));
         services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         services.Configure<SiteOption>(configuration.GetSection("Site"));
         return services;
@@ -82,7 +83,7 @@ public static class ServiceCollectionExtensions
         services.AddMvc(options =>
             {
                 options.ValueProviderFactories.Add(new SnakeCaseValueProviderFactory()); //设置SnakeCase形式的QueryString参数
-                options.Filters.Add<UnitOfWorkActionFilter>(); 
+                options.Filters.Add<UnitOfWorkActionFilter>();
                 options.Filters.Add<AopCacheableActionFilter>();
                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
                 options.Filters.Add<LinCmsExceptionFilter>(); // 
@@ -146,10 +147,19 @@ public static class ServiceCollectionExtensions
     /// <param name="c"></param>
     public static IServiceCollection AddFreeSql(this IServiceCollection services, IConfiguration c)
     {
+        //var options = new IdGeneratorOptions(1);
+        // options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
+        // options.SeqBitLength = 6; // 默认值6，限制每毫秒生成的ID个数。若生成速度超过5万个/秒，建议加大 SeqBitLength 到 10。
+        // options.BaseTime = Your_Base_Time; // 如果要兼容老系统的雪花算法，此处应设置为老系统的BaseTime。
+        // ...... 其它参数参考 IdGeneratorOptions 定义。
+        //YitIdHelper.SetIdGenerator(options);
+        // 保存参数（务必调用，否则参数设置不生效）
+
         Func<IServiceProvider, IFreeSql> fsql = r =>
         {
             IFreeSql fsql = new FreeSqlBuilder()
                 .UseConnectionString(c)
+                .UseMappingPriority(MappingPriorityType.Attribute, MappingPriorityType.FluentApi, MappingPriorityType.Aop)
                 .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                 .UseAutoSyncStructure(true)
                 .UseNoneCommandParameter(true)
@@ -186,10 +196,25 @@ ElapsedMilliseconds:{3}ms
                     //记录日志
                     //发送短信给负责人
                 }
-            }; 
+            };
             #endregion
 
             fsql.GlobalFilter.Apply<ISoftDelete>("IsDeleted", a => a.IsDeleted == false);
+
+            //fsql.Aop.AuditValue += (s, e) =>
+            //{
+            //    if (e.Column.CsType == typeof(long) && e.Property.Name == "Id" && e.Value?.ToString() == "0")
+            //    {
+            //        e.Value = YitIdHelper.NextId();
+            //        //e.Column.Attribute.IsIdentity = false;
+            //    }
+            //};
+            //fsql.Aop.ConfigEntityProperty += (s, e) =>
+            //{
+            //    if (e.Property.Name == "Id")
+            //        e.ModifyResult.IsIdentity = false;
+            //};
+            //数据库特性 > 实体特性 > FluentApi（配置特性） > Aop（配置特性）
 
             //敏感词处理
             if (c["AuditValue:Enable"].ToBoolean())
