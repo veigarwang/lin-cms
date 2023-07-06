@@ -1016,6 +1016,11 @@
             读音
             </summary>
         </member>
+        <member name="P:LinCms.Entities.Encyclopedia.SimplifiedPronunciation">
+            <summary>
+            无声调读音
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Encyclopedia.Alias">
             <summary>
             别名

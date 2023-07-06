@@ -21,8 +21,15 @@ namespace LinCms.Entities
         /// <summary>
         /// 读音
         /// </summary>
-        [Column(StringLength = 35)]
+        [Column(StringLength = 45)]
         public string Pronunciation { get; set; } = string.Empty;
+
+
+        /// <summary>
+        /// 无声调读音
+        /// </summary>
+        [Column(StringLength = 45)]
+        public string SimplifiedPronunciation { get; set; } = string.Empty;
 
         /// <summary>
         /// 别名
@@ -56,7 +63,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 图赞
         /// </summary>
-        [Column(StringLength = 93)]
+        [Column(StringLength = 105)]
         public string Tuzan { get; set; } = string.Empty;
 
         /// <summary>

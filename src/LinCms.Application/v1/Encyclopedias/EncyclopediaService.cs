@@ -42,10 +42,13 @@ namespace LinCms.v1.Encyclopedias
             if (exist == null)
             {
                 exist = await _encyclopediaRepository.Where(r => r.Alias.Contains(createEncyclopedia.Name) && r.ItemType == createEncyclopedia.ItemType).ToOneAsync();
-                var alias = exist.Alias.Split(",");
-                if (alias.Length <= 0 || !alias.Contains(createEncyclopedia.Name))
+                if (exist != null && !string.IsNullOrEmpty(exist.Alias))
                 {
-                    exist = null;
+                    var alias = exist.Alias?.Split(",");
+                    if (alias.Length <= 0 || !alias.Contains(createEncyclopedia.Name))
+                    {
+                        exist = null;
+                    }
                 }
             }
             if (exist == null)
@@ -94,8 +97,8 @@ namespace LinCms.v1.Encyclopedias
                 {
                     if (string.IsNullOrEmpty(exist.Guozhu))
                         exist.Guozhu = createEncyclopedia.Guozhu;
-                    else if (!exist.Guozhu.Contains(createEncyclopedia.Guozhu.Trim('\n')))
-                        exist.Guozhu += "\n" + createEncyclopedia.Guozhu.TrimEnd('\n');
+                    else if (!exist.Guozhu.Contains(CorrectQuatation(createEncyclopedia.Guozhu).Trim('\n')))
+                        exist.Guozhu += "\n" + CorrectQuatation(createEncyclopedia.Guozhu).TrimEnd('\n');
                 }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan))
@@ -131,7 +134,8 @@ namespace LinCms.v1.Encyclopedias
             else
             {
                 Encyclopedia encyclopedia = Mapper.Map<Encyclopedia>(createEncyclopedia);
-                encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
+                encyclopedia.SimplifiedPronunciation = RemoveTune(createEncyclopedia.Pronunciation);
+                encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu)?.TrimEnd('\n');
                 encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
                 encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie)?.TrimEnd('\n');
                 encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks)?.TrimEnd('\n');
@@ -174,6 +178,8 @@ namespace LinCms.v1.Encyclopedias
 
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateEncyclopedia, encyclopedia);
+            encyclopedia.SimplifiedPronunciation = RemoveTune(updateEncyclopedia.Pronunciation);
+            encyclopedia.OriginalText = encyclopedia.OriginalText?.TrimEnd('\n');
             encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
             encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
             encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
@@ -200,11 +206,11 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword || p.SimplifiedPronunciation.Contains(pageDto.Keyword.Replace(" ", string.Empty))).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
 
             foreach (var encyclopedia in items)
             {
-                encyclopedia.ItemTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 3 && p.ItemCode == encyclopedia.ItemType.ToString()).ToOne().ItemName;
+                encyclopedia.ItemTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 3 && p.ItemCode == encyclopedia.ItemType.ToString()).ToOne()?.ItemName;
             }
             return new PagedResultDto<EncyclopediaDto>(items, count);
         }
@@ -275,6 +281,36 @@ namespace LinCms.v1.Encyclopedias
                     );
             }
             return stringBuilder.ToString();
+        }
+
+        private string RemoveTune(string keyword)
+        {
+            return keyword
+                .Replace("ā", "a")
+                .Replace("á", "a")
+                .Replace("ǎ", "a")
+                .Replace("à", "a")
+                .Replace("ō", "o")
+                .Replace("ó", "o")
+                .Replace("ǒ", "o")
+                .Replace("ò", "o")
+                .Replace("ē", "e")
+                .Replace("é", "e")
+                .Replace("ě", "e")
+                .Replace("è", "e")
+                .Replace("ī", "i")
+                .Replace("í", "i")
+                .Replace("ǐ", "i")
+                .Replace("ì", "i")
+                .Replace("ū", "u")
+                .Replace("ú", "u")
+                .Replace("ǔ", "u")
+                .Replace("ù", "u")
+                .Replace("ǖ", "u")
+                .Replace("ǘ", "u")
+                .Replace("ǚ", "u")
+                .Replace("ǜ", "u")
+                .Replace(" ", string.Empty);
         }
     }
 }

@@ -37,9 +37,9 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("书籍《" + createBook.Title + "》" + createBook.Subtitle + "已存在");
             }
 
-        Book book = Mapper.Map<Book>(createBook);
-        await _bookRepository.InsertAsync(book);
-    }
+            Book book = Mapper.Map<Book>(createBook);
+            await _bookRepository.InsertAsync(book);
+        }
 
         public Task DeleteAsync(long id)
         {
@@ -79,8 +79,8 @@ namespace LinCms.v1.Books
             //book.Summary = updateBook.Summary;
             //book.Summary = updateBook.Summary;
 
-        //使用AutoMapper方法简化类与类之间的转换过程
-        Mapper.Map(updateBook, book);
+            //使用AutoMapper方法简化类与类之间的转换过程
+            Mapper.Map(updateBook, book);
 
             await _bookRepository.UpdateAsync(book);
         }
@@ -98,7 +98,7 @@ namespace LinCms.v1.Books
 
         public async Task<long> GetTotalAsync()
         {
-            return await _bookRepository.Select.CountAsync();            
+            return await _bookRepository.Select.CountAsync();
         }
 
         public async Task<List<BookDto>> GetListAsync()
@@ -113,7 +113,8 @@ namespace LinCms.v1.Books
 
             foreach (var book in items)
             {
-                book.Isbn = book.Isbn.Insert(3, "-").Insert(5, "-").Insert(10, "-").Insert(15, "-");
+                if (book.Isbn.Length > 3)
+                    book.Isbn = book.Isbn.Insert(3, "-").Insert(5, "-").Insert(10, "-").Insert(15, "-");
                 book.BookTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 1 && p.ItemCode == book.BookType.ToString()).ToOne().ItemName;
             }
             return new PagedResultDto<BookDto>(items, count);

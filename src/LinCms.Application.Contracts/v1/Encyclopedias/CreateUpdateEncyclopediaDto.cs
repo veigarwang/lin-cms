@@ -50,7 +50,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 图赞
         /// </summary>
-        [StringLength(93, ErrorMessage = "图赞应小于93字符")]
+        [StringLength(105, ErrorMessage = "图赞应小于105字符")]
         public string Tuzan { get; init; }
 
         /// <summary>
