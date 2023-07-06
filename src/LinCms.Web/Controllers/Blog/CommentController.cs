@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Comments;
@@ -8,6 +7,8 @@ using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Blog;
 
@@ -105,7 +106,7 @@ public class CommentController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
     {
-        Comment comment = _commentRepository.Select.Where(r => r.Id == id).ToOne();
+        Comment comment =await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
         if (comment == null)
         {
             throw new LinCmsException("没有找到相关评论");
