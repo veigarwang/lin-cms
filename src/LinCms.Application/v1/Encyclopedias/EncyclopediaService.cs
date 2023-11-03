@@ -181,11 +181,10 @@ namespace LinCms.v1.Encyclopedias
             Mapper.Map(updateEncyclopedia, encyclopedia);
             encyclopedia.SimplifiedPronunciation = RemoveTune(updateEncyclopedia.Pronunciation);
             encyclopedia.OriginalText = encyclopedia.OriginalText?.TrimEnd('\n');
-            encyclopedia.Guozhu = encyclopedia.Guozhu?.TrimEnd('\n');
+            encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.TrimEnd('\n'));
             encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
-            encyclopedia.Jijie = encyclopedia.Jijie?.TrimEnd('\n');
-            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie);
-            encyclopedia.Remarks = encyclopedia.Remarks?.TrimEnd('\n');
+            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.TrimEnd('\n'));
+            encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.TrimEnd('\n'));
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
         }
 

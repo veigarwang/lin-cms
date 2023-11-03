@@ -100,9 +100,9 @@ namespace LinCms.v1.Books
             return Mapper.Map<BookDto>(book);
         }
 
-        public async Task<long> GetTotalAsync()
+        public async Task<long> GetTotalAsync(bool isRead)
         {
-            return await _bookRepository.Select.CountAsync();
+            return await _bookRepository.WhereIf(isRead, p => p.IsRead == isRead).CountAsync();
         }
 
         public async Task<List<BookDto>> GetListAsync()

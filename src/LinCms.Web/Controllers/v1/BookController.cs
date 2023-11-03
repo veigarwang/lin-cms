@@ -72,10 +72,10 @@ public class BookController : ControllerBase
     }
 
     [DisableAuditing]
-    [HttpGet("getTotal")]
-    public async Task<long> GetTotalAsync()
+    [HttpGet("getTotal/{isRead}")]
+    public async Task<long> GetTotalAsync(bool isRead = false)
     {
-        return await _bookService.GetTotalAsync();
+        return await _bookService.GetTotalAsync(isRead);
     }
 
     [Logger("查询了书籍列表")]

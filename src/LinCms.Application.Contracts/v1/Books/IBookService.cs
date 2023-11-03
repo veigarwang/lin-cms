@@ -17,7 +17,7 @@ public interface IBookService
 
     Task<BookDto> GetAsync(long id);
 
-    Task<long> GetTotalAsync();
+    Task<long> GetTotalAsync(bool isRead = false);
 
     Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto);
 }

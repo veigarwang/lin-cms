@@ -904,6 +904,11 @@
             版本号
             </summary>
         </member>
+        <member name="P:LinCms.v1.Books.BookDto.UpdateTime">
+            <summary>
+            上次修改时间
+            </summary>
+        </member>
         <member name="P:LinCms.v1.Books.BookDto.Isbn">
             <summary>
             国际标准书号
@@ -1222,6 +1227,11 @@
         <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Version">
             <summary>
             版本号
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.UpdateTime">
+            <summary>
+            上次修改时间
             </summary>
         </member>
         <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Name">

@@ -1,4 +1,5 @@
 ﻿using IGeekFan.FreeKit.Extras.AuditEntity;
+using System;
 
 namespace LinCms.v1.Encyclopedias
 {
@@ -8,6 +9,11 @@ namespace LinCms.v1.Encyclopedias
         /// 版本号
         /// </summary>
         public int Version { get; init; }
+
+        /// <summary>
+        /// 上次修改时间
+        /// </summary>
+        public DateTime UpdateTime { get; init; }
 
         /// <summary>
         /// 词条名称

@@ -11,6 +11,11 @@ namespace LinCms.v1.Books
         public int Version { get; init; }
 
         /// <summary>
+        /// 上次修改时间
+        /// </summary>
+        public DateTime UpdateTime { get; init; }
+
+        /// <summary>
         /// 国际标准书号
         /// </summary>
         public string Isbn { get; set; }
@@ -139,9 +144,5 @@ namespace LinCms.v1.Books
         /// 读后感
         /// </summary>
         public string Summary { get; init; }
-
-        public DateTime CreateTime { get; init; }
-
-        public DateTime UpdateTime { get; init; }
     }
 }
