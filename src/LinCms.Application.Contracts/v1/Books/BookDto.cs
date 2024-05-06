@@ -31,11 +31,6 @@ namespace LinCms.v1.Books
         public string Subtitle { get; init; }
 
         /// <summary>
-        /// 完整书名
-        /// </summary>
-        public string ShowName { get; set; }
-
-        /// <summary>
         /// 书籍类别编码
         /// </summary>
         public short BookType { get; init; }
@@ -46,9 +41,14 @@ namespace LinCms.v1.Books
         public string BookTypeName { get; set; }
 
         /// <summary>
-        /// 第一著者类型
+        /// 第一著者类型编码
         /// </summary>
         public short AuthorType1 { get; init; }
+
+        /// <summary>
+        /// 第一著者类型名称
+        /// </summary>
+        public string AuthorTypeName1 { get; set; }
 
         /// <summary>
         /// 第一著者
@@ -56,9 +56,14 @@ namespace LinCms.v1.Books
         public string Author1 { get; init; }
 
         /// <summary>
-        /// 第二著者类型
+        /// 第二著者类型编码
         /// </summary>
         public short AuthorType2 { get; init; }
+
+        /// <summary>
+        /// 第二著者类型名称
+        /// </summary>
+        public string AuthorTypeName2 { get; set; }
 
         /// <summary>
         /// 第二著者
@@ -66,9 +71,14 @@ namespace LinCms.v1.Books
         public string Author2 { get; init; }
 
         /// <summary>
-        /// 第三著者类型
+        /// 第三著者类型编码
         /// </summary>
         public short AuthorType3 { get; init; }
+
+        /// <summary>
+        /// 第三著者类型名称
+        /// </summary>
+        public string AuthorTypeName3 { get; set; }
 
         /// <summary>
         /// 第三著者

@@ -120,6 +120,9 @@ namespace LinCms.v1.Books
                 if (book.Isbn.Length > 3)
                     book.Isbn = book.Isbn.Insert(3, "-").Insert(5, "-").Insert(10, "-").Insert(15, "-");
                 book.BookTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 1 && p.ItemCode == book.BookType.ToString()).ToOne().ItemName;
+                book.AuthorTypeName1 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType1.ToString()).ToOne().ItemName;
+                book.AuthorTypeName2 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType2.ToString()).ToOne().ItemName;
+                book.AuthorTypeName3 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType3.ToString()).ToOne().ItemName;
             }
             return new PagedResultDto<BookDto>(items, count);
         }

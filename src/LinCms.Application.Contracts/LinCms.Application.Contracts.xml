@@ -934,11 +934,6 @@
             副标题
             </summary>
         </member>
-        <member name="P:LinCms.v1.Books.BookDto.ShowName">
-            <summary>
-            完整书名
-            </summary>
-        </member>
         <member name="P:LinCms.v1.Books.BookDto.BookType">
             <summary>
             书籍类别编码
@@ -951,7 +946,12 @@
         </member>
         <member name="P:LinCms.v1.Books.BookDto.AuthorType1">
             <summary>
-            第一著者类型
+            第一著者类型编码
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorTypeName1">
+            <summary>
+            第一著者类型名称
             </summary>
         </member>
         <member name="P:LinCms.v1.Books.BookDto.Author1">
@@ -961,7 +961,12 @@
         </member>
         <member name="P:LinCms.v1.Books.BookDto.AuthorType2">
             <summary>
-            第二著者类型
+            第二著者类型编码
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorTypeName2">
+            <summary>
+            第二著者类型名称
             </summary>
         </member>
         <member name="P:LinCms.v1.Books.BookDto.Author2">
@@ -971,7 +976,12 @@
         </member>
         <member name="P:LinCms.v1.Books.BookDto.AuthorType3">
             <summary>
-            第三著者类型
+            第三著者类型编码
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.BookDto.AuthorTypeName3">
+            <summary>
+            第三著者类型名称
             </summary>
         </member>
         <member name="P:LinCms.v1.Books.BookDto.Author3">
