@@ -14,7 +14,7 @@ namespace LinCms.v1.Encyclopedias
 
         Task<EncyclopediaDto> GetAsync(long id);
 
-        Task<long> GetTotalAsync();
+        Task<long> GetTotalAsync(int days);
 
         Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto);
     }

@@ -149,7 +149,7 @@ namespace LinCms.v1.Encyclopedias
         {
             Encyclopedia encyclopedia = _encyclopediaRepository.Where(a => a.Id == id).ToOne();
             DeletePicFile(encyclopedia);
-            return _encyclopediaRepository.DeleteAsync(new Encyclopedia { Id = id });
+            return _encyclopediaRepository.DeleteAsync(new Encyclopedia { Id = id, Version = encyclopedia.Version });
         }
 
         private void DeletePicFile(Encyclopedia encyclopedia)
@@ -199,9 +199,9 @@ namespace LinCms.v1.Encyclopedias
             return Mapper.Map<EncyclopediaDto>(encyclopedia);
         }
 
-        public async Task<long> GetTotalAsync()
+        public async Task<long> GetTotalAsync(int days)
         {
-            return await _encyclopediaRepository.Select.CountAsync();
+            return await _encyclopediaRepository.WhereIf(days != 0, p => p.CreateTime >= DateTime.Today.AddDays(days) || p.UpdateTime >= DateTime.Today.AddDays(days)).CountAsync();
         }
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
@@ -266,18 +266,21 @@ namespace LinCms.v1.Encyclopedias
                                 singleRightQuatationCount++;
                             }
                             break;
-
                     }
                     stringBuilder[i] = currentQuatation;
                     lastQuatation = currentQuatation;
                 }
             }
-            if (doubleLeftQuatationCount != doubleRightQuatationCount || singleLeftQuatationCount != singleRightQuatationCount)
+            if (doubleLeftQuatationCount != doubleRightQuatationCount)
             {
-                throw new LinCmsException("左双引号数量：" + doubleLeftQuatationCount + "\n" +
-                    "右双引号数量：" + doubleRightQuatationCount + "\n" +
-                    "左单引号数量：" + singleLeftQuatationCount + "\n" +
-                    "右单引号数量：" + singleRightQuatationCount + "\n"
+                throw new LinCmsException("双引号数量不匹配，左双引号数量：" + doubleLeftQuatationCount + "个\n" +
+                    "右双引号数量：" + doubleRightQuatationCount + "个\n"
+                    );
+            }
+            if (singleLeftQuatationCount != singleRightQuatationCount)
+            {
+                throw new LinCmsException("单引号数量不匹配，左单引号数量：" + singleLeftQuatationCount + "个\n" +
+                    "右单引号数量：" + singleRightQuatationCount + "个\n"
                     );
             }
             return stringBuilder.ToString();

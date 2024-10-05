@@ -60,10 +60,10 @@ namespace LinCms.Controllers.v1
         }
 
         [DisableAuditing]
-        [HttpGet("getTotal")]
-        public async Task<long> GetTotalAsync()
+        [HttpGet("getTotal/{days}")]
+        public async Task<long> GetTotalAsync(int days = 0)
         {
-            return await _encyclopediaService.GetTotalAsync();
+            return await _encyclopediaService.GetTotalAsync(days);
         }
 
         [Logger("查询了百科词条列表")]

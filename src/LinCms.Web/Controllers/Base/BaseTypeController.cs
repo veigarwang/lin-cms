@@ -23,7 +23,7 @@ public class BaseTypeController : ControllerBase
         _baseTypeService = baseTypeService;
     }
 
-    [Logger("删除了一个字典类型")]
+    [Logger("删除了一个字典类别")]
     [HttpDelete("{id}")]
     [LinCmsAuthorize("删除字典类别", "字典类别")]
     public async Task<UnifyResponseDto> DeleteAsync(int id)
@@ -32,7 +32,7 @@ public class BaseTypeController : ControllerBase
         return UnifyResponseDto.Success();
     }
 
-    [Logger("查询了字典类型列表")]
+    [Logger("查询了字典类别列表")]
     [HttpGet]
     [LinCmsAuthorize("查询字典类别列表", "字典类别")]
     public Task<List<BaseTypeDto>> GetListAsync()
@@ -40,15 +40,15 @@ public class BaseTypeController : ControllerBase
         return _baseTypeService.GetListAsync();
     }
 
-    [Logger("查看了字典类型详情")]
+    [Logger("查看了字典类别详情")]
     [HttpGet("{id}")]
-    [LinCmsAuthorize("查看字典类型详情", "字典类别")]
+    [LinCmsAuthorize("查看字典类别详情", "字典类别")]
     public Task<BaseTypeDto> GetAsync(int id)
     {
         return _baseTypeService.GetAsync(id);
     }
 
-    [Logger("新增了一个字典类型")]
+    [Logger("新增了一个字典类别")]
     [HttpPost]
     [LinCmsAuthorize("新增字典类别", "字典类别")]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseTypeDto createBaseType)
@@ -57,7 +57,7 @@ public class BaseTypeController : ControllerBase
         return UnifyResponseDto.Success("新增类别成功");
     }
 
-    [Logger("更新了一个字典类型")]
+    [Logger("更新了一个字典类别")]
     [HttpPut("{id}")]
     [LinCmsAuthorize("编辑字典类别", "字典类别")]
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
