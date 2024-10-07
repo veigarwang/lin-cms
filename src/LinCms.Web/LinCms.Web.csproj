@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<UserSecretsId>66adcf16-3db7-442d-b40c-4fef570b8e19</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
