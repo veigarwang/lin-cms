@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Data;
@@ -35,6 +32,16 @@ namespace LinCms.v1.Books
 
         public async Task CreateAsync(CreateUpdateBookDto createBook)
         {
+            if (!long.TryParse(createBook.ISBN, out _))
+            {
+                throw new LinCmsException("ISBN 格式不正确");
+            }
+
+            if (createBook.ISBN.Length != 13)
+            {
+                throw new LinCmsException("ISBN 长度不正确，当前长度：" + createBook.ISBN.Length);
+            }
+
             bool exist = _bookRepository.Select.Any(r => r.Isbn == createBook.ISBN);
             if (exist)
             {
@@ -67,13 +74,23 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("指定书籍不存在");
             }
 
+            if (updateBook.ISBN.Length != 13)
+            {
+                throw new LinCmsException("ISBN格式不正确");
+            }
+
             bool exist = await _bookRepository.Select.AnyAsync(r => r.Isbn == updateBook.ISBN && r.Id != id);
             if (exist)
             {
                 throw new LinCmsException("书籍已存在");
             }
 
-            if (_fileRepository.GetFileUrl(book.Cover) != updateBook.Cover)
+            if (updateBook.DatePurchased == DateTime.MinValue)
+            {
+                throw new LinCmsException("购买日期有误");
+            }            
+
+            if (book.Cover != updateBook.Cover && _fileRepository.GetFileUrl(book.Cover) != updateBook.Cover)
             {
                 DeletePicFile(book);
             }
@@ -85,7 +102,6 @@ namespace LinCms.v1.Books
 
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateBook, book);
-
             await _bookRepository.UpdateAsync(book);
         }
 
@@ -113,7 +129,7 @@ namespace LinCms.v1.Books
 
         public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
         {
-            List<BookDto> items = (await _bookRepository.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
+            List<BookDto> items = (await _bookRepository.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword) || p.Author1.Contains(pageDto.Keyword) || p.Author2.Contains(pageDto.Keyword) || p.Author3.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
 
             foreach (var book in items)
             {

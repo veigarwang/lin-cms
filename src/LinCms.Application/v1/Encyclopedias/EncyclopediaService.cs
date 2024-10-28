@@ -96,10 +96,11 @@ namespace LinCms.v1.Encyclopedias
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Guozhu))
                 {
+                    string guozhu = CorrectQuatation(createEncyclopedia.Guozhu).Trim('\n');
                     if (string.IsNullOrEmpty(exist.Guozhu))
-                        exist.Guozhu = createEncyclopedia.Guozhu;
-                    else if (!exist.Guozhu.Contains(CorrectQuatation(createEncyclopedia.Guozhu).Trim('\n')))
-                        exist.Guozhu += "\n" + CorrectQuatation(createEncyclopedia.Guozhu).TrimEnd('\n');
+                        exist.Guozhu = guozhu;
+                    else if (!exist.Guozhu.Contains(guozhu))
+                        exist.Guozhu += "\n" + guozhu;
                 }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Tuzan))
@@ -112,20 +113,20 @@ namespace LinCms.v1.Encyclopedias
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Jijie))
                 {
+                    string jijie = CorrectQuatation(createEncyclopedia.Jijie).Trim('\n');
                     if (string.IsNullOrEmpty(exist.Jijie))
-                        exist.Jijie = createEncyclopedia.Jijie;
-                    else if (!exist.Jijie.Contains(CorrectQuatation(createEncyclopedia.Jijie).Trim('\n')))
-                        exist.Jijie += "\n" + createEncyclopedia.Jijie.TrimEnd('\n');
-                    exist.Jijie = CorrectQuatation(exist.Jijie);
+                        exist.Jijie = jijie;
+                    else if (!exist.Jijie.Contains(jijie))
+                        exist.Jijie += "\n" + jijie;
                 }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Remarks))
                 {
+                    string remarks = CorrectQuatation(createEncyclopedia.Remarks).Trim('\n');
                     if (string.IsNullOrEmpty(exist.Remarks))
-                        exist.Remarks = createEncyclopedia.Remarks;
-                    else if (!exist.Jijie.Contains(CorrectQuatation(createEncyclopedia.Remarks).Trim('\n')))
-                        exist.Remarks += "\n" + createEncyclopedia.Remarks.TrimEnd('\n');
-                    exist.Remarks = CorrectQuatation(exist.Remarks);
+                        exist.Remarks = remarks;
+                    else if (!exist.Jijie.Contains(remarks))
+                        exist.Remarks += "\n" + remarks;
                 }
 
                 await _encyclopediaRepository.UpdateAsync(exist);
@@ -180,11 +181,11 @@ namespace LinCms.v1.Encyclopedias
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateEncyclopedia, encyclopedia);
             encyclopedia.SimplifiedPronunciation = RemoveTune(updateEncyclopedia.Pronunciation);
-            encyclopedia.OriginalText = encyclopedia.OriginalText?.TrimEnd('\n');
-            encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.TrimEnd('\n'));
-            encyclopedia.Tuzan = encyclopedia.Tuzan?.TrimEnd('\n');
-            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.TrimEnd('\n'));
-            encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.TrimEnd('\n'));
+            encyclopedia.OriginalText = encyclopedia.OriginalText?.Replace("\n\n", "\n").TrimEnd('\n');
+            encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.Replace("\n\n", "\n").TrimEnd('\n'));
+            encyclopedia.Tuzan = encyclopedia.Tuzan?.Replace("\n\n", "\n").TrimEnd('\n');
+            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.Replace("\n\n", "\n").TrimEnd('\n'));
+            encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.Replace("\n\n", "\n").TrimEnd('\n'));
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
         }
 
@@ -309,10 +310,10 @@ namespace LinCms.v1.Encyclopedias
                 .Replace("ú", "u")
                 .Replace("ǔ", "u")
                 .Replace("ù", "u")
-                .Replace("ǖ", "u")
-                .Replace("ǘ", "u")
-                .Replace("ǚ", "u")
-                .Replace("ǜ", "u")
+                .Replace("ǖ", "v")
+                .Replace("ǘ", "v")
+                .Replace("ǚ", "v")
+                .Replace("ǜ", "v")
                 .Replace(" ", string.Empty);
         }
     }

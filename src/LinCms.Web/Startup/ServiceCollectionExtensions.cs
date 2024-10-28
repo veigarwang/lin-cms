@@ -171,7 +171,7 @@ public static class ServiceCollectionExtensions
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c).Enrich.FromLogContext().CreateLogger();
             Log.Information("Starting web host");
 #if DEBUG
-            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+            //Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 #endif
             #endregion
 
