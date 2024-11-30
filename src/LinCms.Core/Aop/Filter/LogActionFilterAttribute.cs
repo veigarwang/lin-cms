@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -57,7 +58,8 @@ namespace LinCms.Aop.Filter
                 ExecuteTime = sw.ElapsedMilliseconds.ToInt32(),
                 StatusCode = context.HttpContext.Response.StatusCode,
                 UserId = _currentUser.FindUserId(),
-                Username = _currentUser.UserName
+                Username = _currentUser.UserName,
+                CreateTime = DateTime.Now
             };
             var areaName = context.RouteData.DataTokens["area"] + "/";
             var controllerName = context.RouteData.Values["controller"] + "/";
@@ -70,9 +72,10 @@ namespace LinCms.Aop.Filter
                 //    linLog.ExecuteParam = context.HttpContext.Request.QueryString.Value; break;
                 case "PUT":
                 case "POST":
+                case "DELETE":
                     if (context.ActionArguments?.Count > 0)
                     {
-                        linLog.ExecuteUrl += context.HttpContext.Request.QueryString.Value;
+                        linLog.ExecuteUrl += context.HttpContext.Request.QueryString.Value + string.Join(' ', context.HttpContext.Request.RouteValues.Values);
                         linLog.ExecuteParam = JsonConvert.SerializeObject(context.ActionArguments);
                     }
                     break;

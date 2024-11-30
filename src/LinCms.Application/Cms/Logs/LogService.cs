@@ -33,6 +33,7 @@ public class LogService : ApplicationService, ILogService
     public PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto)
     {
         List<LinLog> linLogs = _linLogRepository.Select
+            .Where(r => !r.Path.Contains("cms/log"))
             .WhereIf(!string.IsNullOrEmpty(searchDto.Keyword), r => r.Message.Contains(searchDto.Keyword))
             .WhereIf(!string.IsNullOrEmpty(searchDto.Name), r => r.Username.Contains(searchDto.Name))
             .WhereIf(searchDto.Start.HasValue, r => r.CreateTime >= searchDto.Start.Value)
