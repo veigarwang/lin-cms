@@ -29,8 +29,9 @@ public class BaseItemController : ControllerBase
     [LinCmsAuthorize("删除字典条目", "字典条目")]
     public async Task<UnifyResponseDto> DeleteAsync(int id)
     {
+        var item = await _baseItemService.GetAsync(id);
         await _baseItemService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
+        return UnifyResponseDto.Success("字典条目【" + item.ItemName + "】删除成功");
     }
 
     [Logger("查询了字典条目列表")]
@@ -55,7 +56,7 @@ public class BaseItemController : ControllerBase
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseItemDto createBaseItem)
     {
         await _baseItemService.CreateAsync(createBaseItem);
-        return UnifyResponseDto.Success("新增字典条目成功");
+        return UnifyResponseDto.Success("字典条目【" + createBaseItem.ItemName + "】新增成功");
     }
 
     [Logger("更新了一个字典条目")]
@@ -64,6 +65,6 @@ public class BaseItemController : ControllerBase
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
     {
         await _baseItemService.UpdateAsync(id, updateBaseItem);
-        return UnifyResponseDto.Success("更新字典条目成功");
+        return UnifyResponseDto.Success("字典条目【" + updateBaseItem.ItemName + "】更新成功");
     }
 }

@@ -71,7 +71,7 @@ namespace LinCms.v1.Books
             Book book = await _bookRepository.Where(r => r.Id == id).ToOneAsync();
             if (book == null)
             {
-                throw new LinCmsException("指定书籍不存在");
+                throw new LinCmsException("更新失败，指定书籍不存在");
             }
 
             if (updateBook.ISBN.Length != 13)
@@ -110,7 +110,7 @@ namespace LinCms.v1.Books
             Book book = await _bookRepository.Where(a => a.Id == id).ToOneAsync();
             if (book == null)
             {
-                throw new LinCmsException("指定书籍不存在");
+                throw new LinCmsException("指定书籍不存在，ID: " + id);
             }
             book.Cover = _fileRepository.GetFileUrl(book.Cover);
             return Mapper.Map<BookDto>(book);

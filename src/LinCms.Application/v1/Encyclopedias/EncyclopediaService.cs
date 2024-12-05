@@ -165,7 +165,7 @@ namespace LinCms.v1.Encyclopedias
             Encyclopedia encyclopedia = await _encyclopediaRepository.Where(r => r.Id == id).ToOneAsync();
             if (encyclopedia == null)
             {
-                throw new LinCmsException("指定词条不存在");
+                throw new LinCmsException("更新失败，指定词条不存在");
             }
 
             if (_fileRepository.GetFileUrl(encyclopedia.Picture) != updateEncyclopedia.Picture)
@@ -194,7 +194,7 @@ namespace LinCms.v1.Encyclopedias
             Encyclopedia encyclopedia = await _encyclopediaRepository.Where(a => a.Id == id).ToOneAsync();
             if (encyclopedia == null)
             {
-                throw new LinCmsException("指定词条不存在");
+                throw new LinCmsException("指定词条不存在，ID: " + id);
             }
             encyclopedia.Picture = _fileRepository.GetFileUrl(encyclopedia.Picture);
             return Mapper.Map<EncyclopediaDto>(encyclopedia);

@@ -28,8 +28,9 @@ public class BaseTypeController : ControllerBase
     [LinCmsAuthorize("删除字典类别", "字典类别")]
     public async Task<UnifyResponseDto> DeleteAsync(int id)
     {
+        var item = await _baseTypeService.GetAsync(id);
         await _baseTypeService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
+        return UnifyResponseDto.Success("字典类别【" + item.FullName + "】删除成功");
     }
 
     [Logger("查询了字典类别列表")]
@@ -54,7 +55,7 @@ public class BaseTypeController : ControllerBase
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseTypeDto createBaseType)
     {
         await _baseTypeService.CreateAsync(createBaseType);
-        return UnifyResponseDto.Success("新增类别成功");
+        return UnifyResponseDto.Success("字典类别【" + createBaseType.FullName +"】新增成功");
     }
 
     [Logger("更新了一个字典类别")]
@@ -63,6 +64,6 @@ public class BaseTypeController : ControllerBase
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
     {
         await _baseTypeService.UpdateAsync(id, updateBaseType);
-        return UnifyResponseDto.Success("更新类别成功");
+        return UnifyResponseDto.Success("字典类别【" + updateBaseType.FullName + "】成功");
     }
 }
