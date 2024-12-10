@@ -26,6 +26,11 @@
     <EmbeddedResource Remove="Constracts\**" />
     <None Remove="Constracts\**" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="3.116.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />

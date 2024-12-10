@@ -14,19 +14,19 @@
             The claims factory.
             </summary>
             <summary>
-            Initializes a new instance of the <see cref="T:IdentityServer4.Test.TestUserProfileService"/> class.
+            Initializes a new instance of the <see cref="!:TestUserProfileService"/> class.
             </summary>
             <param name="logger">The logger.</param>
             <param name="userRepository"></param>
         </member>
-        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.GetProfileDataAsync(IdentityServer4.Models.ProfileDataRequestContext)">
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.GetProfileDataAsync(Duende.IdentityServer.Models.ProfileDataRequestContext)">
             <summary>
             只要有关用户的身份信息单元被请求（例如在令牌创建期间或通过用户信息终点），就会调用此方法
             </summary>
             <param name="context">The context.</param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.IsActiveAsync(IdentityServer4.Models.IsActiveContext)">
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.IsActiveAsync(Duende.IdentityServer.Models.IsActiveContext)">
             <summary>
             验证用户是否有效 例如：token创建或者验证
             </summary>
@@ -38,7 +38,7 @@
             自定义 Resource owner password 验证器
             </summary>
         </member>
-        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsResourceOwnerPasswordValidator.ValidateAsync(IdentityServer4.Validation.ResourceOwnerPasswordValidationContext)">
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsResourceOwnerPasswordValidator.ValidateAsync(Duende.IdentityServer.Validation.ResourceOwnerPasswordValidationContext)">
             <summary>
             验证密码是否正确,生成Claims，返回用户身份信息
             </summary>

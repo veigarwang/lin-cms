@@ -30,14 +30,19 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<PackageReference Include="IdentityServer4" Version="4.1.2" />
+		<PackageReference Include="Azure.Identity" Version="1.13.1" />
+		<PackageReference Include="Duende.IdentityServer" Version="7.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
 		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.698" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="SkiaSharp" Version="3.116.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.7" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.0.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>

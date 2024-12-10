@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Validation;
 using IdentityModel;
-using IdentityServer4.Models;
-using IdentityServer4.Validation;
 using LinCms.Cms.Users;
 using LinCms.Data.Enums;
 using LinCms.Entities;

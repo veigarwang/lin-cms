@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4;
-using IdentityServer4.Models;
+using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace LinCms.IdentityServer4.IdentityServer4;

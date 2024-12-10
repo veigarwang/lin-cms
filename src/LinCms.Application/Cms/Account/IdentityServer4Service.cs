@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityModel.Client;
-using IdentityServer4.Models;
 using LinCms.Data.Enums;
 using IGeekFan.FreeKit.Extras.Dependency;
 using IGeekFan.FreeKit.Extras.Security;
@@ -12,6 +11,7 @@ using LinCms.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Duende.IdentityServer.Models;
 
 namespace LinCms.Cms.Account;
 

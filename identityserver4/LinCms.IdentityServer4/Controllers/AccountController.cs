@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IdentityServer4;
-using IdentityServer4.Services;
+using Duende.IdentityServer;
+using Duende.IdentityServer.Services;
 using LinCms.Cms.Users;
 using LinCms.Entities;
 using LinCms.IRepositories;

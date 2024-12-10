@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.IdentityServer4.Controllers;
