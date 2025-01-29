@@ -1044,6 +1044,11 @@
             购买日期
             </summary>
         </member>
+        <member name="P:LinCms.v1.Books.BookDto.ShelfLocation">
+            <summary>
+            书架位置
+            </summary>
+        </member>
         <member name="P:LinCms.v1.Books.BookDto.IsRead">
             <summary>
             已读
@@ -1162,6 +1167,11 @@
         <member name="P:LinCms.v1.Books.CreateUpdateBookDto.DatePurchased">
             <summary>
             购买日期
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Books.CreateUpdateBookDto.ShelfLocation">
+            <summary>
+            书架位置
             </summary>
         </member>
         <member name="P:LinCms.v1.Books.CreateUpdateBookDto.IsRead">

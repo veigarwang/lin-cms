@@ -141,6 +141,11 @@ namespace LinCms.v1.Books
         public DateTime DatePurchased { get; init; }
 
         /// <summary>
+        /// 书架位置
+        /// </summary>
+        public string ShelfLocation { get; init; }
+
+        /// <summary>
         /// 已读
         /// </summary>
         public bool IsRead { get; init; }

@@ -1037,6 +1037,11 @@
             购买日期
             </summary>
         </member>
+        <member name="P:LinCms.Entities.Book.ShelfLocation">
+            <summary>
+            书架位置
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Book.IsRead">
             <summary>
             已读

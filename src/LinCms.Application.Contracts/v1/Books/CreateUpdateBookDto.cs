@@ -129,6 +129,12 @@ namespace LinCms.v1.Books
         public DateTime DatePurchased { get; init; }
 
         /// <summary>
+        /// 书架位置
+        /// </summary>
+        [StringLength(12, ErrorMessage = "书架位置应小于12字符")]
+        public string ShelfLocation { get; init; }
+
+        /// <summary>
         /// 已读
         /// </summary>
         public bool IsRead { get; init; }

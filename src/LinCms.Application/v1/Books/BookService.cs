@@ -88,7 +88,7 @@ namespace LinCms.v1.Books
             if (updateBook.DatePurchased == DateTime.MinValue)
             {
                 throw new LinCmsException("购买日期有误");
-            }            
+            }
 
             if (book.Cover != updateBook.Cover && _fileRepository.GetFileUrl(book.Cover) != updateBook.Cover)
             {
@@ -100,8 +100,12 @@ namespace LinCms.v1.Books
             //book.Summary = updateBook.Summary;
             //book.Summary = updateBook.Summary;
 
-            //使用AutoMapper方法简化类与类之间的转换过程
+            //使用AutoMapper方法简化类与类之间的转换过程            
             Mapper.Map(updateBook, book);
+            if (book.ShelfLocation == "[]")
+            {
+                book.ShelfLocation = null;
+            }
             await _bookRepository.UpdateAsync(book);
         }
 
@@ -129,7 +133,19 @@ namespace LinCms.v1.Books
 
         public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
         {
-            List<BookDto> items = (await _bookRepository.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty)) || p.Title.Contains(pageDto.Keyword) || p.Subtitle.Contains(pageDto.Keyword) || p.Author1.Contains(pageDto.Keyword) || p.Author2.Contains(pageDto.Keyword) || p.Author3.Contains(pageDto.Keyword)).OrderByDescending(r => r.DatePurchased).OrderByDescending(r => r.Isbn).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
+            List<BookDto> items = (await _bookRepository
+                .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType)
+                .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword),
+                    p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty))
+                    || p.Title.Contains(pageDto.Keyword)
+                    || p.Subtitle.Contains(pageDto.Keyword)
+                    || p.Author1.Contains(pageDto.Keyword)
+                    || p.Author2.Contains(pageDto.Keyword)
+                    || p.Author3.Contains(pageDto.Keyword))
+                .OrderByDescending(r => r.DatePurchased)
+                .OrderByDescending(r => r.Isbn)
+                .ToPagerListAsync(pageDto, out long count))
+                .Select(r => Mapper.Map<BookDto>(r)).ToList();
 
             foreach (var book in items)
             {

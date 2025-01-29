@@ -132,6 +132,12 @@ namespace LinCms.Entities
         public DateTime DatePurchased { get; set; }
 
         /// <summary>
+        /// 书架位置
+        /// </summary>
+        [Column(StringLength = 12)]
+        public string ShelfLocation { get; set; }
+
+        /// <summary>
         /// 已读
         /// </summary>
         public bool IsRead { get; set; }

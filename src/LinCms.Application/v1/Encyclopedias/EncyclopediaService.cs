@@ -168,7 +168,7 @@ namespace LinCms.v1.Encyclopedias
                 throw new LinCmsException("更新失败，指定词条不存在");
             }
 
-            if (_fileRepository.GetFileUrl(encyclopedia.Picture) != updateEncyclopedia.Picture)
+            if (encyclopedia.Picture != updateEncyclopedia.Picture && _fileRepository.GetFileUrl(encyclopedia.Picture) != updateEncyclopedia.Picture)
             {
                 DeletePicFile(encyclopedia);
             }
@@ -181,11 +181,11 @@ namespace LinCms.v1.Encyclopedias
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateEncyclopedia, encyclopedia);
             encyclopedia.SimplifiedPronunciation = RemoveTune(updateEncyclopedia.Pronunciation);
-            encyclopedia.OriginalText = encyclopedia.OriginalText?.Replace("\n\n", "\n").TrimEnd('\n');
-            encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.Replace("\n\n", "\n").TrimEnd('\n'));
-            encyclopedia.Tuzan = encyclopedia.Tuzan?.Replace("\n\n", "\n").TrimEnd('\n');
-            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.Replace("\n\n", "\n").TrimEnd('\n'));
-            encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.Replace("\n\n", "\n").TrimEnd('\n'));
+            encyclopedia.OriginalText = encyclopedia.OriginalText?.Replace("\n\n", "\n").Trim('\n');
+            encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.Replace("\n\n", "\n").Trim('\n'));
+            encyclopedia.Tuzan = encyclopedia.Tuzan?.Replace("\n\n", "\n").Trim('\n');
+            encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.Replace("\n\n", "\n").Trim('\n'));
+            encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.Replace("\n\n", "\n").Trim('\n'));
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
         }
 
