@@ -914,6 +914,11 @@
             版本号
             </summary>
         </member>
+        <member name="P:LinCms.v1.Books.BookDto.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:LinCms.v1.Books.BookDto.UpdateTime">
             <summary>
             上次修改时间
@@ -1257,6 +1262,11 @@
         <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.Version">
             <summary>
             版本号
+            </summary>
+        </member>
+        <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.CreateTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="P:LinCms.v1.Encyclopedias.EncyclopediaDto.UpdateTime">

@@ -31,6 +31,8 @@ namespace LinCms.Data
         public string ItemType { get; set; }
 
         public string Keyword { get; set; }
+
+        public bool ExactMatch { get; set; }
     }
 
     public interface IPageDto : ILimitedResultRequest

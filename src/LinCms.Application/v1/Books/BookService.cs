@@ -7,6 +7,7 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -133,7 +134,29 @@ namespace LinCms.v1.Books
 
         public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
         {
-            List<BookDto> items = (await _bookRepository
+            List<BookDto> items = null;
+            long count = 0;
+            items = pageDto.ExactMatch ? (await _bookRepository
+                .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType)
+                .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword),
+                    p => p.Isbn == pageDto.Keyword.Replace("-", string.Empty)
+                    || p.Title == pageDto.Keyword
+                    || p.Subtitle == pageDto.Keyword
+                    || p.Author1 == pageDto.Keyword
+                    || p.Author1.StartsWith(pageDto.Keyword + ",")
+                    || p.Author1.EndsWith("," + pageDto.Keyword)
+                    || p.Author2 == pageDto.Keyword
+                    || p.Author2.StartsWith(pageDto.Keyword + ",")
+                    || p.Author2.EndsWith("," + pageDto.Keyword)
+                    || p.Author3 == pageDto.Keyword
+                    || p.Author3.StartsWith(pageDto.Keyword + ",")
+                    || p.Author3.EndsWith("," + pageDto.Keyword))
+                .OrderByDescending(r => r.DatePurchased)
+                .OrderByDescending(r => r.Isbn)
+                .ToPagerListAsync(pageDto, out count))
+                .Select(r => Mapper.Map<BookDto>(r)).ToList()
+
+                : (await _bookRepository
                 .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType)
                 .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword),
                     p => p.Isbn.Contains(pageDto.Keyword.Replace("-", string.Empty))
@@ -144,7 +167,7 @@ namespace LinCms.v1.Books
                     || p.Author3.Contains(pageDto.Keyword))
                 .OrderByDescending(r => r.DatePurchased)
                 .OrderByDescending(r => r.Isbn)
-                .ToPagerListAsync(pageDto, out long count))
+                .ToPagerListAsync(pageDto, out count))
                 .Select(r => Mapper.Map<BookDto>(r)).ToList();
 
             foreach (var book in items)
@@ -155,8 +178,19 @@ namespace LinCms.v1.Books
                 book.AuthorTypeName1 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType1.ToString()).ToOne().ItemName;
                 book.AuthorTypeName2 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType2.ToString()).ToOne().ItemName;
                 book.AuthorTypeName3 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType3.ToString()).ToOne().ItemName;
+                book.ShelfLocation = string.IsNullOrEmpty(book.ShelfLocation) ? null : GetShelfLocation(book.ShelfLocation);
             }
             return new PagedResultDto<BookDto>(items, count);
         }
+
+        private string GetShelfLocation(string shelfLocation)
+        {
+            List<string> locationList = JsonConvert.DeserializeObject<List<string>>(shelfLocation);
+            string city = _baseItemRepository.Where(p => p.BaseTypeId == 10 && p.ItemCode == locationList[0]).ToOne().ItemName;
+            string shelf = _baseItemRepository.Where(p => p.BaseTypeId == 11 && p.ItemCode == locationList[1]).ToOne().ItemName.Split('|')[1];
+            return city + " " + shelf;
+        }
     }
+
+
 }

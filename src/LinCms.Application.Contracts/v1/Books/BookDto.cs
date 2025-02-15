@@ -11,6 +11,11 @@ namespace LinCms.v1.Books
         public int Version { get; init; }
 
         /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; init; }
+
+        /// <summary>
         /// 上次修改时间
         /// </summary>
         public DateTime UpdateTime { get; init; }
@@ -143,7 +148,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 书架位置
         /// </summary>
-        public string ShelfLocation { get; init; }
+        public string ShelfLocation { get; set; }
 
         /// <summary>
         /// 已读

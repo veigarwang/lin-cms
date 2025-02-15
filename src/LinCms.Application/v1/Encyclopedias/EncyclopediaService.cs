@@ -92,7 +92,7 @@ namespace LinCms.v1.Encyclopedias
                 }
 
                 if (!exist.OriginalText.Contains(createEncyclopedia.OriginalText.Trim('\n')))
-                    exist.OriginalText += "\n" + createEncyclopedia.OriginalText;
+                    exist.OriginalText += "\n" + createEncyclopedia.OriginalText.Trim('\n');
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Guozhu))
                 {
@@ -108,7 +108,7 @@ namespace LinCms.v1.Encyclopedias
                     if (string.IsNullOrEmpty(exist.Tuzan))
                         exist.Tuzan = createEncyclopedia.Tuzan;
                     else if (!exist.Tuzan.Contains(createEncyclopedia.Tuzan.Trim('\n')))
-                        exist.Tuzan += "\n" + createEncyclopedia.Tuzan.TrimEnd('\n');
+                        exist.Tuzan += "\n" + createEncyclopedia.Tuzan.Trim('\n');
                 }
 
                 if (!string.IsNullOrEmpty(createEncyclopedia.Jijie))
@@ -207,7 +207,32 @@ namespace LinCms.v1.Encyclopedias
 
         public async Task<PagedResultDto<EncyclopediaDto>> GetListAsync(PageDto pageDto)
         {
-            List<EncyclopediaDto> items = (await _encyclopediaRepository.Select.WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType).WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword), p => p.Name.Contains(pageDto.Keyword) || p.Alias.Contains(pageDto.Keyword) || p.Id.ToString() == pageDto.Keyword || p.SimplifiedPronunciation.Contains(pageDto.Keyword.Replace(" ", string.Empty))).OrderByDescending(r => r.Id).ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            List<EncyclopediaDto> items = null;
+            long count = 0;
+            items = pageDto.ExactMatch ? (await _encyclopediaRepository.Select
+                .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType)
+                .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
+                , p => p.Name == pageDto.Keyword
+                || p.Alias == pageDto.Keyword
+                || p.Alias.StartsWith(pageDto.Keyword + ",")
+                || p.Alias.EndsWith("," + pageDto.Keyword)
+                || p.Id.ToString() == pageDto.Keyword
+                || p.SimplifiedPronunciation == pageDto.Keyword)
+                .OrderByDescending(r => r.Id)
+                .ToPagerListAsync(pageDto, out count))
+                .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList()
+
+                : (await _encyclopediaRepository.Select
+                .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType)
+                .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
+                , p => p.Name.Contains(pageDto.Keyword)
+                || p.Alias.Contains(pageDto.Keyword)
+                || p.Id.ToString() == pageDto.Keyword
+                || p.SimplifiedPronunciation.Contains(pageDto.Keyword))
+                .OrderByDescending(r => r.Id)
+                .ToPagerListAsync(pageDto, out count))
+                .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList()
+                ;
 
             foreach (var encyclopedia in items)
             {

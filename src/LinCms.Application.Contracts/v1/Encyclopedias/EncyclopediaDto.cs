@@ -11,6 +11,11 @@ namespace LinCms.v1.Encyclopedias
         public int Version { get; init; }
 
         /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; init; }
+
+        /// <summary>
         /// 上次修改时间
         /// </summary>
         public DateTime UpdateTime { get; init; }
