@@ -216,6 +216,7 @@ namespace LinCms.v1.Encyclopedias
                 || p.Alias == pageDto.Keyword
                 || p.Alias.StartsWith(pageDto.Keyword + ",")
                 || p.Alias.EndsWith("," + pageDto.Keyword)
+                || p.Alias.Contains("," + pageDto.Keyword + ",")
                 || p.Id.ToString() == pageDto.Keyword
                 || p.SimplifiedPronunciation == pageDto.Keyword)
                 .OrderByDescending(r => r.Id)

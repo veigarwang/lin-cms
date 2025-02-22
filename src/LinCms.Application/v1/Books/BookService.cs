@@ -145,12 +145,15 @@ namespace LinCms.v1.Books
                     || p.Author1 == pageDto.Keyword
                     || p.Author1.StartsWith(pageDto.Keyword + ",")
                     || p.Author1.EndsWith("," + pageDto.Keyword)
+                    || p.Author1.Contains("," + pageDto.Keyword + ",")
                     || p.Author2 == pageDto.Keyword
                     || p.Author2.StartsWith(pageDto.Keyword + ",")
                     || p.Author2.EndsWith("," + pageDto.Keyword)
+                    || p.Author2.Contains("," + pageDto.Keyword + ",")
                     || p.Author3 == pageDto.Keyword
                     || p.Author3.StartsWith(pageDto.Keyword + ",")
-                    || p.Author3.EndsWith("," + pageDto.Keyword))
+                    || p.Author3.EndsWith("," + pageDto.Keyword)
+                    || p.Author3.Contains("," + pageDto.Keyword + ","))
                 .OrderByDescending(r => r.DatePurchased)
                 .OrderByDescending(r => r.Isbn)
                 .ToPagerListAsync(pageDto, out count))
