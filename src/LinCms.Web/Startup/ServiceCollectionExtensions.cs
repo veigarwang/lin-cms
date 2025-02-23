@@ -314,19 +314,19 @@ ElapsedMilliseconds:{3}ms
                 case CapStorageType.InMemoryStorage:
                     @this.UseInMemoryStorage();
                     break;
-                case CapStorageType.Mysql:
-                    IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
-                    @this.UseMySql(mySql.Value);
-                    break;
-                //case CapStorageType.SqlServer:
-                //    IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
-                //    @this.UseSqlServer(opt =>
-                //    {
-                //        opt.ConnectionString = sqlServer.Value;
-                //        //使用SQL SERVER2008才需要打开他
-                //        //opt.UseSqlServer2008();
-                //    });
+                //case CapStorageType.Mysql:
+                //    IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
+                //    @this.UseMySql(mySql.Value);
                 //    break;
+                case CapStorageType.SqlServer:
+                    IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
+                    @this.UseSqlServer(opt =>
+                    {
+                        opt.ConnectionString = sqlServer.Value;
+                        //使用SQL SERVER2008才需要打开他
+                        //opt.UseSqlServer2008();
+                    });
+                    break;
                 default:
                     break;
             }
@@ -334,7 +334,7 @@ ElapsedMilliseconds:{3}ms
         else
         {
             Log.Error(
-                $"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql！更多请增加引用，修改配置项代码");
+                $"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，SqlServer！更多请增加引用，修改配置项代码");
         }
 
         if (Enum.TryParse(defaultMessageQueue.Value, out CapMessageQueueType capMessageQueueType))

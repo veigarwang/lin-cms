@@ -50,15 +50,15 @@ public static class ServiceProviderExtensions
             Log.Error($"Message:{e.Message},StackTrace:{e.StackTrace}");
         }
         //在运行时直接生成表结构,初始化数据
-        try
-        {
-            fsql.CodeFirst.SeedData();
-            fsql.CodeFirst.SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
-        }
-        catch (Exception e)
-        {
-            Log.Error($"Message:{e.Message},StackTrace:{e.StackTrace}");
-        }
+        //try
+        //{
+        //    fsql.CodeFirst.SeedData();
+        //    fsql.CodeFirst.SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
+        //}
+        //catch (Exception e)
+        //{
+        //    Log.Error($"Message:{e.Message},StackTrace:{e.StackTrace}");
+        //}
 
         return serviceProvider;
     }

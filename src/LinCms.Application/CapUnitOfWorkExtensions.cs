@@ -24,7 +24,7 @@ public static class CapUnitOfWorkExtensions
         
         //第2次接口变化，适配CAP
         var dbTransaction = unitOfWork.GetOrBeginTransaction();
-        publisher.Transaction = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
+        publisher.Transaction = ActivatorUtilities.CreateInstance<SqlServerCapTransaction>(publisher.ServiceProvider);
         publisher.Transaction.DbTransaction = dbTransaction;
         publisher.Transaction.AutoCommit = autoCommit;
         return publisher.Transaction;
