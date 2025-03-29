@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -172,6 +173,8 @@ namespace LinCms.v1.Encyclopedias
             {
                 DeletePicFile(encyclopedia);
             }
+
+            SetUnchangedFieldsToNull(updateEncyclopedia, encyclopedia);
             //encyclopedia.Image = updateEncyclopedia.Image;
             //encyclopedia.Title = updateEncyclopedia.Title;
             //encyclopedia.Author = updateEncyclopedia.Author;
@@ -180,13 +183,73 @@ namespace LinCms.v1.Encyclopedias
 
             //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateEncyclopedia, encyclopedia);
-            encyclopedia.SimplifiedPronunciation = RemoveTune(updateEncyclopedia.Pronunciation);
+
+            if (updateEncyclopedia.GetType().GetProperties().All(p => p.GetValue(updateEncyclopedia) == null))
+            {
+                throw new LinCmsException("未发现任何改动");
+            }
+
+            encyclopedia.SimplifiedPronunciation = RemoveTune(encyclopedia.Pronunciation);
             encyclopedia.OriginalText = encyclopedia.OriginalText?.Replace("\n\n", "\n").Trim('\n');
             encyclopedia.Guozhu = CorrectQuatation(encyclopedia.Guozhu?.Replace("\n\n", "\n").Trim('\n'));
             encyclopedia.Tuzan = encyclopedia.Tuzan?.Replace("\n\n", "\n").Trim('\n');
             encyclopedia.Jijie = CorrectQuatation(encyclopedia.Jijie?.Replace("\n\n", "\n").Trim('\n'));
             encyclopedia.Remarks = CorrectQuatation(encyclopedia.Remarks?.Replace("\n\n", "\n").Trim('\n'));
             await _encyclopediaRepository.UpdateAsync(encyclopedia);
+        }
+
+        private static void SetUnchangedFieldsToNull(CreateUpdateEncyclopediaDto updateEncyclopedia, Encyclopedia encyclopedia)
+        {
+            Type dtoType = typeof(CreateUpdateEncyclopediaDto);
+            Type entityType = typeof(Encyclopedia);
+
+            foreach (var property in dtoType.GetProperties())
+            {
+                try
+                {
+                    var originalProperty = entityType.GetProperty(property.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    if (originalProperty == null) continue; // 如果原始对象中没有该属性，则跳过
+
+                    var newValue = property.GetValue(updateEncyclopedia);
+                    var oldValue = originalProperty.GetValue(encyclopedia);
+                    bool isModified = false;
+                    if (newValue != null)
+                    {
+                        if (newValue is DateTime newDate && oldValue is DateTime oldDate)
+                        {
+                            isModified = !(newDate.Year == oldDate.Year &&
+                                           newDate.Month == oldDate.Month &&
+                                           newDate.Day == oldDate.Day &&
+                                           newDate.Hour == oldDate.Hour &&
+                                           newDate.Minute == oldDate.Minute &&
+                                           newDate.Second == oldDate.Second &&
+                                           newDate.Millisecond == oldDate.Millisecond);
+                        }
+                        else
+                        {
+                            isModified = !newValue.Equals(oldValue);
+                        }
+                    }
+                    else
+                    {
+                        // 如果 newValue 为空，可能是前端未传该字段，或者用户想清空该字段
+                        if (oldValue != null)
+                        {
+                            isModified = true;
+                        }
+                    }
+
+                    if (!isModified)
+                    {
+                        property.SetValue(updateEncyclopedia, null);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw new LinCmsException("更新失败：" + ex.Message);
+                }
+            }
         }
 
         public async Task<EncyclopediaDto> GetAsync(long id)
@@ -209,31 +272,43 @@ namespace LinCms.v1.Encyclopedias
         {
             List<EncyclopediaDto> items = null;
             long count = 0;
-            items = pageDto.ExactMatch ? (await _encyclopediaRepository.Select
-                .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType)
-                .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
-                , p => p.Name == pageDto.Keyword
-                || p.Alias == pageDto.Keyword
-                || p.Alias.StartsWith(pageDto.Keyword + ",")
-                || p.Alias.EndsWith("," + pageDto.Keyword)
-                || p.Alias.Contains("," + pageDto.Keyword + ",")
-                || p.Id.ToString() == pageDto.Keyword
-                || p.SimplifiedPronunciation == pageDto.Keyword)
-                .OrderByDescending(r => r.Id)
-                .ToPagerListAsync(pageDto, out count))
-                .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList()
 
-                : (await _encyclopediaRepository.Select
+            if (pageDto.ExactMatch)
+            {
+                items = (await _encyclopediaRepository.Select
+                    .WhereIf(!string.IsNullOrEmpty(pageDto.ProvenanceType), p => p.Provenance == pageDto.ProvenanceType
+                    || p.Provenance.StartsWith(pageDto.ProvenanceType + ",")
+                    || p.Provenance.EndsWith("," + pageDto.ProvenanceType)
+                    || p.Provenance.Contains("," + pageDto.ProvenanceType + ","))
+                    .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType)
+                    .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
+                    , p => p.Name == pageDto.Keyword
+                    || p.Alias == pageDto.Keyword
+                    || p.Alias.StartsWith(pageDto.Keyword + ",")
+                    || p.Alias.EndsWith("," + pageDto.Keyword)
+                    || p.Alias.Contains("," + pageDto.Keyword + ",")
+                    || p.Id.ToString() == pageDto.Keyword
+                    || p.SimplifiedPronunciation == pageDto.Keyword)
+                    .OrderByDescending(r => r.Id)
+                    .ToPagerListAsync(pageDto, out count))
+                    .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            }
+            else
+            {
+                var provenanceList = pageDto.ProvenanceType?.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+                items = (await _encyclopediaRepository.Select
+                .WhereIf(provenanceList?.Count > 0, p => provenanceList.Any(t => p.Provenance.Contains(t)))
                 .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.ItemType)
                 .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
                 , p => p.Name.Contains(pageDto.Keyword)
                 || p.Alias.Contains(pageDto.Keyword)
+                || p.Provenance.Contains(pageDto.Keyword)
                 || p.Id.ToString() == pageDto.Keyword
                 || p.SimplifiedPronunciation.Contains(pageDto.Keyword))
                 .OrderByDescending(r => r.Id)
                 .ToPagerListAsync(pageDto, out count))
-                .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList()
-                ;
+                .Select(r => Mapper.Map<EncyclopediaDto>(r)).ToList();
+            }
 
             foreach (var encyclopedia in items)
             {

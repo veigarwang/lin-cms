@@ -38,7 +38,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 书籍类别编码
         /// </summary>
-        public short BookType { get; init; }
+        public short? BookType { get; init; }
 
         /// <summary>
         /// 书籍类别名称
@@ -48,7 +48,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 第一著者类型编码
         /// </summary>
-        public short AuthorType1 { get; init; }
+        public short? AuthorType1 { get; init; }
 
         /// <summary>
         /// 第一著者类型名称
@@ -63,7 +63,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 第二著者类型编码
         /// </summary>
-        public short AuthorType2 { get; init; }
+        public short? AuthorType2 { get; init; }
 
         /// <summary>
         /// 第二著者类型名称
@@ -78,7 +78,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 第三著者类型编码
         /// </summary>
-        public short AuthorType3 { get; init; }
+        public short? AuthorType3 { get; init; }
 
         /// <summary>
         /// 第三著者类型名称
@@ -143,7 +143,7 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 购买日期
         /// </summary>
-        public DateTime DatePurchased { get; init; }
+        public DateTime? DatePurchased { get; init; }
 
         /// <summary>
         /// 书架位置
@@ -153,12 +153,12 @@ namespace LinCms.v1.Books
         /// <summary>
         /// 已读
         /// </summary>
-        public bool IsRead { get; init; }
+        public bool? IsRead { get; init; }
 
         /// <summary>
         /// 评分
         /// </summary>
-        public short Rate { get; init; }
+        public short? Rate { get; init; }
 
         /// <summary>
         /// 读后感

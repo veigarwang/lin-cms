@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.v1.Encyclopedias
 {
@@ -33,7 +32,7 @@ namespace LinCms.v1.Encyclopedias
         /// <summary>
         /// 词条类别
         /// </summary>
-        public short ItemType { get; init; }
+        public short? ItemType { get; init; }
 
         /// <summary>
         /// 原文

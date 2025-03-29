@@ -1,15 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using IGeekFan.FreeKit.Extras.FreeSql;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Entities;
 using LinCms.Security;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LinCms.Aop.Filter
 {
@@ -62,9 +62,9 @@ namespace LinCms.Aop.Filter
                 CreateTime = DateTime.Now
             };
             var areaName = context.RouteData.DataTokens["area"] + "/";
-            var controllerName = context.RouteData.Values["controller"] + "/";
+            var controllerName = context.RouteData.Values["controller"].ToString();
             var action = context.RouteData.Values["Action"].ToString();
-            var currentUrl = "/" + areaName + controllerName + action;
+            var currentUrl = "/" + areaName + "/" + controllerName + "/" + action;
             linLog.ExecuteUrl = currentUrl.Replace("//", "/");
             switch (context.HttpContext.Request.Method.ToUpper())
             {
@@ -76,7 +76,7 @@ namespace LinCms.Aop.Filter
                     if (context.ActionArguments?.Count > 0)
                     {
                         linLog.ExecuteUrl += context.HttpContext.Request.QueryString.Value + string.Join(' ', context.HttpContext.Request.RouteValues.Values);
-                        linLog.ExecuteParam = JsonConvert.SerializeObject(context.ActionArguments);
+                        linLog.ExecuteParam = JsonConvert.SerializeObject(context.ActionArguments, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     }
                     break;
             }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using IGeekFan.FreeKit.Extras.Dto;
+﻿using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Data;
@@ -13,7 +11,7 @@ using System.Threading.Tasks;
 namespace LinCms.Controllers.v1;
 
 /// <summary>
-/// 图书
+/// 书籍
 /// </summary>
 [ApiExplorerSettings(GroupName = "v1")]
 [Route("v1/book")]
@@ -58,9 +56,10 @@ public class BookController : ControllerBase
     [LinCmsAuthorize("更新书籍", "书籍")]
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
-    {
+    {        
         await _bookService.UpdateAsync(id, updateBook);
-        return UnifyResponseDto.Success("书籍《" + updateBook.Title + "》" + (!string.IsNullOrEmpty(updateBook.Subtitle) ? updateBook.Subtitle : string.Empty) + "更新成功");
+        var item = await _bookService.GetAsync(id);
+        return UnifyResponseDto.Success("书籍《" + item.Title + "》" + (!string.IsNullOrEmpty(item.Subtitle) ? item.Subtitle : string.Empty) + "更新成功");
     }
 
     [Logger("查看了书籍详情")]

@@ -7,7 +7,7 @@ namespace LinCms.v1.Encyclopedias
     {
         public EncyclopediaProfile()
         {
-            CreateMap<CreateUpdateEncyclopediaDto, Encyclopedia>();
+            CreateMap<CreateUpdateEncyclopediaDto, Encyclopedia>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Encyclopedia, EncyclopediaDto>();
         }
     }

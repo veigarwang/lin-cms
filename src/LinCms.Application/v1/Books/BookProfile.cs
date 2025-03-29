@@ -7,7 +7,7 @@ public class BookProfile : Profile
 {
     public BookProfile()
     {
-        CreateMap<CreateUpdateBookDto, Book>();
+        CreateMap<CreateUpdateBookDto, Book>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)); ;
         CreateMap<Book, BookDto>();
     }
 }

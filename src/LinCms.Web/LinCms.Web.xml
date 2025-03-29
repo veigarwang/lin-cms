@@ -627,7 +627,7 @@
         </member>
         <member name="T:LinCms.Controllers.v1.BookController">
             <summary>
-            图书
+            书籍
             </summary>
         </member>
         <member name="T:LinCms.Controllers.v1.MonitorController">

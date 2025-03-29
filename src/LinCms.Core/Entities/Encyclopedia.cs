@@ -46,7 +46,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 词条类别
         /// </summary>
-        public short ItemType { get; set; }
+        public short? ItemType { get; set; }
 
         /// <summary>
         /// 原文

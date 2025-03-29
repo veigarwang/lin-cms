@@ -48,7 +48,8 @@ namespace LinCms.Controllers.v1
         public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateEncyclopediaDto updateEncyclopedia)
         {
             await _encyclopediaService.UpdateAsync(id, updateEncyclopedia);
-            return UnifyResponseDto.Success("词条【" + updateEncyclopedia.Name + "】更新成功");
+            var item = await _encyclopediaService.GetAsync(id);
+            return UnifyResponseDto.Success("词条【" + item.Name + "】更新成功");
         }
 
         [Logger("查看了词条详情")]

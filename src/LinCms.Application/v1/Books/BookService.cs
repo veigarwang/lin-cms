@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LinCms.v1.Books
@@ -75,7 +76,14 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("更新失败，指定书籍不存在");
             }
 
-            if (updateBook.ISBN.Length != 13)
+            if (book.Cover != updateBook.Cover && _fileRepository.GetFileUrl(book.Cover) != updateBook.Cover)
+            {
+                DeletePicFile(book);
+            }
+
+            SetUnchangedFieldsToNull(updateBook, book);
+
+            if (updateBook.ISBN != null && updateBook.ISBN.Length != 13)
             {
                 throw new LinCmsException("ISBN格式不正确");
             }
@@ -91,23 +99,80 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("购买日期有误");
             }
 
-            if (book.Cover != updateBook.Cover && _fileRepository.GetFileUrl(book.Cover) != updateBook.Cover)
-            {
-                DeletePicFile(book);
-            }
             //book.Image = updateBook.Image;
             //book.Title = updateBook.Title;
             //book.Author = updateBook.Author;
             //book.Summary = updateBook.Summary;
             //book.Summary = updateBook.Summary;
 
-            //使用AutoMapper方法简化类与类之间的转换过程            
+            //使用AutoMapper方法简化类与类之间的转换过程
             Mapper.Map(updateBook, book);
+
+            if (updateBook.GetType().GetProperties().All(p => p.GetValue(updateBook) == null))
+            {
+                throw new LinCmsException("未发现任何改动");
+            }
+
             if (book.ShelfLocation == "[]")
             {
                 book.ShelfLocation = null;
             }
+
             await _bookRepository.UpdateAsync(book);
+        }
+
+        private static void SetUnchangedFieldsToNull(CreateUpdateBookDto updateBook, Book book)
+        {
+            Type dtoType = typeof(CreateUpdateBookDto);
+            Type entityType = typeof(Book);
+
+            foreach (var property in dtoType.GetProperties())
+            {
+                try
+                {
+                    var originalProperty = entityType.GetProperty(property.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    if (originalProperty == null) continue; // 如果原始对象中没有该属性，则跳过
+
+                    var newValue = property.GetValue(updateBook);
+                    var oldValue = originalProperty.GetValue(book);
+                    bool isModified = false;
+                    if (newValue != null)
+                    {
+                        if (newValue is DateTime newDate && oldValue is DateTime oldDate)
+                        {
+                            isModified = !(newDate.Year == oldDate.Year &&
+                                           newDate.Month == oldDate.Month &&
+                                           newDate.Day == oldDate.Day &&
+                                           newDate.Hour == oldDate.Hour &&
+                                           newDate.Minute == oldDate.Minute &&
+                                           newDate.Second == oldDate.Second &&
+                                           newDate.Millisecond == oldDate.Millisecond);
+                        }
+                        else
+                        {
+                            isModified = !newValue.Equals(oldValue);
+                        }
+                    }
+                    else
+                    {
+                        // 如果 newValue 为空，可能是前端未传该字段，或者用户想清空该字段
+                        if (oldValue != null)
+                        {
+                            isModified = true;
+                        }
+                    }
+
+                    if (!isModified)
+                    {
+                        property.SetValue(updateBook, null);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw new LinCmsException("更新失败：" + ex.Message);
+                }
+            }
         }
 
         public async Task<BookDto> GetAsync(long id)
@@ -179,9 +244,11 @@ namespace LinCms.v1.Books
                     book.Isbn = book.Isbn.Insert(3, "-").Insert(5, "-").Insert(10, "-").Insert(15, "-");
                 book.BookTypeName = _baseItemRepository.Where(p => p.BaseTypeId == 1 && p.ItemCode == book.BookType.ToString()).ToOne().ItemName;
                 book.AuthorTypeName1 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType1.ToString()).ToOne().ItemName;
-                book.AuthorTypeName2 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType2.ToString()).ToOne().ItemName;
-                book.AuthorTypeName3 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType3.ToString()).ToOne().ItemName;
-                book.ShelfLocation = string.IsNullOrEmpty(book.ShelfLocation) ? null : GetShelfLocation(book.ShelfLocation);
+                if (book.AuthorType2 != null)
+                    book.AuthorTypeName2 = _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType2.ToString()).ToOne().ItemName;
+                if (book.AuthorType3 != null)
+                    book.AuthorTypeName3 = book.AuthorTypeName3 ?? _baseItemRepository.Where(p => p.BaseTypeId == 2 && p.ItemCode == book.AuthorType3.ToString()).ToOne().ItemName;
+                book.ShelfLocation = string.IsNullOrEmpty(book.ShelfLocation) || book.ShelfLocation == "[]" ? null : GetShelfLocation(book.ShelfLocation);
             }
             return new PagedResultDto<BookDto>(items, count);
         }

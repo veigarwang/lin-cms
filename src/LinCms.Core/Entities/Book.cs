@@ -34,12 +34,12 @@ namespace LinCms.Entities
         /// <summary>
         /// 书籍类别
         /// </summary>
-        public short BookType { get; set; }
+        public short? BookType { get; set; }
 
         /// <summary>
         /// 第一著者类型
         /// </summary>
-        public short AuthorType1 { get; set; }
+        public short? AuthorType1 { get; set; }
 
         /// <summary>
         /// 第一著者
@@ -50,7 +50,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 第二著者类型
         /// </summary>
-        public short AuthorType2 { get; set; }
+        public short? AuthorType2 { get; set; }
 
         /// <summary>
         /// 第二著者
@@ -61,7 +61,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 第三著者类型
         /// </summary>
-        public short AuthorType3 { get; set; }
+        public short? AuthorType3 { get; set; }
 
         /// <summary>
         /// 第三著者
@@ -90,12 +90,12 @@ namespace LinCms.Entities
         /// <summary>
         /// 字数
         /// </summary>
-        public decimal WordCount { get; set; } = decimal.Zero;
+        public decimal? WordCount { get; set; } = decimal.Zero;
 
         /// <summary>
         /// 印张
         /// </summary>
-        public decimal Yinzhang { get; set; } = decimal.Zero;
+        public decimal? Yinzhang { get; set; } = decimal.Zero;
 
         /// <summary>
         /// 版次
@@ -112,7 +112,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 定价
         /// </summary>
-        public decimal Price { get; set; } = decimal.Zero;
+        public decimal? Price { get; set; } = decimal.Zero;
 
         /// <summary>
         /// 册数
@@ -129,7 +129,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 购买日期
         /// </summary>
-        public DateTime DatePurchased { get; set; }
+        public DateTime? DatePurchased { get; set; }
 
         /// <summary>
         /// 书架位置
@@ -140,12 +140,12 @@ namespace LinCms.Entities
         /// <summary>
         /// 已读
         /// </summary>
-        public bool IsRead { get; set; }
+        public bool? IsRead { get; set; }
 
         /// <summary>
         /// 评分
         /// </summary>
-        public short Rate { get; set; }
+        public short? Rate { get; set; }
 
         /// <summary>
         /// 读后感

@@ -124,7 +124,7 @@ public class PermissionService : ApplicationService, IPermissionService
     {
         var permissions = await _permissionRepository.Select.ToListAsync();
 
-        List<TreePermissionDto> treePermissionDtos = permissions.GroupBy(r => r.Module).Select(r =>
+        List<TreePermissionDto> treePermissionDtos = permissions.Where(r => !string.IsNullOrEmpty(r.Module)).GroupBy(r => r.Module).Select(r =>
             new TreePermissionDto
             {
                 Rowkey = Guid.NewGuid().ToString(),
