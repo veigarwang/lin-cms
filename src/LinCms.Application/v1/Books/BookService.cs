@@ -201,6 +201,7 @@ namespace LinCms.v1.Books
         {
             List<BookDto> items = null;
             long count = 0;
+            pageDto.Keyword = pageDto.Keyword?.Replace("[", "[[]").Replace("%", "[%]").Replace("_", "[_]");
             items = pageDto.ExactMatch ? (await _bookRepository
                 .WhereIf(!string.IsNullOrEmpty(pageDto.ItemType), p => Convert.ToInt16(pageDto.ItemType) == p.BookType)
                 .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword),
