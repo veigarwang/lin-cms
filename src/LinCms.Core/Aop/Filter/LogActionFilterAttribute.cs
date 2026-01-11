@@ -68,8 +68,9 @@ namespace LinCms.Aop.Filter
             linLog.ExecuteUrl = currentUrl.Replace("//", "/");
             switch (context.HttpContext.Request.Method.ToUpper())
             {
-                //case "GET":
-                //    linLog.ExecuteParam = context.HttpContext.Request.QueryString.Value; break;
+                case "GET":
+                    linLog.ExecuteParam = JsonConvert.SerializeObject(context.ActionArguments,
+                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include }); break;
                 case "PUT":
                 case "POST":
                 case "DELETE":

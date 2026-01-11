@@ -227,13 +227,20 @@ namespace LinCms.v1.Encyclopedias
                         }
                         else
                         {
-                            isModified = !newValue.Equals(oldValue);
+                            if (oldValue == null && newValue.ToString() == "")
+                            {
+                                isModified = true;
+                            }
+                            else
+                            {
+                                isModified = !newValue.Equals(oldValue);
+                            }
                         }
                     }
                     else
                     {
                         // 如果 newValue 为空，可能是前端未传该字段，或者用户想清空该字段
-                        if (oldValue != null)
+                        if (oldValue != null && oldValue.ToString() != "")
                         {
                             isModified = true;
                         }
@@ -302,7 +309,6 @@ namespace LinCms.v1.Encyclopedias
                 .WhereIf(pageDto.Keyword != "{\"isTrusted\":true}" && !string.IsNullOrEmpty(pageDto.Keyword)
                 , p => p.Name.Contains(pageDto.Keyword)
                 || p.Alias.Contains(pageDto.Keyword)
-                || p.Provenance.Contains(pageDto.Keyword)
                 || p.Id.ToString() == pageDto.Keyword
                 || p.SimplifiedPronunciation.Contains(pageDto.Keyword))
                 .OrderByDescending(r => r.Id)
