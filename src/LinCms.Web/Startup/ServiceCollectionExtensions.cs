@@ -1,6 +1,7 @@
 ﻿using AspNetCoreRateLimit;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
+using FreeRedis;
 using FreeSql;
 using FreeSql.Internal;
 using IGeekFan.FreeKit.Email;
@@ -23,6 +24,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
@@ -30,9 +32,7 @@ using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
-using FreeRedis;
 
 namespace LinCms.Startup;
 
@@ -258,8 +258,8 @@ ElapsedMilliseconds:{3}ms
     #region 初始化 Redis配置
 
     public static IServiceCollection AddRedisClient(this IServiceCollection services, IConfiguration c)
-    {  
-        var redisClient=new RedisClient(c.GetConnectionString("Redis"));
+    {
+        var redisClient = new RedisClient(c.GetConnectionString("Redis"));
         redisClient.Serialize = JsonConvert.SerializeObject;
         redisClient.Deserialize = JsonConvert.DeserializeObject;
         redisClient.Notice += (s, e) => Log.Information(e.Log);
@@ -280,14 +280,22 @@ ElapsedMilliseconds:{3}ms
     /// <param name="configuration"></param>
     /// <returns></returns>
     public static IServiceCollection AddIpRateLimiting(this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration, WebApplicationBuilder builder)
     {
         //加载配置
         services.AddOptions();
         //从IpRateLimiting.json获取相应配置
         services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
         services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
-        services.AddDistributedRateLimiting();
+        if (builder.Environment.IsProduction())
+        {
+            services.AddDistributedRateLimiting();
+        }
+        else
+        {
+            services.AddMemoryCache();
+            services.AddInMemoryRateLimiting();
+        }
         //配置（计数器密钥生成器）
         services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
@@ -309,33 +317,33 @@ ElapsedMilliseconds:{3}ms
                 Log.Error($"CAP配置CAP:DefaultStorage:{defaultStorage.Value}无效");
             }
 
-                switch (capStorageType)
-                {
-                    case CapStorageType.InMemoryStorage:
-                        @this.UseInMemoryStorage();
-                        break;
-                    //case CapStorageType.Mysql:
-                    //    IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
-                    //    @this.UseMySql(mySql.Value);
-                    //    break;
-                    case CapStorageType.SqlServer:
-                        IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
-                        @this.UseSqlServer(opt =>
-                        {
-                            opt.ConnectionString = sqlServer.Value;
-                            //使用SQL SERVER2008才需要打开他
-                            //opt.UseSqlServer2008();
-                        });
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            else
+            switch (capStorageType)
             {
-                Log.Error($"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql，SqlServer！更多请增加引用，修改配置项代码");
+                case CapStorageType.InMemoryStorage:
+                    @this.UseInMemoryStorage();
+                    break;
+                //case CapStorageType.Mysql:
+                //    IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
+                //    @this.UseMySql(mySql.Value);
+                //    break;
+                case CapStorageType.SqlServer:
+                    IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
+                    @this.UseSqlServer(opt =>
+                    {
+                        opt.ConnectionString = sqlServer.Value;
+                        //使用SQL SERVER2008才需要打开他
+                        //opt.UseSqlServer2008();
+                    });
+                    break;
+                default:
+                    break;
             }
+
+        }
+        else
+        {
+            Log.Error($"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql，SqlServer！更多请增加引用，修改配置项代码");
+        }
 
         if (Enum.TryParse(defaultMessageQueue.Value, out CapMessageQueueType capMessageQueueType))
         {

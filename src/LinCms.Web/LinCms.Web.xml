@@ -821,7 +821,7 @@
             <param name="services"></param>
             <param name="c"></param>
         </member>
-        <member name="M:LinCms.Startup.ServiceCollectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.ServiceCollectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
             <summary>
             配置限流依赖的服务
             </summary>
